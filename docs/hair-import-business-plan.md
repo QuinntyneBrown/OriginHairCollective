@@ -1,18 +1,18 @@
-# Hair Extension Import Business Plan
-## Mississauga, Ontario, Canada | Single-Person Operation
+# Origin Hair Collective — Business Plan
+## Hair Extension Import & Distribution | Mississauga, Ontario, Canada
 
 ---
 
 # TABLE OF CONTENTS
 
-1. [Business Name Ideas](#1-business-name-ideas)
-2. [Market Research](#2-market-research)
-3. [Most Profitable Hair Types, Lengths & Textures](#3-most-profitable-hair-types-lengths--textures)
-4. [Price Comparison by Origin Country](#4-price-comparison-by-origin-country)
-5. [Business Model Analysis](#5-business-model-analysis)
-6. [Profit Margins](#6-profit-margins)
-7. [Import Costs, Tariffs & Logistics](#7-import-costs-tariffs--logistics)
-8. [Supplier Sourcing](#8-supplier-sourcing)
+1. [Market Research](#1-market-research)
+2. [Most Profitable Hair Types, Lengths & Textures](#2-most-profitable-hair-types-lengths--textures)
+3. [Price Comparison by Origin Country](#3-price-comparison-by-origin-country)
+4. [Business Model Analysis](#4-business-model-analysis)
+5. [Profit Margins](#5-profit-margins)
+6. [Import Costs, Tariffs & Logistics](#6-import-costs-tariffs--logistics)
+7. [Supplier Sourcing](#7-supplier-sourcing)
+8. [Hair Expert Consultant Plan](#8-hair-expert-consultant-plan)
 9. [Inventory Storage](#9-inventory-storage)
 10. [Digital Platforms & E-Commerce](#10-digital-platforms--e-commerce)
 11. [Social Media & Marketing Strategy](#11-social-media--marketing-strategy)
@@ -28,51 +28,7 @@
 
 ---
 
-# 1. BUSINESS NAME IDEAS
-
-20 names designed to be memorable, social-media-ready, and resonate with the target market (Black women ages 18-45):
-
-### Elegant / High-End
-| # | Name | Notes |
-|---|------|-------|
-| 1 | **Origin Hair Co.** | Clean, modern, ties to existing brand concept; short .com potential |
-| 2 | **Crown & Glory Hair** | Evokes royalty and empowerment; @crownandgloryhair |
-| 3 | **Empress Luxe Hair** | Luxury + power; @empressluxehair |
-| 4 | **Aurum Hair Collection** | "Aurum" means gold in Latin; sophisticated, unique |
-| 5 | **Maison de Mane** | French-inspired luxury; @maisondemane |
-| 6 | **Opulent Tresses** | Directly communicates luxury and abundance |
-| 7 | **Reine Hair** | "Reine" is French for "queen"; elegant, short, memorable |
-
-### Modern / Trendy
-| # | Name | Notes |
-|---|------|-------|
-| 8 | **Slayed Hair Co.** | Speaks directly to the culture; @slayedhairco |
-| 9 | **Mane Vault** | Strong visual imagery of a curated collection; short, punchy |
-| 10 | **Lush Lengths** | Alliterative, rolls off the tongue; @lushlengths |
-| 11 | **Bundles & Beyond** | Descriptive yet aspirational; @bundlesandbeyond |
-| 12 | **The Hair Plug** | Casual, culturally connected; @thehairplug |
-| 13 | **Laid by Origin** | "Laid" hair is a compliment in the community; personal brand angle |
-
-### International / Exotic Flair
-| # | Name | Notes |
-|---|------|-------|
-| 14 | **Xuchang Luxe** | Nods to the Chinese hair capital; signals insider sourcing knowledge |
-| 15 | **Origin Hair Collective** | Emphasizes sourcing authenticity and global roots |
-| 16 | **Silk Route Hair** | References the ancient trade route; evokes quality and journey |
-| 17 | **Pelo Luxe** | "Pelo" is Spanish for hair; multicultural appeal; @peloluxe |
-
-### Goddess / Empowerment
-| # | Name | Notes |
-|---|------|-------|
-| 18 | **Goddess Crown Hair** | Combines empowerment with product; @goddesscrown |
-| 19 | **Melanin Mane Co.** | Celebrates identity; strong brand recognition; @melaninmaneco |
-| 20 | **Her Royal Strands** | Regal, playful, memorable; @herroyalstrands |
-
-**Strongest candidates for .com availability:** Origin Hair Co., Aurum Hair Collection, Mane Vault, Pelo Luxe, Reine Hair, Silk Route Hair. Secure matching handles on Instagram, TikTok, and Facebook before registering.
-
----
-
-# 2. MARKET RESEARCH
+# 1. MARKET RESEARCH
 
 ## Global Hair Extension Market
 
@@ -109,7 +65,7 @@
 
 ---
 
-# 3. MOST PROFITABLE HAIR TYPES, LENGTHS & TEXTURES
+# 2. MOST PROFITABLE HAIR TYPES, LENGTHS & TEXTURES
 
 ## Hair Type Profitability
 
@@ -159,7 +115,7 @@
 
 ---
 
-# 4. PRICE COMPARISON BY ORIGIN COUNTRY
+# 3. PRICE COMPARISON BY ORIGIN COUNTRY
 
 ## Wholesale Pricing
 
@@ -176,7 +132,7 @@
 
 ---
 
-# 5. BUSINESS MODEL ANALYSIS
+# 4. BUSINESS MODEL ANALYSIS
 
 ## Model Comparison
 
@@ -217,7 +173,7 @@
 
 ---
 
-# 6. PROFIT MARGINS
+# 5. PROFIT MARGINS
 
 ## Wholesale Sourcing Costs (Per Bundle, CAD, Including Shipping & Duties)
 
@@ -246,7 +202,7 @@
 
 ---
 
-# 7. IMPORT COSTS, TARIFFS & LOGISTICS
+# 6. IMPORT COSTS, TARIFFS & LOGISTICS
 
 ## HS Codes & Duty Rates
 
@@ -339,7 +295,7 @@
 
 ---
 
-# 8. SUPPLIER SOURCING
+# 7. SUPPLIER SOURCING
 
 ## Top Platforms
 
@@ -412,6 +368,99 @@
 | Western Union | **LOW - AVOID** | Never for business |
 
 **Recommended structure:** 30% deposit / 70% before shipment via Trade Assurance for initial orders.
+
+---
+
+# 8. HAIR EXPERT CONSULTANT PLAN
+
+## Overview
+
+Origin Hair Collective will engage independent hair expert consultants to evaluate supplier samples, recommend the best distributors, and ensure product quality meets brand standards. These consultants bring deep expertise in hair textures, origins, processing methods, and market trends — knowledge that takes years to develop and is critical for sourcing premium product.
+
+## Consultant Role & Responsibilities
+
+- **Sample evaluation:** Receive supplier samples and perform hands-on quality testing (shed test, tangle test, burn test, bleach test, wet test, weight verification)
+- **Distributor recommendations:** Provide written assessments comparing suppliers on quality, consistency, pricing, and reliability
+- **Texture & origin authentication:** Verify that hair origin claims (e.g., "Cambodian raw virgin") are accurate based on texture, cuticle alignment, and processing indicators
+- **Trend advisory:** Recommend which textures, lengths, and product types to stock based on current market demand
+- **Ongoing QC:** Periodically review incoming inventory batches to ensure supplier consistency over time
+
+## Where to Find Hair Expert Consultants
+
+| Source | Details |
+|--------|---------|
+| **Licensed cosmetologists & stylists** | Look for stylists with 5+ years specializing in extensions/weaves in the GTA |
+| **Hair extension educators** | Instructors who teach extension installation courses (many also consult) |
+| **Beauty industry trade shows** | Network at Bronner Bros, IBS New York, China International Hair Fair |
+| **Online hair communities** | Reddit r/hairextensions, Facebook groups, YouTube hair reviewers with sourcing knowledge |
+| **Salon owners** | Experienced owners who source their own product and understand wholesale quality |
+| **Former hair brand operators** | People who have run their own hair businesses and understand the supply chain end-to-end |
+
+## Compensation Models by Business Stage
+
+### Stage 1: Pre-Launch & Startup (Months 1-6)
+
+During this phase, you need help selecting your initial suppliers. Engagements are short-term and project-based.
+
+| Model | Structure | Est. Cost (CAD) | Best For |
+|-------|-----------|-----------------|----------|
+| **Per-sample review** | Flat fee per supplier sample set evaluated | $50-$100 per sample set | Evaluating 5-10 supplier samples before first bulk order |
+| **Project retainer** | One-time engagement to help select launch suppliers | $500-$1,500 (total) | Hiring one expert to evaluate all initial samples and recommend top 2-3 suppliers |
+| **Product-for-review** | Free samples (1-2 bundles per supplier) in exchange for detailed written evaluation | $40-$110 in product cost | Budget-conscious; works well with stylists who want free hair |
+
+**Recommended for Stage 1:** Project retainer of $750-$1,000 for one trusted expert to evaluate all startup supplier samples and deliver a ranked recommendation report. This is a one-time cost that protects your $3,000-$8,000 first inventory investment.
+
+### Stage 2: Early Growth (Months 7-18)
+
+You have established suppliers but want to expand sourcing, verify quality consistency, and explore new product categories.
+
+| Model | Structure | Est. Cost (CAD) | Best For |
+|-------|-----------|-----------------|----------|
+| **Monthly retainer** | 3-5 hours/month for ongoing QC reviews and new supplier evaluation | $300-$600/month | Continuous quality assurance as order volume increases |
+| **Per-batch QC fee** | Flat fee per incoming shipment inspected | $75-$150 per shipment | Pay-as-you-go quality checks on each new inventory delivery |
+| **Commission on savings** | 5-10% of documented cost savings from their supplier recommendations | Variable | Incentivizes finding better-priced suppliers without sacrificing quality |
+| **Hybrid: retainer + commission** | Small monthly retainer ($200) + 5% commission on savings achieved | $200/month + variable | Aligns incentives; expert is motivated to find the best deals |
+
+**Recommended for Stage 2:** Monthly retainer of $400-$500 for one primary consultant, covering QC on incoming shipments plus evaluation of 1-2 new potential suppliers per month.
+
+### Stage 3: Scaling (Month 18+ / $250K+ Revenue)
+
+The business is established with multiple product lines and potentially exploring exclusive distribution or private labeling.
+
+| Model | Structure | Est. Cost (CAD) | Best For |
+|-------|-----------|-----------------|----------|
+| **Senior advisory retainer** | 8-12 hours/month; strategic sourcing, factory relationship management, trade show accompaniment | $1,000-$2,500/month | High-level sourcing strategy and supplier relationship management |
+| **Equity/profit share** | 1-3% of net profit in exchange for ongoing advisory | Variable | Long-term alignment; attracts top-tier talent willing to invest their expertise |
+| **Per-trip consultant** | Accompany you on factory visits (China, India, Cambodia) as quality evaluator | $2,000-$4,000 per trip + travel expenses | Critical for establishing direct factory relationships and negotiating |
+| **Panel of specialists** | Maintain 2-3 consultants with different specialties (textures, origins, processing) | $500-$800/month each | Diversified expertise across product categories |
+
+**Recommended for Stage 3:** One senior advisor on a $1,500/month retainer who handles strategic sourcing decisions, plus budget for 1-2 factory visit trips per year ($3,000-$5,000/trip including their fee and travel).
+
+## Consultant Agreement Essentials
+
+Every consultant engagement should include a written agreement covering:
+
+- **Scope of work:** Specific deliverables (e.g., "evaluate 8 supplier sample sets and deliver a written comparison report")
+- **Confidentiality/NDA:** Protect your supplier contacts, pricing, and business strategy
+- **Non-compete clause:** Prevent them from sharing your supplier list with competing hair brands (reasonable timeframe: 12-24 months)
+- **Payment terms:** Net-15 or upon delivery of report/assessment
+- **Intellectual property:** Their recommendations and reports belong to Origin Hair Collective
+- **Conflict of interest disclosure:** Require disclosure of any relationships with suppliers they are evaluating
+
+## Budget Summary by Stage
+
+| Stage | Timeline | Monthly Consultant Budget (CAD) | Annual Total |
+|-------|----------|---------------------------------|-------------|
+| **Pre-Launch** | Months 1-6 | $0-$250 (one-time project: $750-$1,500) | $750-$1,500 |
+| **Early Growth** | Months 7-18 | $300-$600 | $3,600-$7,200 |
+| **Scaling** | Month 18+ | $1,500-$3,300 | $18,000-$39,600 |
+
+## ROI Justification
+
+- A single bad supplier decision on a $5,000 bulk order can result in $3,000-$5,000 in unsellable product and damaged brand reputation
+- Expert consultants help avoid costly sourcing mistakes and identify higher-quality, lower-cost suppliers
+- At Stage 2, even a 5% improvement in sourcing costs on $10,000/month in inventory = $500/month savings, which pays for the consultant
+- Quality consistency drives repeat customers — the lifetime value of a retained customer ($500-$2,000/year) far exceeds one-time consulting fees
 
 ---
 
