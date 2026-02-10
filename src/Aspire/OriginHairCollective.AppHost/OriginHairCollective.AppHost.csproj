@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Catalog\OriginHairCollective.Catalog.Api\OriginHairCollective.Catalog.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Inquiry\OriginHairCollective.Inquiry.Api\OriginHairCollective.Inquiry.Api.csproj" />
+    <ProjectReference Include="..\..\Gateway\OriginHairCollective.ApiGateway\OriginHairCollective.ApiGateway.csproj" />
+  </ItemGroup>
+
+</Project>

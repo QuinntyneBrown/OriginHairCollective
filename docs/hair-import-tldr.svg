@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 1920" width="430" height="1920">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5c518"/>
+      <stop offset="100%" stop-color="#d4a017"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e2a4a"/>
+      <stop offset="100%" stop-color="#1a2240"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="430" height="1920" fill="url(#bgGrad)"/>
+
+  <!-- Decorative top bar -->
+  <rect x="0" y="0" width="430" height="6" fill="url(#gold)"/>
+
+  <!-- Header -->
+  <text x="215" y="55" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#d4a017" letter-spacing="4">TL;DR</text>
+  <text x="215" y="90" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#ffffff" font-weight="bold">Hair Extension</text>
+  <text x="215" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#ffffff" font-weight="bold">Import Business</text>
+  <text x="215" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#8899bb">Mississauga, ON | Solo Operation</text>
+
+  <!-- Divider -->
+  <line x1="140" y1="170" x2="290" y2="170" stroke="#d4a017" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- CARD 1: Market Opportunity -->
+  <rect x="20" y="190" width="390" height="200" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="220" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="226" text-anchor="middle" font-size="18">&#x1F4CA;</text>
+  <text x="76" y="226" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Market Opportunity</text>
+
+  <text x="40" y="258" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Global market:</text>
+  <text x="160" y="258" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">$2.7B+ USD (2024)</text>
+  <text x="40" y="282" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Growing at:</text>
+  <text x="130" y="282" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold">7.1-7.5% CAGR</text>
+  <text x="40" y="306" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Canadian market:</text>
+  <text x="170" y="306" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">CAD $120-150M</text>
+  <text x="40" y="330" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">1.5M Black Canadians spend</text>
+  <text x="265" y="330" font-family="Arial, sans-serif" font-size="13" fill="#f5c518" font-weight="bold">9x more</text>
+  <text x="310" y="330" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">on hair</text>
+  <text x="40" y="354" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Target: Women 18-45, urban GTA</text>
+  <text x="40" y="378" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Drivers: TikTok/IG, e-commerce, textured hair</text>
+
+  <!-- CARD 2: Business Model -->
+  <rect x="20" y="410" width="390" height="185" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="440" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="446" text-anchor="middle" font-size="18">&#x1F3AF;</text>
+  <text x="76" y="446" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Business Model</text>
+
+  <rect x="40" y="464" width="350" height="36" rx="8" fill="#2a4a3a" opacity="0.7"/>
+  <text x="215" y="487" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#4ade80" font-weight="bold">Hybrid: DTC (primary) + Salon Wholesale</text>
+
+  <text x="40" y="522" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">DTC gross margins:</text>
+  <text x="195" y="522" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold">60-80%</text>
+  <text x="40" y="546" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Salon wholesale adds recurring revenue</text>
+  <text x="40" y="570" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Run from home in Mississauga</text>
+  <text x="40" y="584" font-family="Arial, sans-serif" font-size="12" fill="#8899bb">Start DTC, prove fit, then add salon accounts</text>
+
+  <!-- CARD 3: What to Sell -->
+  <rect x="20" y="615" width="390" height="205" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="645" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="651" text-anchor="middle" font-size="18">&#x2728;</text>
+  <text x="76" y="651" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">What to Sell</text>
+
+  <text x="40" y="683" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">Focus: Virgin/Remy hair, 18"-24"</text>
+  <text x="40" y="707" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">#1 Body Wave (~30-35% market share)</text>
+  <text x="40" y="731" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">#2 Straight (~25-30%)</text>
+  <text x="40" y="755" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">#3 Deep Wave (~15-18%, growing fast)</text>
+
+  <line x1="40" y1="772" x2="380" y2="772" stroke="#2a3a5e" stroke-width="1"/>
+
+  <text x="40" y="795" font-family="Arial, sans-serif" font-size="13" fill="#f5c518" font-weight="bold">Trending 2025-26:</text>
+  <text x="40" y="813" font-family="Arial, sans-serif" font-size="12" fill="#c0ccee">HD Lace Frontals, Glueless Wigs, Clip-ins, Tape-ins</text>
+
+  <!-- CARD 4: Sourcing -->
+  <rect x="20" y="840" width="390" height="210" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="870" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="876" text-anchor="middle" font-size="18">&#x1F30D;</text>
+  <text x="76" y="876" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Sourcing &amp; Import</text>
+
+  <!-- Cambodia highlight -->
+  <rect x="40" y="894" width="350" height="36" rx="8" fill="#4a2a2a" opacity="0.5"/>
+  <text x="215" y="917" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#f87171" font-weight="bold">Cambodia = DUTY-FREE (saves ~15.5%!)</text>
+
+  <text x="40" y="950" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">China (Xuchang): Cheapest, variable quality</text>
+  <text x="40" y="974" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">India (Chennai): Premium temple hair</text>
+  <text x="40" y="998" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Vietnam/Cambodia: Premium raw virgin</text>
+
+  <text x="40" y="1026" font-family="Arial, sans-serif" font-size="12" fill="#f5c518">$5K order landed cost:</text>
+  <text x="40" y="1044" font-family="Arial, sans-serif" font-size="12" fill="#8899bb">China $6,422 | India $6,458 |</text>
+  <text x="275" y="1044" font-family="Arial, sans-serif" font-size="12" fill="#4ade80" font-weight="bold">Cambodia $5,669</text>
+
+  <!-- CARD 5: Profit per Bundle -->
+  <rect x="20" y="1070" width="390" height="170" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="1100" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="1106" text-anchor="middle" font-size="18">&#x1F4B0;</text>
+  <text x="76" y="1106" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Profit Per Bundle</text>
+
+  <text x="55" y="1138" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Budget tier</text>
+  <text x="310" y="1138" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold" text-anchor="end">$25-$40 CAD</text>
+  <text x="55" y="1162" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Mid tier</text>
+  <text x="310" y="1162" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold" text-anchor="end">$50-$100 CAD</text>
+  <text x="55" y="1186" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Premium tier</text>
+  <text x="310" y="1186" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold" text-anchor="end">$80-$180 CAD</text>
+
+  <line x1="40" y1="1200" x2="380" y2="1200" stroke="#2a3a5e" stroke-width="1"/>
+  <text x="55" y="1224" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">Blended avg:</text>
+  <text x="310" y="1224" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" font-weight="bold" text-anchor="end">$60-$90 CAD/bundle</text>
+
+  <!-- CARD 6: Revenue Projections -->
+  <rect x="20" y="1260" width="390" height="185" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="1290" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="1296" text-anchor="middle" font-size="18">&#x1F4C8;</text>
+  <text x="76" y="1296" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Revenue Projections</text>
+
+  <!-- Year boxes -->
+  <rect x="40" y="1314" width="110" height="55" rx="8" fill="#2a3a5e"/>
+  <text x="95" y="1334" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">YEAR 1</text>
+  <text x="95" y="1356" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" font-weight="bold">$43-72K</text>
+
+  <rect x="160" y="1314" width="110" height="55" rx="8" fill="#2a3a5e"/>
+  <text x="215" y="1334" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">YEAR 2</text>
+  <text x="215" y="1356" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#4ade80" font-weight="bold">$125-234K</text>
+
+  <rect x="280" y="1314" width="110" height="55" rx="8" fill="#2a3a5e"/>
+  <text x="335" y="1334" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#8899bb">YEAR 3</text>
+  <text x="335" y="1356" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#f5c518" font-weight="bold">$252-504K</text>
+
+  <text x="40" y="1400" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Net profit Yr1:</text>
+  <text x="165" y="1400" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">$14-25K</text>
+  <text x="40" y="1424" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Net profit Yr3:</text>
+  <text x="165" y="1424" font-family="Arial, sans-serif" font-size="13" fill="#4ade80" font-weight="bold">$121-243K</text>
+
+  <!-- CARD 7: Startup Cost -->
+  <rect x="20" y="1465" width="390" height="130" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="1495" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="1501" text-anchor="middle" font-size="18">&#x1F4B3;</text>
+  <text x="76" y="1501" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Startup Investment</text>
+
+  <text x="55" y="1533" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Minimum (bare bones):</text>
+  <text x="310" y="1533" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold" text-anchor="end">$5.9-9.4K CAD</text>
+  <text x="55" y="1557" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Recommended (strong start):</text>
+  <text x="310" y="1557" font-family="Arial, sans-serif" font-size="13" fill="#f5c518" font-weight="bold" text-anchor="end">$16-28K CAD</text>
+  <text x="55" y="1581" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Ideal (well-funded):</text>
+  <text x="310" y="1581" font-family="Arial, sans-serif" font-size="13" fill="#8899bb" text-anchor="end">$37-62K CAD</text>
+
+  <!-- CARD 8: Key Strategies -->
+  <rect x="20" y="1615" width="390" height="225" rx="16" fill="url(#cardGrad)" filter="url(#shadow)" stroke="#2a3a5e" stroke-width="1"/>
+  <circle cx="50" cy="1645" r="16" fill="#d4a017" opacity="0.15"/>
+  <text x="50" y="1651" text-anchor="middle" font-size="18">&#x1F511;</text>
+  <text x="76" y="1651" font-family="Georgia, serif" font-size="17" fill="#d4a017" font-weight="bold">Key Strategies</text>
+
+  <circle cx="52" cy="1683" r="4" fill="#d4a017"/>
+  <text x="66" y="1688" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Source from Cambodia (duty-free until 2029)</text>
+
+  <circle cx="52" cy="1710" r="4" fill="#d4a017"/>
+  <text x="66" y="1715" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Register for HST early (claim ITCs on imports)</text>
+
+  <circle cx="52" cy="1737" r="4" fill="#d4a017"/>
+  <text x="66" y="1742" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Instagram + TikTok = primary sales channels</text>
+
+  <circle cx="52" cy="1764" r="4" fill="#d4a017"/>
+  <text x="66" y="1769" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Focus: 18"-24" virgin/remy body wave + straight</text>
+
+  <circle cx="52" cy="1791" r="4" fill="#d4a017"/>
+  <text x="66" y="1796" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Culture-forward branding for Black women</text>
+
+  <circle cx="52" cy="1818" r="4" fill="#d4a017"/>
+  <text x="66" y="1823" font-family="Arial, sans-serif" font-size="13" fill="#c0ccee">Budget ~$15-20K CAD for strong launch</text>
+
+  <!-- Timeline -->
+  <text x="215" y="1870" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#d4a017">Foundation to Launch: ~16 weeks</text>
+
+  <!-- Footer -->
+  <line x1="100" y1="1890" x2="330" y2="1890" stroke="#d4a017" stroke-width="1" opacity="0.4"/>
+  <text x="215" y="1910" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#556688">Hace Hair Vault | Feb 2026 | Mississauga, ON</text>
+</svg>
