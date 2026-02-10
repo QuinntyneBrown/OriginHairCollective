@@ -856,7 +856,7 @@ Every consultant engagement should include a written agreement covering:
 
 | Category | Cost |
 |----------|------|
-| Business registration (sole proprietorship) | $60 |
+| Incorporation (separate corp) + trade name registration | $435-$660 |
 | Mississauga home business license | $125 |
 | Initial inventory (30-50 bundles + closures) | $3,600-$5,950 |
 | E-commerce (Shopify Basic + domain, Year 1) | $471 |
@@ -866,13 +866,13 @@ Every consultant engagement should include a written agreement covering:
 | Storage (home) | $50-$100 |
 | Insurance | $500-$800 |
 | Shipping supplies | $150-$300 |
-| **TOTAL MINIMUM** | **$5,886 - $9,355** |
+| **TOTAL MINIMUM** | **$6,261 - $9,955** |
 
 ### Recommended Budget (Strong Start)
 
 | Category | Cost |
 |----------|------|
-| Business registration + legal | $560 |
+| Incorporation (separate corp) + legal | $935-$1,160 |
 | Mississauga home business license | $125 |
 | Initial inventory | $8,650-$13,500 |
 | E-commerce setup | $1,321-$1,621 |
@@ -882,13 +882,13 @@ Every consultant engagement should include a written agreement covering:
 | Storage | $100-$1,800 |
 | Insurance | $1,200-$1,800 |
 | Shipping supplies | $430-$700 |
-| **TOTAL RECOMMENDED** | **$16,191 - $28,341** |
+| **TOTAL RECOMMENDED** | **$16,566 - $28,941** |
 
 ### Ideal Budget (Well-Funded Launch)
 
 | Category | Cost |
 |----------|------|
-| Business registration + incorporation + legal | $2,100-$2,900 |
+| Incorporation (separate corp) + legal | $2,100-$2,900 |
 | Mississauga home business license | $125 |
 | Initial inventory | $17,000-$26,800 |
 | E-commerce setup | $2,671-$3,271 |
@@ -904,25 +904,33 @@ Every consultant engagement should include a written agreement covering:
 
 # 18. BUSINESS REGISTRATION (ONTARIO)
 
+## Decision: Separate Corporation
+
+Origin Hair Collective will be incorporated as a **separate Ontario corporation**, independent from the owner's existing software consulting corporation. This is the cleanest approach for:
+
+- **Liability isolation** — hair product liability (allergic reactions, product claims) stays entirely separate from the software consulting business
+- **Clean accounting** — distinct books, bank accounts, and tax filings for each business
+- **Small business tax rate** — each corporation independently qualifies for the ~12.2% rate on the first $500K of active business income
+- **Future flexibility** — easier to bring on partners, investors, or sell the hair business independently
+
 ## Steps
 
-1. **Choose structure:** Sole Proprietorship ($60 online) or Incorporate ($300-$600)
-2. **Register business name** via ServiceOntario
-3. **Obtain Business Number (BN)** from CRA with Import/Export (RM) account
-4. **Register for HST** (voluntary if under $30K; mandatory above $30K)
+1. **Incorporate** Origin Hair Collective as a new Ontario corporation ($375-$600)
+2. **Register trade name** via ServiceOntario (if operating under a name different from the corporate name)
+3. **Obtain Business Number (BN)** from CRA with Import/Export (RM) account for the new corporation
+4. **Register for HST** under the new corporation (voluntary if under $30K; mandatory above $30K)
 5. **Apply for Mississauga home-based business license** (~$125)
-6. **File Cosmetic Notification** with Health Canada (free, within 10 days of first sale)
+6. **Open a dedicated business bank account** for the new corporation
+7. **File Cosmetic Notification** with Health Canada (free, within 10 days of first sale)
 
-## Sole Proprietorship vs. Incorporation
+## Cost Summary
 
-| Factor | Sole Proprietorship | Incorporation |
-|--------|-------------------|---------------|
-| Setup Cost | $60 | $375-$600+ |
-| Ongoing Costs | Minimal | $1,000-$2,000/yr accounting |
-| Liability | Unlimited personal | Limited (separate entity) |
-| Tax Rate | Personal (up to ~53.5%) | Small business: ~12.2% on first $500K |
-| Credibility | Lower | "Inc." or "Ltd." adds professionalism |
-| **Recommendation** | **Start here if under $100K** | **Incorporate once revenue exceeds $100K** |
+| Item | Cost |
+|------|------|
+| Ontario incorporation (Articles of Incorporation) | $375-$600 |
+| Trade name registration (if needed) | $60 |
+| Annual corporate accounting & tax filing | $1,000-$2,000/yr |
+| Ongoing Ontario annual return | $18.60/yr |
 
 ---
 
@@ -954,11 +962,12 @@ Every consultant engagement should include a written agreement covering:
 
 ### Week 1-2: Legal & Business Setup
 - [ ] Choose business name and verify availability (.com, Instagram, TikTok)
-- [ ] Register sole proprietorship with ServiceOntario ($60)
-- [ ] Obtain Business Number (BN) from CRA with Import/Export (RM) account
-- [ ] Register for HST voluntarily (to claim ITCs on imports)
+- [ ] Incorporate Origin Hair Collective as a separate Ontario corporation ($375-$600)
+- [ ] Register trade name via ServiceOntario (if operating name differs from corporate name)
+- [ ] Obtain Business Number (BN) from CRA with Import/Export (RM) account for the new corp
+- [ ] Register for HST voluntarily under the new corp (to claim ITCs on imports)
 - [ ] Apply for Mississauga home-based business license ($125)
-- [ ] Open dedicated business bank account
+- [ ] Open dedicated business bank account for the new corporation
 - [ ] Get business liability + product liability insurance ($500-$1,200/year)
 
 ### Week 3-4: Supplier Research & Sampling
@@ -1043,7 +1052,7 @@ Every consultant engagement should include a written agreement covering:
 - [ ] Explore Cambodian sourcing for duty-free advantage
 - [ ] Consider attending China International Hair Fair (August 2026)
 - [ ] Optimize website SEO and content marketing
-- [ ] Evaluate incorporating business (if revenue approaching $100K)
+- [ ] Review corporate structure with accountant (inter-company transactions, tax optimization)
 - [ ] Consider small storage unit if inventory exceeds home capacity
 - [ ] Build email list to 1,000+ subscribers
 - [ ] Launch subscription/reorder program for repeat customers
