@@ -13,7 +13,11 @@
     "e2e:headed": "npx playwright test --headed",
     "e2e:ui": "npx playwright test --ui",
     "e2e:chromium": "npx playwright test --project=chromium",
-    "e2e:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari"
+    "e2e:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari",
+    "e2e:admin": "npx playwright test --config=playwright.admin.config.ts",
+    "e2e:admin:headed": "npx playwright test --config=playwright.admin.config.ts --headed",
+    "e2e:admin:ui": "npx playwright test --config=playwright.admin.config.ts --ui",
+    "e2e:admin:chromium": "npx playwright test --config=playwright.admin.config.ts --project=chromium"
   },
   "prettier": {
     "printWidth": 100,
