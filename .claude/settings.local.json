@@ -5,7 +5,9 @@
       "Bash(md-to-pdf:*)",
       "Bash(powershell -Command:*)",
       "Bash(npx ng build:*)",
-      "Bash(npx ng serve:*)"
+      "Bash(npx ng serve:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

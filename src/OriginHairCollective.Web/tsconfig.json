@@ -39,6 +39,12 @@
     },
     {
       "path": "./projects/origin-hair-collective/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/origin-hair-collective-admin/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/origin-hair-collective-admin/tsconfig.spec.json"
     }
   ]
 }
