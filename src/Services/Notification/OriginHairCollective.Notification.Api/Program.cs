@@ -29,6 +29,8 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<RefundIssuedNotificationConsumer>();
     x.AddConsumer<InquiryReceivedNotificationConsumer>();
     x.AddConsumer<ChatConversationStartedNotificationConsumer>();
+    x.AddConsumer<SubscriptionConfirmationConsumer>();
+    x.AddConsumer<CampaignCompletedNotificationConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {

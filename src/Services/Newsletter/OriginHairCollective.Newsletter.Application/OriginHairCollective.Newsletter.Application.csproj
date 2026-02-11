@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OriginHairCollective.Newsletter.Core\OriginHairCollective.Newsletter.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Shared\OriginHairCollective.Shared.Contracts\OriginHairCollective.Shared.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
