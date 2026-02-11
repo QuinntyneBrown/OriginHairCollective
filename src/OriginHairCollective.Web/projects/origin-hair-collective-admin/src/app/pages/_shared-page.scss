@@ -1,0 +1,147 @@
+// Shared page styles - toolbar and content area
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  min-height: 64px;
+  padding: 0 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline);
+}
+
+.toolbar-title {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content-area {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow-y: auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--on-surface-variant);
+  margin: 4px 0 0;
+}
+
+// Common chip styles
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+
+  &--default {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+
+  &--success {
+    background: var(--success-light);
+    color: var(--success);
+  }
+
+  &--warning {
+    background: var(--warning-light);
+    color: var(--warning);
+  }
+}
+
+// Filter/search row
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+// Table card wrapper
+.table-card {
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--outline);
+  overflow: hidden;
+}
+
+.table-full-width {
+  width: 100%;
+}
+
+// Paginator row
+.paginator-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 24px;
+}
+
+.paginator-text {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.paginator-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+// Action cell
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-btn {
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.action-btn--delete {
+  --mdc-icon-button-icon-color: var(--error);
+}

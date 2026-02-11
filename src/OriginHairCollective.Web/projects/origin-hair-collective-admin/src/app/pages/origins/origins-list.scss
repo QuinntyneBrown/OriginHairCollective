@@ -1,0 +1,19 @@
+@use '../shared-page';
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}
+
+.search-field {
+  width: 300px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.cell-bold {
+  font-weight: 500 !important;
+}

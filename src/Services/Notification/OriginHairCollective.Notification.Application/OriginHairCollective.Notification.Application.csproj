@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OriginHairCollective.Notification.Core\OriginHairCollective.Notification.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Shared\OriginHairCollective.Shared.Contracts\OriginHairCollective.Shared.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

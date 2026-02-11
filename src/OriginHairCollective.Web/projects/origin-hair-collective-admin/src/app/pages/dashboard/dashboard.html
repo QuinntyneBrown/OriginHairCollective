@@ -1,0 +1,88 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Dashboard</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Welcome -->
+  <div class="welcome-row">
+    <div class="welcome-text">
+      <h2 class="page-title">Welcome back, Quinn</h2>
+      <p class="page-subtitle">Here's what's happening with your store today.</p>
+    </div>
+  </div>
+
+  <!-- Metric Cards -->
+  <div class="metrics-row">
+    @for (metric of metrics; track metric.label) {
+      <mat-card class="metric-card">
+        <mat-card-content>
+          <span class="metric-label">{{ metric.label }}</span>
+          <span class="metric-value">{{ metric.value }}</span>
+          <div class="metric-change">
+            <mat-icon [style.color]="metric.iconColor" class="metric-icon">{{ metric.icon }}</mat-icon>
+            <span [style.color]="metric.changeColor">{{ metric.change }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  <!-- Bottom Row: Recent Products + Recent Inquiries -->
+  <div class="bottom-row">
+    <!-- Recent Products Table -->
+    <mat-card class="recent-products-card">
+      <div class="card-header">
+        <span class="card-title">Recent Products</span>
+        <a routerLink="/products" class="view-all-link">View All</a>
+      </div>
+      <table mat-table [dataSource]="recentProducts" class="products-table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let row">{{ row.price }}</td>
+        </ng-container>
+        <ng-container matColumnDef="origin">
+          <th mat-header-cell *matHeaderCellDef>Origin</th>
+          <td mat-cell *matCellDef="let row">{{ row.origin }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="productColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: productColumns;"></tr>
+      </table>
+    </mat-card>
+
+    <!-- Recent Inquiries -->
+    <mat-card class="recent-inquiries-card">
+      <div class="card-header">
+        <span class="card-title">Recent Inquiries</span>
+        <a routerLink="/inquiries" class="view-all-link">View All</a>
+      </div>
+      <div class="inquiries-list">
+        @for (inq of recentInquiries; track inq.name; let last = $last) {
+          <div class="inquiry-item" [class.inquiry-item--last]="last">
+            <div class="inquiry-avatar" [style.background]="inq.avatarBg" [style.color]="inq.avatarColor">
+              {{ inq.initials }}
+            </div>
+            <div class="inquiry-info">
+              <span class="inquiry-name">{{ inq.name }}</span>
+              <span class="inquiry-message">{{ inq.message }}</span>
+            </div>
+            <span class="inquiry-time">{{ inq.time }}</span>
+          </div>
+        }
+      </div>
+    </mat-card>
+  </div>
+</div>

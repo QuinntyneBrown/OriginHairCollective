@@ -1,1 +1,138 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+// Custom theme based on design tokens
+$origin-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$yellow-palette,
+  ),
+  typography: (
+    brand-family: 'Fraunces',
+    plain-family: 'DM Sans',
+  ),
+  density: (
+    scale: 0,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($origin-theme);
+}
+
+// Design token CSS variables
+:root {
+  --primary: #C9A052;
+  --primary-dark: #8B6914;
+  --primary-light: #F5ECD7;
+  --secondary: #B8816B;
+  --secondary-light: #F5E0D7;
+  --background: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-variant: #F5F5F5;
+  --on-surface: #212121;
+  --on-surface-variant: #616161;
+  --on-primary: #FFFFFF;
+  --on-secondary: #FFFFFF;
+  --on-error: #FFFFFF;
+  --outline: #E0E0E0;
+  --outline-variant: #BDBDBD;
+  --error: #B00020;
+  --success: #2E7D32;
+  --success-light: #E8F5E9;
+  --warning: #E65100;
+  --warning-light: #FFF3E0;
+  --info: #1565C0;
+  --info-light: #E3F2FD;
+  --sidebar-bg: #161412;
+  --sidebar-text: #FAF7F0;
+  --sidebar-text-muted: #9E9E9E;
+  --sidebar-active-bg: rgba(201, 160, 82, 0.125);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.063);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 100px;
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background: var(--background);
+  color: var(--on-surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Angular Material overrides to match design
+.mat-mdc-button.mat-primary,
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-flat-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+}
+
+.mat-mdc-outlined-button.mat-primary {
+  --mdc-outlined-button-outline-color: var(--outline-variant);
+  --mdc-outlined-button-label-text-color: var(--primary);
+}
+
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: var(--on-surface-variant);
+}
+
+// Material Symbols Rounded icon config
+.material-symbols-rounded {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+// Override mat-table to match design
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-header-cell {
+  font-family: var(--font-body) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--on-surface-variant) !important;
+  border-bottom-color: var(--outline) !important;
+}
+
+.mat-mdc-cell {
+  font-family: var(--font-body) !important;
+  font-size: 14px !important;
+  color: var(--on-surface) !important;
+  border-bottom-color: var(--outline) !important;
+}
+
+.mat-mdc-paginator {
+  background: transparent !important;
+}
+
+// Override mat-form-field
+.mat-mdc-form-field {
+  font-family: var(--font-body) !important;
+}
+
+// Override mat-card
+.mat-mdc-card {
+  border: 1px solid var(--outline) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: none !important;
+}

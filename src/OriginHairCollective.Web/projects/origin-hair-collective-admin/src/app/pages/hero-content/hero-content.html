@@ -1,0 +1,75 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Products</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="form-header-left">
+      <button mat-icon-button routerLink="/dashboard">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h2 class="page-title">Hero Content</h2>
+        <p class="page-subtitle">Manage the hero section of your marketing site</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <mat-card class="form-card">
+    <div class="form-card-header">
+      <span class="form-card-title">Hero Section Settings</span>
+    </div>
+
+    <div class="form-body">
+      <!-- Hero Title -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Hero Title</mat-label>
+        <input matInput placeholder="e.g. Premium Hair Extensions">
+      </mat-form-field>
+
+      <!-- Hero Subtitle -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Hero Subtitle</mat-label>
+        <input matInput placeholder="e.g. Ethically sourced, premium quality">
+      </mat-form-field>
+
+      <!-- CTA Row -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>CTA Button Text</mat-label>
+          <input matInput placeholder="e.g. Shop Now">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>CTA Button Link</mat-label>
+          <input matInput placeholder="e.g. /products">
+        </mat-form-field>
+      </div>
+
+      <!-- Hero Background Image -->
+      <div class="image-section">
+        <label class="field-label">Hero Background Image</label>
+        <div class="image-upload-area">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <span class="upload-text">Click to upload or drag and drop</span>
+          <span class="upload-hint">PNG, JPG up to 5MB (1920x1080 recommended)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button>Reset</button>
+      <button mat-flat-button color="primary" class="primary-btn">
+        <mat-icon>save</mat-icon>
+        Save Changes
+      </button>
+    </div>
+  </mat-card>
+</div>

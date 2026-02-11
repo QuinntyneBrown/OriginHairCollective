@@ -1,0 +1,44 @@
+<div class="admin-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <!-- Logo -->
+      <div class="logo-section">
+        <div class="logo-icon">O</div>
+        <div class="logo-text">
+          <span class="logo-name">Origin Hair</span>
+          <span class="logo-sub">Admin Panel</span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav-section">
+        @for (item of navItems; track item.route) {
+          <a class="nav-item"
+             [routerLink]="item.route"
+             routerLinkActive="nav-item--active">
+            <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+    </div>
+
+    <!-- User Section -->
+    <div class="sidebar-bottom">
+      <div class="user-avatar">QM</div>
+      <div class="user-info">
+        <span class="user-name">Quinn M.</span>
+        <span class="user-role">Administrator</span>
+      </div>
+      <button mat-icon-button class="settings-btn">
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <router-outlet />
+  </div>
+</div>

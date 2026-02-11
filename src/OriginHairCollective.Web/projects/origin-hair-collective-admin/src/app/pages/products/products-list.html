@@ -1,0 +1,95 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Products</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Products</h2>
+      <p class="page-subtitle">Manage your hair product catalog</p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/products/new" class="primary-btn">
+      <mat-icon>add</mat-icon>
+      Add Product
+    </a>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="filter-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Search products...">
+    </mat-form-field>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>filter_list</mat-icon>
+      Type
+    </button>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>sort</mat-icon>
+      Origin
+    </button>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>straighten</mat-icon>
+      Texture
+    </button>
+  </div>
+
+  <!-- Products Table -->
+  <div class="table-card">
+    <table mat-table [dataSource]="products" class="table-full-width">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="chip chip--default">{{ row.type }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="texture">
+        <th mat-header-cell *matHeaderCellDef>Texture</th>
+        <td mat-cell *matCellDef="let row">{{ row.texture }}</td>
+      </ng-container>
+      <ng-container matColumnDef="length">
+        <th mat-header-cell *matHeaderCellDef>Length</th>
+        <td mat-cell *matCellDef="let row">{{ row.length }}</td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.price }}</td>
+      </ng-container>
+      <ng-container matColumnDef="origin">
+        <th mat-header-cell *matHeaderCellDef>Origin</th>
+        <td mat-cell *matCellDef="let row">{{ row.origin }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="actions-cell">
+            <button mat-icon-button class="action-btn"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button class="action-btn action-btn--delete"><mat-icon>delete</mat-icon></button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <div class="paginator-row">
+      <span class="paginator-text">Showing 1-5 of 47 products</span>
+      <div class="paginator-buttons">
+        <button mat-stroked-button disabled>Previous</button>
+        <a mat-flat-button color="primary" class="primary-btn">Next</a>
+      </div>
+    </div>
+  </div>
+</div>

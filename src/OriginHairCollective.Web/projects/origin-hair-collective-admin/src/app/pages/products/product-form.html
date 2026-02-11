@@ -1,0 +1,101 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Products</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="form-header-left">
+      <button mat-icon-button routerLink="/products">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h2 class="page-title">Add New Product</h2>
+        <p class="page-subtitle">Fill in the product details below</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <mat-card class="form-card">
+    <div class="form-card-header">
+      <span class="form-card-title">Product Information</span>
+    </div>
+
+    <div class="form-body">
+      <!-- Product Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Product Name</mat-label>
+        <input matInput placeholder="e.g. Cambodian Straight Bundle">
+      </mat-form-field>
+
+      <!-- Origin + Texture -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Origin</mat-label>
+          <mat-select placeholder="Select origin...">
+            @for (origin of origins; track origin) {
+              <mat-option [value]="origin">{{ origin }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Texture</mat-label>
+          <mat-select placeholder="Select texture...">
+            @for (texture of textures; track texture) {
+              <mat-option [value]="texture">{{ texture }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Type + Length -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Type</mat-label>
+          <mat-select placeholder="Select type...">
+            @for (type of types; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Length (inches)</mat-label>
+          <input matInput placeholder="e.g. 18">
+        </mat-form-field>
+      </div>
+
+      <!-- Price + Image URL -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Price (CAD)</mat-label>
+          <input matInput placeholder="e.g. 185.00">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Image URL</mat-label>
+          <input matInput placeholder="https://...">
+        </mat-form-field>
+      </div>
+
+      <!-- Description -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="4" placeholder="Enter product description..."></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button routerLink="/products">Cancel</button>
+      <button mat-flat-button color="primary" class="primary-btn">
+        <mat-icon>save</mat-icon>
+        Save Product
+      </button>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OriginHairCollective.Notification.Application\OriginHairCollective.Notification.Application.csproj" />
+    <ProjectReference Include="..\OriginHairCollective.Notification.Infrastructure\OriginHairCollective.Notification.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Aspire\OriginHairCollective.ServiceDefaults\OriginHairCollective.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

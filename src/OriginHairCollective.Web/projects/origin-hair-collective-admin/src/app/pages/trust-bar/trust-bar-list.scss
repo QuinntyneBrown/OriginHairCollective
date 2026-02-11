@@ -1,0 +1,15 @@
+@use '../shared-page';
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}
+
+.trust-icon {
+  color: var(--primary);
+}
+
+.cell-bold {
+  font-weight: 500 !important;
+}

@@ -1,0 +1,38 @@
+@use '../shared-page';
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}
+
+.search-field {
+  width: 300px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.filter-btn {
+  border-radius: var(--radius-full) !important;
+  --mdc-outlined-button-outline-color: var(--outline-variant);
+  --mdc-outlined-button-label-text-color: var(--primary);
+
+  mat-icon {
+    color: var(--primary);
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cell-bold {
+  font-weight: 500 !important;
+}
+
+.cell-muted {
+  color: var(--on-surface-variant) !important;
+}

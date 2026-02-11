@@ -14,6 +14,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Services\Catalog\OriginHairCollective.Catalog.Api\OriginHairCollective.Catalog.Api.csproj" />
     <ProjectReference Include="..\..\Services\Inquiry\OriginHairCollective.Inquiry.Api\OriginHairCollective.Inquiry.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Order\OriginHairCollective.Order.Api\OriginHairCollective.Order.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Payment\OriginHairCollective.Payment.Api\OriginHairCollective.Payment.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Content\OriginHairCollective.Content.Api\OriginHairCollective.Content.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Notification\OriginHairCollective.Notification.Api\OriginHairCollective.Notification.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Identity\OriginHairCollective.Identity.Api\OriginHairCollective.Identity.Api.csproj" />
     <ProjectReference Include="..\..\Gateway\OriginHairCollective.ApiGateway\OriginHairCollective.ApiGateway.csproj" />
   </ItemGroup>
 

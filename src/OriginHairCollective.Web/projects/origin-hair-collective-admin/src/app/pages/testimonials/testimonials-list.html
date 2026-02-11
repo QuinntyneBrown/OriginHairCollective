@@ -1,0 +1,81 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Products</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Testimonials</h2>
+      <p class="page-subtitle">Manage customer reviews and testimonials</p>
+    </div>
+    <button mat-flat-button color="primary" class="primary-btn">
+      <mat-icon>add</mat-icon>
+      Add Testimonial
+    </button>
+  </div>
+
+  <!-- Search -->
+  <div class="filter-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Search testimonials...">
+    </mat-form-field>
+  </div>
+
+  <!-- Testimonials Table -->
+  <div class="table-card">
+    <table mat-table [dataSource]="testimonials" class="table-full-width">
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.customer }}</td>
+      </ng-container>
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef>Rating</th>
+        <td mat-cell *matCellDef="let row" class="cell-primary">{{ row.rating }}</td>
+      </ng-container>
+      <ng-container matColumnDef="review">
+        <th mat-header-cell *matHeaderCellDef>Review</th>
+        <td mat-cell *matCellDef="let row">{{ row.review }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="chip" [class.chip--success]="row.status === 'Published'" [class.chip--default]="row.status === 'Pending'">
+            {{ row.status }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let row" class="cell-muted">{{ row.date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="actions-cell">
+            <button mat-icon-button class="action-btn"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button class="action-btn action-btn--delete"><mat-icon>delete</mat-icon></button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <div class="paginator-row">
+      <span class="paginator-text">Showing 1-3 of 12 testimonials</span>
+      <div class="paginator-buttons">
+        <button mat-stroked-button disabled>Previous</button>
+        <button mat-flat-button color="primary" class="primary-btn">Next</button>
+      </div>
+    </div>
+  </div>
+</div>

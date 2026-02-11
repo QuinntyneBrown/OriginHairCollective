@@ -4392,7 +4392,8 @@
           "fill": "#9A9590",
           "content": "Web favicon for Origin Hair Collective — optimized for 16×16 through 256×256",
           "fontFamily": "DM Sans",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "frame",
@@ -4480,7 +4481,8 @@
                   "fill": "#9A9590",
                   "content": "256×256 (reference)",
                   "fontFamily": "DM Sans",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4561,7 +4563,8 @@
                   "fill": "#9A9590",
                   "content": "64×64",
                   "fontFamily": "DM Sans",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4642,7 +4645,8 @@
                   "fill": "#9A9590",
                   "content": "48×48",
                   "fontFamily": "DM Sans",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4703,7 +4707,8 @@
                   "fill": "#9A9590",
                   "content": "32×32",
                   "fontFamily": "DM Sans",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             },
@@ -4764,7 +4769,8 @@
                   "fill": "#9A9590",
                   "content": "16×16",
                   "fontFamily": "DM Sans",
-                  "fontSize": 11
+                  "fontSize": 11,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -4803,7 +4809,8 @@
               "fill": "#9A9590",
               "content": "Background: #0B0A08  ·  Accent: #C9A052 (gold)  ·  Font: Fraunces SemiBold",
               "fontFamily": "DM Sans",
-              "fontSize": 11
+              "fontSize": 11,
+              "fontWeight": "normal"
             },
             {
               "type": "text",
@@ -4812,7 +4819,219 @@
               "fill": "#9A9590",
               "content": "Design: Gold \"O\" monogram with circular ring border and accent lines",
               "fontFamily": "DM Sans",
-              "fontSize": 11
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "vMsey",
+      "x": 2000,
+      "y": 0,
+      "name": "Mobile Menu Overlay (390px)",
+      "clip": true,
+      "width": 390,
+      "height": 700,
+      "fill": "#0B0A08",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "WMXA4",
+          "name": "Menu Header",
+          "width": "fill_container",
+          "height": 64,
+          "padding": [
+            0,
+            24
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "JGyzd",
+              "name": "Logo",
+              "fill": "#C9A052",
+              "content": "ORIGIN",
+              "fontFamily": "Fraunces",
+              "fontSize": 22,
+              "fontWeight": "600",
+              "letterSpacing": 4
+            },
+            {
+              "type": "frame",
+              "id": "CIPDX",
+              "name": "Close Button",
+              "reusable": true,
+              "width": 40,
+              "height": 40,
+              "fill": "transparent",
+              "cornerRadius": 100,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#C9A05230"
+              },
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "3eIUQ",
+                  "name": "icon",
+                  "width": 22,
+                  "height": 22,
+                  "iconFontName": "x",
+                  "iconFontFamily": "lucide",
+                  "fill": "#FAF7F0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "8CW4n",
+          "name": "divider",
+          "fill": "#1E1C18",
+          "width": "fill_container",
+          "height": 1
+        },
+        {
+          "type": "frame",
+          "id": "xL8hL",
+          "name": "Nav Links",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "padding": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "rkdVJ",
+              "name": "navItem1",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "BAAqZ",
+                  "name": "link1Text",
+                  "fill": "#FAF7F0",
+                  "content": "Collection",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FSWfP",
+              "name": "navItem2",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "l6nVL",
+                  "name": "link2Text",
+                  "fill": "#FAF7F0",
+                  "content": "Our Story",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "0Jk0e",
+              "name": "navItem3",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "aZeaJ",
+                  "name": "link3Text",
+                  "fill": "#FAF7F0",
+                  "content": "Hair Care",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VuC7c",
+              "name": "navItem4",
+              "width": "fill_container",
+              "padding": [
+                16,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9NsRF",
+                  "name": "link4Text",
+                  "fill": "#FAF7F0",
+                  "content": "Wholesale",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 18,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "AMOCz",
+              "name": "spacer",
+              "width": "fill_container",
+              "height": 8
+            },
+            {
+              "type": "frame",
+              "id": "EfRMr",
+              "name": "CTA",
+              "width": "fill_container",
+              "height": 52,
+              "fill": "#C9A052",
+              "cornerRadius": 100,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "K1P4p",
+                  "name": "ctaText",
+                  "fill": "#0B0A08",
+                  "content": "SHOP NOW",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 14,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.2
+                }
+              ]
             }
           ]
         }
