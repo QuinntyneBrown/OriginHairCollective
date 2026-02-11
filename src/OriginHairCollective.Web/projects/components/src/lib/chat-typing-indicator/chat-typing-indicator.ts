@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-chat-typing-indicator',
+  selector: 'lib-chat-typing-indicator',
   template: `
     <div class="typing">
       <div class="typing__avatar">

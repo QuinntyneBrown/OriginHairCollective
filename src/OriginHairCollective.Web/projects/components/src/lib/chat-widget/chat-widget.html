@@ -37,14 +37,14 @@
     <!-- Messages -->
     <div class="chat-messages" #messageThread>
       @for (message of messages(); track $index) {
-        <app-chat-message
+        <lib-chat-message
           [sender]="message.sender"
           [content]="message.content"
           [timestamp]="message.timestamp"
         />
       }
       @if (isTyping()) {
-        <app-chat-typing-indicator />
+        <lib-chat-typing-indicator />
       }
     </div>
 

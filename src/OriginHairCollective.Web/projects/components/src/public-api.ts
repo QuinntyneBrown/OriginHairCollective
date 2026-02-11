@@ -14,3 +14,6 @@ export { SocialIconsComponent, type SocialLink } from './lib/social-icons/social
 export { LogoComponent } from './lib/logo/logo';
 export { DividerComponent } from './lib/divider/divider';
 export { CloseButtonComponent } from './lib/close-button/close-button';
+export { ChatMessageComponent, type ChatMessageData } from './lib/chat-message/chat-message';
+export { ChatTypingIndicatorComponent } from './lib/chat-typing-indicator/chat-typing-indicator';
+export { ChatWidgetComponent } from './lib/chat-widget/chat-widget';

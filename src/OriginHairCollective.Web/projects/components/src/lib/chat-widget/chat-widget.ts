@@ -1,10 +1,10 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, output, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatMessageComponent, type ChatMessageData } from '../chat-message/chat-message';
 import { ChatTypingIndicatorComponent } from '../chat-typing-indicator/chat-typing-indicator';
 
 @Component({
-  selector: 'app-chat-widget',
+  selector: 'lib-chat-widget',
   imports: [FormsModule, ChatMessageComponent, ChatTypingIndicatorComponent],
   templateUrl: './chat-widget.html',
   styleUrl: './chat-widget.scss',
@@ -21,6 +21,8 @@ export class ChatWidgetComponent {
       timestamp: '2:30 PM',
     },
   ]);
+
+  messageSent = output<string>();
 
   @ViewChild('messageThread') messageThread?: ElementRef<HTMLDivElement>;
 
@@ -48,6 +50,21 @@ export class ChatWidgetComponent {
       { sender: 'visitor', content: text, timestamp },
     ]);
     this.inputValue = '';
+    this.messageSent.emit(text);
+    this.scrollToBottom();
+  }
+
+  addAiMessage(content: string): void {
+    const now = new Date();
+    const timestamp = now.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+
+    this.messages.update(msgs => [
+      ...msgs,
+      { sender: 'ai', content, timestamp },
+    ]);
     this.scrollToBottom();
   }
 

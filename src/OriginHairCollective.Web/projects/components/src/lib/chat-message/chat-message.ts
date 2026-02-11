@@ -7,7 +7,7 @@ export interface ChatMessageData {
 }
 
 @Component({
-  selector: 'app-chat-message',
+  selector: 'lib-chat-message',
   template: `
     <div class="message" [class.message--visitor]="sender() === 'visitor'">
       @if (sender() === 'ai') {
@@ -70,6 +70,7 @@ export interface ChatMessageData {
     .message__bubble--visitor {
       background: var(--color-gold);
       border-radius: 14px 2px 14px 14px;
+      max-width: 240px;
     }
 
     .message__text {
@@ -111,6 +112,10 @@ export interface ChatMessageData {
       .message__bubble {
         gap: 8px;
         padding: 12px 16px;
+      }
+
+      .message__bubble--visitor {
+        max-width: 260px;
       }
 
       .message__text {

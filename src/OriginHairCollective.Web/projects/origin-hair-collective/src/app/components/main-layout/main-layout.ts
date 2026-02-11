@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   ButtonComponent,
+  ChatWidgetComponent,
   CloseButtonComponent,
   FooterLinkColumnComponent,
   SocialIconsComponent,
@@ -9,7 +10,6 @@ import {
   DividerComponent,
 } from 'components';
 import type { FooterLink, SocialLink } from 'components';
-import { ChatWidgetComponent } from '../chat-widget/chat-widget';
 
 @Component({
   selector: 'app-main-layout',

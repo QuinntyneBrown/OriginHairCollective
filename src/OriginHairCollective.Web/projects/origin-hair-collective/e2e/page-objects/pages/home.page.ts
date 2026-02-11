@@ -10,6 +10,7 @@ import { BenefitsSection } from '../sections/benefits.section';
 import { TestimonialsSection } from '../sections/testimonials.section';
 import { CommunitySection } from '../sections/community.section';
 import { FinalCtaSection } from '../sections/final-cta.section';
+import { ChatWidgetComponent } from '../components/chat-widget.component';
 
 export class HomePage {
   readonly header: HeaderComponent;
@@ -23,6 +24,7 @@ export class HomePage {
   readonly testimonials: TestimonialsSection;
   readonly community: CommunitySection;
   readonly finalCta: FinalCtaSection;
+  readonly chatWidget: ChatWidgetComponent;
 
   constructor(private page: Page) {
     this.header = new HeaderComponent(page);
@@ -36,6 +38,7 @@ export class HomePage {
     this.testimonials = new TestimonialsSection(page);
     this.community = new CommunitySection(page);
     this.finalCta = new FinalCtaSection(page);
+    this.chatWidget = new ChatWidgetComponent(page);
   }
 
   async goto(): Promise<void> {
