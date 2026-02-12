@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { AdminLayoutPage } from '../page-objects/pages/admin-layout.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 import { navItems, mockUser } from '../fixtures/mock-data';
 
 test.describe('Sidebar', () => {
@@ -8,7 +8,6 @@ test.describe('Sidebar', () => {
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     layout = new AdminLayoutPage(page);
     await layout.goto('/dashboard');
   });

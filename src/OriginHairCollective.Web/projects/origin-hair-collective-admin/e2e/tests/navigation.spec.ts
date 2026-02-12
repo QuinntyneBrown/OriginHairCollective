@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { AdminLayoutPage } from '../page-objects/pages/admin-layout.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Navigation', () => {
   let layout: AdminLayoutPage;
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     layout = new AdminLayoutPage(page);
   });
 

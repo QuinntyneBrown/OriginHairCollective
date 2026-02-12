@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ProductFormPage } from '../page-objects/pages/product-form.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 import { productFormOrigins, productFormTextures, productFormTypes } from '../fixtures/mock-data';
 
 test.describe('Product Form', () => {
@@ -8,7 +8,6 @@ test.describe('Product Form', () => {
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     formPage = new ProductFormPage(page);
     await formPage.goto();
   });

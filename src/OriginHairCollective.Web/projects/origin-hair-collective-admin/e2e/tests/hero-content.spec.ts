@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { HeroContentPage } from '../page-objects/pages/hero-content.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Hero Content', () => {
   let heroPage: HeroContentPage;
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     heroPage = new HeroContentPage(page);
     await heroPage.goto();
   });

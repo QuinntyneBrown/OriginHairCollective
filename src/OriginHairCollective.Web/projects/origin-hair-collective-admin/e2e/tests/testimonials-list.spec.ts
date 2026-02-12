@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { TestimonialsListPage } from '../page-objects/pages/testimonials-list.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 import { mockTestimonials } from '../fixtures/mock-data';
 
 test.describe('Testimonials List', () => {
@@ -8,7 +8,6 @@ test.describe('Testimonials List', () => {
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     testimonialsPage = new TestimonialsListPage(page);
     await testimonialsPage.goto();
   });

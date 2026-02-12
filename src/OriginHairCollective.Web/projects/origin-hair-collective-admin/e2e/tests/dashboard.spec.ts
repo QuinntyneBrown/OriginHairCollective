@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { DashboardPage } from '../page-objects/pages/dashboard.page';
-import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
+import { setupApiMocks } from '../fixtures/api-mocks';
 import { mockMetrics, mockRecentProducts, mockRecentInquiries } from '../fixtures/mock-data';
 
 test.describe('Dashboard', () => {
@@ -8,7 +8,6 @@ test.describe('Dashboard', () => {
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
-    await seedAuth(page);
     dashboard = new DashboardPage(page);
     await dashboard.goto();
   });
