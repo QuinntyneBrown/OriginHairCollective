@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { TrustBarListPage } from '../page-objects/pages/trust-bar-list.page';
-import { setupApiMocks } from '../fixtures/api-mocks';
+import { setupApiMocks, seedAuth } from '../fixtures/api-mocks';
 import { mockTrustBarItems } from '../fixtures/mock-data';
 
 test.describe('Trust Bar List', () => {
@@ -8,6 +8,7 @@ test.describe('Trust Bar List', () => {
 
   test.beforeEach(async ({ page }) => {
     await setupApiMocks(page);
+    await seedAuth(page);
     trustBarPage = new TrustBarListPage(page);
     await trustBarPage.goto();
   });

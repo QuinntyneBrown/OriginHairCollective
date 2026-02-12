@@ -74,6 +74,14 @@ export interface UserInfo {
   role: string;
 }
 
+export interface AuthResponseInfo {
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  token: string;
+}
+
 // ── Mock Data ──
 
 export const mockMetrics: MetricCardInfo[] = [
@@ -145,6 +153,19 @@ export const mockUser: UserInfo = {
   initials: 'QM',
   name: 'Quinn M.',
   role: 'Administrator',
+};
+
+export const mockAuthResponse: AuthResponseInfo = {
+  userId: '00000000-0000-0000-0000-000000000001',
+  email: 'admin@originhair.com',
+  firstName: 'Quinn',
+  lastName: 'Morgan',
+  token: 'mock-jwt-token-for-testing',
+};
+
+export const mockCredentials = {
+  valid: { email: 'admin@originhair.com', password: 'Admin123!' },
+  invalid: { email: 'wrong@email.com', password: 'WrongPassword' },
 };
 
 export const navItems = [
