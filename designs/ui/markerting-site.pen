@@ -6686,6 +6686,1391 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "fYf8o",
+      "x": 0,
+      "y": 9100,
+      "name": "Launch Party - Flyer (Letter)",
+      "clip": true,
+      "width": 612,
+      "height": 792,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "plgJ9",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 612,
+          "height": 792,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866732291.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "CuFuX",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 612,
+          "height": 792,
+          "fill": [
+            "#0B0A08B0",
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": true,
+              "rotation": 0,
+              "size": {
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A0830",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A08D0",
+                  "position": 0.4
+                },
+                {
+                  "color": "#0B0A08F5",
+                  "position": 0.7
+                },
+                {
+                  "color": "#0B0A08",
+                  "position": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kguAo",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 612,
+          "height": 792,
+          "layout": "vertical",
+          "padding": [
+            56,
+            48
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "FNGYC",
+              "name": "Top",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "uswgw",
+                  "name": "Logo",
+                  "fill": "#C9A052",
+                  "content": "ORIGIN",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 28,
+                  "fontWeight": "600",
+                  "letterSpacing": 10
+                },
+                {
+                  "type": "text",
+                  "id": "m42hQ",
+                  "name": "SubLogo",
+                  "fill": "#9A9590",
+                  "content": "HAIR COLLECTIVE",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "500",
+                  "letterSpacing": 5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "MEyCL",
+              "name": "Middle",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "2wcHj",
+                  "name": "Accent",
+                  "fill": "#C9A052",
+                  "width": 48,
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "7kfoX",
+                  "name": "InviteLabel",
+                  "fill": "#C9A052",
+                  "content": "YOU'RE INVITED TO",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 12,
+                  "fontWeight": "600",
+                  "letterSpacing": 4
+                },
+                {
+                  "type": "text",
+                  "id": "9uh26",
+                  "name": "Headline",
+                  "fill": "#FAF7F0",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "The\nLaunch\nParty",
+                  "lineHeight": 1,
+                  "textAlign": "center",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 72,
+                  "fontWeight": "500",
+                  "letterSpacing": -1
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "ksyQH",
+                  "name": "Accent2",
+                  "fill": "#C9A052",
+                  "width": 48,
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "CLbif",
+                  "name": "Date",
+                  "fill": "#FAF7F0",
+                  "content": "SATURDAY, JUNE 13, 2026",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "text",
+                  "id": "bGf3n",
+                  "name": "Time",
+                  "fill": "#9A9590",
+                  "content": "5:00 PM — 10:00 PM",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "1Kde4",
+                  "name": "Location",
+                  "fill": "#9A9590",
+                  "content": "MISSISSAUGA, ONTARIO",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 13,
+                  "fontWeight": "500",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "text",
+                  "id": "p4pOh",
+                  "name": "Features",
+                  "fill": "#C9A052",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Live Hair Demos  •  Cocktails  •  Music  •  Giveaways",
+                  "textAlign": "center",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 12,
+                  "fontWeight": "500",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "lXzvz",
+              "name": "Bottom",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "5iYHK",
+                  "name": "RSVP Pill",
+                  "fill": "#C9A05215",
+                  "cornerRadius": 100,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#C9A05230"
+                  },
+                  "gap": 10,
+                  "padding": [
+                    12,
+                    28
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pMpw3",
+                      "name": "RSVP",
+                      "fill": "#C9A052",
+                      "content": "RSVP  @OriginHairCollective",
+                      "fontFamily": "DM Sans",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "FGOma",
+                  "name": "Hashtag",
+                  "fill": "#6B6860",
+                  "content": "#OriginHairLaunch  •  #OriginLaunchParty",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2N2TI",
+      "x": 712,
+      "y": 9100,
+      "name": "Launch Party - Poster (24x36)",
+      "clip": true,
+      "width": 480,
+      "height": 720,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "EnP3d",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 480,
+          "height": 720,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866764575.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "vz2zG",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 480,
+          "height": 720,
+          "fill": [
+            "#0B0A08A0",
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": true,
+              "rotation": 0,
+              "size": {
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A0800",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A0880",
+                  "position": 0.3
+                },
+                {
+                  "color": "#0B0A08E0",
+                  "position": 0.55
+                },
+                {
+                  "color": "#0B0A08",
+                  "position": 0.85
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "gHRTw",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 480,
+          "height": 720,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            40,
+            36,
+            44,
+            36
+          ],
+          "justifyContent": "end",
+          "children": [
+            {
+              "type": "frame",
+              "id": "l70Qi",
+              "name": "Badge",
+              "fill": "#C9A05218",
+              "cornerRadius": 100,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#C9A05230"
+              },
+              "gap": 8,
+              "padding": [
+                8,
+                18
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "hVIBQ",
+                  "name": "pBadgeText",
+                  "fill": "#C9A052",
+                  "content": "JUNE 13, 2026  •  MISSISSAUGA, ON",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "SSgPH",
+              "name": "Logo",
+              "fill": "#C9A052",
+              "content": "ORIGIN",
+              "fontFamily": "Fraunces",
+              "fontSize": 20,
+              "fontWeight": "600",
+              "letterSpacing": 8
+            },
+            {
+              "type": "text",
+              "id": "43X05",
+              "name": "Headline",
+              "fill": "#FAF7F0",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Launch\nParty",
+              "lineHeight": 0.95,
+              "fontFamily": "Fraunces",
+              "fontSize": 80,
+              "fontWeight": "500",
+              "letterSpacing": -2
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 1,
+              "id": "dka4I",
+              "name": "Accent",
+              "fill": "#C9A052",
+              "width": 48,
+              "height": 2
+            },
+            {
+              "type": "frame",
+              "id": "IJLZh",
+              "name": "Details",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "3M9gv",
+                  "name": "pTime",
+                  "fill": "#FAF7F0",
+                  "content": "5:00 PM — 10:00 PM",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 15,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "pgAvS",
+                  "name": "pFeatures",
+                  "fill": "#9A9590",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Live Hair Demos  •  Cocktails  •  Music  •  Giveaways",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NVJRx",
+              "name": "Bottom",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "8U8Zl",
+                  "name": "pRsvp",
+                  "fill": "#6B6860",
+                  "content": "@OriginHairCollective",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "CavHo",
+                  "name": "pHash",
+                  "fill": "#6B6860",
+                  "content": "#OriginHairLaunch",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ppWY5",
+      "x": 1292,
+      "y": 9100,
+      "name": "Launch Party - IG Story (9:16)",
+      "clip": true,
+      "width": 390,
+      "height": 693,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "sbpub",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 390,
+          "height": 693,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866800395.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "sweYV",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 390,
+          "height": 693,
+          "fill": [
+            "#0B0A0890",
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": true,
+              "rotation": 0,
+              "size": {
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A0800",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A08C0",
+                  "position": 0.5
+                },
+                {
+                  "color": "#0B0A08F0",
+                  "position": 0.75
+                },
+                {
+                  "color": "#0B0A08",
+                  "position": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "imcgP",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 390,
+          "height": 693,
+          "layout": "vertical",
+          "padding": [
+            48,
+            32
+          ],
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "frame",
+              "id": "kaqWU",
+              "name": "Top",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mQGjU",
+                  "name": "sLogo",
+                  "fill": "#C9A052",
+                  "content": "ORIGIN",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 22,
+                  "fontWeight": "600",
+                  "letterSpacing": 6
+                },
+                {
+                  "type": "text",
+                  "id": "Pzbaq",
+                  "name": "sSubLogo",
+                  "fill": "#9A9590",
+                  "content": "HAIR COLLECTIVE",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 9,
+                  "fontWeight": "500",
+                  "letterSpacing": 4
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KzdAY",
+              "name": "Center",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ZpVaP",
+                  "name": "sLabel",
+                  "fill": "#C9A052",
+                  "content": "YOU'RE INVITED",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 4
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "9VHlu",
+                  "name": "sAccent1",
+                  "fill": "#C9A052",
+                  "width": 40,
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "Rb9yX",
+                  "name": "sHeadline",
+                  "fill": "#FAF7F0",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Launch\nParty",
+                  "lineHeight": 1,
+                  "textAlign": "center",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 64,
+                  "fontWeight": "500",
+                  "letterSpacing": -1
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "U06lt",
+                  "name": "sAccent2",
+                  "fill": "#C9A052",
+                  "width": 40,
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "21z4w",
+                  "name": "sDate",
+                  "fill": "#FAF7F0",
+                  "content": "SATURDAY, JUNE 13, 2026",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "so3gQ",
+                  "name": "sTime",
+                  "fill": "#9A9590",
+                  "content": "5 PM — 10 PM  •  Mississauga, ON",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KO0mI",
+              "name": "Bottom",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ckTMH",
+                  "name": "sFeatures",
+                  "fill": "#C9A052",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Live Demos  •  Cocktails  •  Music  •  Giveaways",
+                  "textAlign": "center",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "500",
+                  "letterSpacing": 0.5
+                },
+                {
+                  "type": "frame",
+                  "id": "LkXZI",
+                  "name": "Swipe Up",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "QpgeN",
+                      "name": "sArrow",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "chevron-up",
+                      "iconFontFamily": "lucide",
+                      "fill": "#C9A052"
+                    },
+                    {
+                      "type": "text",
+                      "id": "o4vo8",
+                      "name": "sSwipeText",
+                      "fill": "#C9A052",
+                      "content": "SWIPE UP TO RSVP",
+                      "fontFamily": "DM Sans",
+                      "fontSize": 10,
+                      "fontWeight": "600",
+                      "letterSpacing": 3
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "NdesB",
+                  "name": "sHandle",
+                  "fill": "#6B6860",
+                  "content": "@OriginHairCollective",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dZQnM",
+      "x": 0,
+      "y": 9992,
+      "name": "Launch Party - Square Post (1:1)",
+      "clip": true,
+      "width": 540,
+      "height": 540,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "PZWua",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 540,
+          "height": 540,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866841785.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "T7Qqc",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 540,
+          "height": 540,
+          "fill": [
+            "#0B0A08B0",
+            {
+              "type": "gradient",
+              "gradientType": "radial",
+              "enabled": true,
+              "rotation": 0,
+              "size": {
+                "width": 1,
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A0800",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A08E0",
+                  "position": 0.7
+                },
+                {
+                  "color": "#0B0A08",
+                  "position": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "LdN0D",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 540,
+          "height": 540,
+          "layout": "vertical",
+          "gap": 20,
+          "padding": 48,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "SiXRT",
+              "name": "sqLogo",
+              "fill": "#C9A052",
+              "content": "ORIGIN",
+              "fontFamily": "Fraunces",
+              "fontSize": 18,
+              "fontWeight": "600",
+              "letterSpacing": 6
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 1,
+              "id": "RXEoz",
+              "name": "sqAccent1",
+              "fill": "#C9A052",
+              "width": 40,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "mgROp",
+              "name": "sqLabel",
+              "fill": "#C9A052",
+              "content": "YOU'RE INVITED TO THE",
+              "fontFamily": "DM Sans",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 3
+            },
+            {
+              "type": "text",
+              "id": "WinRE",
+              "name": "sqHeadline",
+              "fill": "#FAF7F0",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Launch\nParty",
+              "lineHeight": 1,
+              "textAlign": "center",
+              "fontFamily": "Fraunces",
+              "fontSize": 64,
+              "fontWeight": "500"
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 1,
+              "id": "4lfK8",
+              "name": "sqAccent2",
+              "fill": "#C9A052",
+              "width": 40,
+              "height": 1
+            },
+            {
+              "type": "text",
+              "id": "xmSJI",
+              "name": "sqDate",
+              "fill": "#FAF7F0",
+              "content": "Saturday, June 13, 2026",
+              "fontFamily": "DM Sans",
+              "fontSize": 14,
+              "fontWeight": "600",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "Fp1xx",
+              "name": "sqTime",
+              "fill": "#9A9590",
+              "content": "5 PM — 10 PM  •  Mississauga, ON",
+              "fontFamily": "DM Sans",
+              "fontSize": 12,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "frame",
+              "id": "eyFiA",
+              "name": "RSVP Pill",
+              "fill": "#C9A05215",
+              "cornerRadius": 100,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#C9A05230"
+              },
+              "padding": [
+                10,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bpMf0",
+                  "name": "sqRsvp",
+                  "fill": "#C9A052",
+                  "content": "RSVP @OriginHairCollective",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "kIkdK",
+              "name": "sqHandle",
+              "fill": "#6B6860",
+              "content": "#OriginHairLaunch",
+              "fontFamily": "DM Sans",
+              "fontSize": 10,
+              "fontWeight": "500"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dVNQ4",
+      "x": 640,
+      "y": 9992,
+      "name": "Launch Party - Landscape (16:9)",
+      "clip": true,
+      "width": 700,
+      "height": 394,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "dZ1yT",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 700,
+          "height": 394,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866873939.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "M0H67",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 700,
+          "height": 394,
+          "fill": [
+            "#0B0A08A0",
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": true,
+              "rotation": 90,
+              "size": {
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A08",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A0860",
+                  "position": 0.45
+                },
+                {
+                  "color": "#0B0A08A0",
+                  "position": 0.7
+                },
+                {
+                  "color": "#0B0A08",
+                  "position": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ljFgX",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 700,
+          "height": 394,
+          "padding": [
+            48,
+            56
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "KxhqP",
+              "name": "Left",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "uWPRR",
+                  "name": "lLogo",
+                  "fill": "#C9A052",
+                  "content": "ORIGIN",
+                  "fontFamily": "Fraunces",
+                  "fontSize": 16,
+                  "fontWeight": "600",
+                  "letterSpacing": 6
+                },
+                {
+                  "type": "text",
+                  "id": "xywAY",
+                  "name": "lLabel",
+                  "fill": "#C9A052",
+                  "content": "YOU'RE INVITED TO THE",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "text",
+                  "id": "GBaAG",
+                  "name": "lHeadline",
+                  "fill": "#FAF7F0",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Launch\nParty",
+                  "lineHeight": 0.95,
+                  "fontFamily": "Fraunces",
+                  "fontSize": 56,
+                  "fontWeight": "500",
+                  "letterSpacing": -1
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "1KHS3",
+                  "name": "lAccent",
+                  "fill": "#C9A052",
+                  "width": 40,
+                  "height": 2
+                },
+                {
+                  "type": "text",
+                  "id": "hrjBe",
+                  "name": "lDate",
+                  "fill": "#FAF7F0",
+                  "content": "Saturday, June 13, 2026",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 13,
+                  "fontWeight": "600",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "gWuI3",
+                  "name": "lTime",
+                  "fill": "#9A9590",
+                  "content": "5 PM — 10 PM  •  Mississauga, ON",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "8GUSn",
+              "name": "Right",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "justifyContent": "end",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "L1z7a",
+                  "name": "lFeatures",
+                  "fill": "#9A9590",
+                  "content": "Live Demos\nCocktails\nMusic\nGiveaways",
+                  "textAlign": "right",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "552RQ",
+                  "name": "RSVP",
+                  "fill": "#C9A05215",
+                  "cornerRadius": 100,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#C9A05230"
+                  },
+                  "padding": [
+                    8,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xhDze",
+                      "name": "lRsvpText",
+                      "fill": "#C9A052",
+                      "content": "@OriginHairCollective",
+                      "fontFamily": "DM Sans",
+                      "fontSize": 10,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "22Euq",
+      "x": 1440,
+      "y": 9992,
+      "name": "Launch Party - FB Event Cover",
+      "clip": true,
+      "width": 820,
+      "height": 312,
+      "fill": "#0B0A08",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "0ao5s",
+          "x": 0,
+          "y": 0,
+          "name": "BG Image",
+          "width": 820,
+          "height": 312,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/generated-1770866904426.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "Z2KaN",
+          "x": 0,
+          "y": 0,
+          "name": "Overlay",
+          "width": 820,
+          "height": 312,
+          "fill": [
+            "#0B0A08B0",
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": true,
+              "rotation": 90,
+              "size": {
+                "height": 1
+              },
+              "colors": [
+                {
+                  "color": "#0B0A08E0",
+                  "position": 0
+                },
+                {
+                  "color": "#0B0A0850",
+                  "position": 0.4
+                },
+                {
+                  "color": "#0B0A0850",
+                  "position": 0.6
+                },
+                {
+                  "color": "#0B0A08E0",
+                  "position": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iUciq",
+          "x": 0,
+          "y": 0,
+          "name": "Content",
+          "width": 820,
+          "height": 312,
+          "padding": [
+            40,
+            56
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "c1pUg",
+              "name": "Left",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "uE9oG",
+                  "name": "fbLogo",
+                  "fill": "#C9A052",
+                  "content": "ORIGIN HAIR COLLECTIVE",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "600",
+                  "letterSpacing": 4
+                },
+                {
+                  "type": "text",
+                  "id": "HYbPh",
+                  "name": "fbHeadline",
+                  "fill": "#FAF7F0",
+                  "content": "The Launch Party",
+                  "lineHeight": 1.1,
+                  "fontFamily": "Fraunces",
+                  "fontSize": 44,
+                  "fontWeight": "500",
+                  "letterSpacing": -1
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 1,
+                  "id": "nKOvA",
+                  "name": "fbAccent",
+                  "fill": "#C9A052",
+                  "width": 40,
+                  "height": 2
+                },
+                {
+                  "type": "text",
+                  "id": "7ZC2S",
+                  "name": "fbSub",
+                  "fill": "#9A9590",
+                  "content": "Live Hair Demos  •  Cocktails  •  Music  •  Giveaways",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "letterSpacing": 0.5
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "4PuCk",
+              "name": "Right",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "justifyContent": "center",
+              "alignItems": "end",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "nuiqq",
+                  "name": "Date Box",
+                  "fill": "#161412",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1,
+                    "fill": "#C9A05225"
+                  },
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    16,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PiTtD",
+                      "name": "fbMonth",
+                      "fill": "#C9A052",
+                      "content": "JUN",
+                      "fontFamily": "DM Sans",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 3
+                    },
+                    {
+                      "type": "text",
+                      "id": "UTpnD",
+                      "name": "fbDay",
+                      "fill": "#FAF7F0",
+                      "content": "13",
+                      "fontFamily": "Fraunces",
+                      "fontSize": 36,
+                      "fontWeight": "500"
+                    },
+                    {
+                      "type": "text",
+                      "id": "75Tkz",
+                      "name": "fbYear",
+                      "fill": "#6B6860",
+                      "content": "2026",
+                      "fontFamily": "DM Sans",
+                      "fontSize": 10,
+                      "fontWeight": "500",
+                      "letterSpacing": 2
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "ax3EW",
+                  "name": "fbTime",
+                  "fill": "#9A9590",
+                  "content": "5 PM — 10 PM",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 11,
+                  "fontWeight": "normal",
+                  "letterSpacing": 1
+                },
+                {
+                  "type": "text",
+                  "id": "Vhxkk",
+                  "name": "fbLoc",
+                  "fill": "#6B6860",
+                  "content": "Mississauga, ON",
+                  "fontFamily": "DM Sans",
+                  "fontSize": 10,
+                  "fontWeight": "500",
+                  "letterSpacing": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }
