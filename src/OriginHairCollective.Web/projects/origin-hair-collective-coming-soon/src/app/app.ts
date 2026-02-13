@@ -22,9 +22,8 @@ import {
 })
 export class App {
   protected readonly socialLinks: SocialLink[] = [
-    { platform: 'instagram', href: 'https://instagram.com/originhairco' },
-    { platform: 'tiktok', href: 'https://tiktok.com/@originhairco' },
-    { platform: 'email', href: 'mailto:hello@originhair.com' },
+    { platform: 'instagram', href: 'https://instagram.com/originhaircollective' },
+    { platform: 'email', href: 'mailto:hello@originhaircollective.com' },
   ];
 
   onEmailSubmit(email: string): void {
