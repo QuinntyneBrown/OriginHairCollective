@@ -1,0 +1,122 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero__content">
+    <lib-badge text="NOW ACCEPTING PRE-ORDERS" />
+    <h1 class="hero__headline">Elevated Hair. Elevated You.</h1>
+    <p class="hero__subline">
+      Luxury hair for the woman who sets the standard.
+      Flawless by design, crafted to perfection.
+    </p>
+    <div class="hero__cta-row">
+      <lib-button variant="primary" [showArrow]="true">SHOP NOW</lib-button>
+      <lib-button variant="secondary">OUR STORY</lib-button>
+    </div>
+  </div>
+  <div class="hero__image"></div>
+</section>
+
+<!-- Trust Bar -->
+<section class="trust-bar">
+  @for (item of trustItems; track item.text) {
+    <lib-trust-bar-item [text]="item.text" [iconSvg]="item.icon" />
+  }
+</section>
+
+<!-- Brand Story -->
+<section class="brand-story" id="story">
+  <lib-section-header label="OUR STORY" heading="Where Luxury Meets Intention" />
+  <lib-divider variant="accent" />
+  <p class="brand-story__body">
+    Mane Haus was created for the woman who refuses to compromise. Every strand is
+    hand-selected, ethically sourced, and crafted to deliver a flawless finish that
+    turns heads. Based in Toronto, we serve women across Canada who know that
+    exceptional hair is not a luxury — it's a standard.
+  </p>
+  <p class="brand-story__emphasis">This isn't just hair. It's your signature.</p>
+</section>
+
+<!-- Products Section -->
+<section class="products" id="collection">
+  <lib-section-header label="THE COLLECTION" heading="Premium Hair, Curated For You" />
+  <div class="products__grid">
+    <lib-product-card
+      imageUrl="https://images.unsplash.com/photo-1557411143-fab338a679f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
+      tag="BESTSELLER"
+      title="Virgin Hair Bundles"
+      description="Body wave, straight, and deep wave textures. 100% unprocessed virgin hair from $149."
+      price="FROM $149"
+    />
+    <lib-product-card
+      imageUrl="https://images.unsplash.com/photo-1587070840484-0eaef4815586?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
+      tag="ESSENTIAL"
+      title="Lace Closures"
+      description="Seamless HD lace closures for a natural, undetectable finish. 4×4 and 5×5 options."
+      price="FROM $119"
+      tagColor="rose"
+    />
+    <lib-product-card
+      imageUrl="https://images.unsplash.com/photo-1560564066-a3a5cfc81584?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
+      tag="PREMIUM"
+      title="Lace Frontals"
+      description="13×4 and 13×6 Swiss lace frontals. Full hairline coverage for a flawless, versatile look."
+      price="FROM $159"
+    />
+  </div>
+</section>
+
+<!-- Why Mane Haus Section -->
+<section class="benefits" id="care">
+  <lib-section-header label="WHY MANE HAUS" heading="The Mane Haus Difference" />
+  <div class="benefits__grid">
+    <lib-benefit-card
+      [iconSvg]="gemIcon"
+      title="Ethically Sourced"
+      description="100% virgin human hair from trusted suppliers. No synthetics, no shortcuts. Every bundle meets our luxury standard."
+    />
+    <lib-benefit-card
+      [iconSvg]="timerIcon"
+      title="Built For Longevity"
+      description="Our hair lasts 12+ months with proper care. Minimal shedding, no tangling, and colour-safe. Invest once, slay all year."
+    />
+    <lib-benefit-card
+      [iconSvg]="heartIcon"
+      title="Community First"
+      description="More than a brand — we're a haus. Join a community of women who celebrate each other, share styling tips, and uplift one another."
+    />
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+  <span class="section-label">WHAT THEY SAY</span>
+  <lib-testimonial-card
+    quote="I've tried every hair brand out there. Mane Haus is different — the quality is unmatched, the texture is incredible, and it literally lasts forever. I'm never going back."
+    author="Jasmine T., Toronto"
+  />
+</section>
+
+<!-- Community Section -->
+<section class="community">
+  <div class="community__header">
+    <lib-section-header label="JOIN THE HAUS" heading="Follow the Journey" />
+    <span class="community__handle">&#64;ManeHaus</span>
+  </div>
+  <div class="community__photos">
+    @for (photo of communityPhotos; track photo.alt) {
+      <div class="community__photo" [style.background-image]="'url(' + photo.url + ')'"></div>
+    }
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2 class="final-cta__heading">Ready to Elevate Your Look?</h2>
+  <p class="final-cta__sub">
+    Join thousands of women across Canada who trust Mane Haus for their
+    premium hair needs. Experience the difference that quality makes.
+  </p>
+  <lib-button variant="primary" size="large" [showArrow]="true">SHOP NOW</lib-button>
+  <p class="final-cta__trust">
+    Free shipping on orders over $150 · 30-day quality guarantee
+  </p>
+</section>

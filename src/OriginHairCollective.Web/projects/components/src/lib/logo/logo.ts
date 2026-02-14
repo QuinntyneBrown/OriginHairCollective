@@ -12,16 +12,16 @@ import { NgClass } from '@angular/common';
         'logo--large': size() === 'large'
       }"
     >
-      ORIGIN
+      {{ text() }}
     </span>
   `,
   styles: `
     .logo {
-      font-family: 'Fraunces', serif;
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
       letter-spacing: 5px;
-      color: #c9a052;
+      color: var(--color-gold);
     }
 
     .logo--small {
@@ -36,5 +36,6 @@ import { NgClass } from '@angular/common';
   `,
 })
 export class LogoComponent {
+  text = input('ORIGIN');
   size = input<'small' | 'medium' | 'large'>('medium');
 }

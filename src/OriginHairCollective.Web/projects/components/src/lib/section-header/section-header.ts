@@ -18,20 +18,20 @@ import { Component, input } from '@angular/core';
     }
 
     .section-header__label {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 3px;
-      color: #c9a052;
+      color: var(--color-gold);
       text-transform: uppercase;
     }
 
     .section-header__heading {
-      font-family: 'Fraunces', serif;
+      font-family: var(--font-heading);
       font-size: 42px;
       font-weight: 500;
       letter-spacing: -0.8px;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       text-align: center;
       margin: 0;
     }

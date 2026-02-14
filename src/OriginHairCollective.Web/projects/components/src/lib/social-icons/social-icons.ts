@@ -36,11 +36,11 @@ export interface SocialLink {
     .social-icons__link {
       display: flex;
       align-items: center;
-      color: #9a9590;
+      color: var(--color-text-secondary);
       transition: color 0.2s ease;
 
       &:hover {
-        color: #c9a052;
+        color: var(--color-gold);
       }
     }
 

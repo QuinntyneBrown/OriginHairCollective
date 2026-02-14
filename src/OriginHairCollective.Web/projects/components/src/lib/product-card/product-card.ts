@@ -35,7 +35,7 @@ import { NgClass } from '@angular/common';
       flex-direction: column;
       border-radius: 16px;
       overflow: hidden;
-      background: #161412;
+      background: var(--color-bg-secondary);
       width: 100%;
     }
 
@@ -59,43 +59,43 @@ import { NgClass } from '@angular/common';
     }
 
     .product-card__tag {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 1.5px;
-      color: #c9a052;
+      color: var(--color-gold);
       text-transform: uppercase;
 
       &--alt {
-        color: #b8816b;
+        color: var(--color-rose);
       }
     }
 
     .product-card__title {
-      font-family: 'Fraunces', serif;
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 600;
       letter-spacing: -0.3px;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       margin: 0;
     }
 
     .product-card__description {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 14px;
       line-height: 1.6;
-      color: #9a9590;
+      color: var(--color-text-secondary);
       margin: 0;
     }
 
     .product-card__price {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 15px;
       font-weight: 600;
-      color: #c9a052;
+      color: var(--color-gold);
 
       &--alt {
-        color: #b8816b;
+        color: var(--color-rose);
       }
     }
 

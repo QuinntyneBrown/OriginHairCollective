@@ -1,0 +1,73 @@
+<!-- Header -->
+<header class="header">
+  <lib-logo text="MANE HAUS" />
+  <nav class="header__nav">
+    @for (link of navLinks; track link.label) {
+      <a [href]="link.href" class="header__link">{{ link.label }}</a>
+    }
+    <lib-button variant="primary" size="small">SHOP NOW</lib-button>
+  </nav>
+  <button
+    class="header__menu"
+    aria-label="Open menu"
+    (click)="toggleMobileMenu()"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" x2="20" y1="12" y2="12" />
+      <line x1="4" x2="20" y1="6" y2="6" />
+      <line x1="4" x2="20" y1="18" y2="18" />
+    </svg>
+  </button>
+</header>
+
+<!-- Mobile Nav Overlay -->
+@if (mobileMenuOpen) {
+  <div class="mobile-nav" (click)="toggleMobileMenu()">
+    <nav class="mobile-nav__content" (click)="$event.stopPropagation()">
+      <div class="mobile-nav__header">
+        <lib-logo text="MANE HAUS" size="small" />
+        <lib-close-button (closed)="toggleMobileMenu()" />
+      </div>
+      <div class="mobile-nav__divider"></div>
+      <div class="mobile-nav__links">
+        @for (link of navLinks; track link.label) {
+          <a [href]="link.href" class="mobile-nav__link" (click)="toggleMobileMenu()">{{ link.label }}</a>
+        }
+        <lib-button variant="primary">SHOP NOW</lib-button>
+      </div>
+    </nav>
+  </div>
+}
+
+<!-- Page Content -->
+<main>
+  <router-outlet />
+</main>
+
+<!-- Chat Widget -->
+<lib-chat-widget brandName="Mane Haus" />
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__brand">
+      <lib-logo text="MANE HAUS" size="small" />
+      <p class="footer__tagline">
+        Premium hair for the woman who sets the standard.
+        Based in Toronto, serving Canada and beyond.
+      </p>
+      <lib-social-icons [links]="socialLinks" />
+    </div>
+    <div class="footer__columns">
+      <lib-footer-link-column title="Shop" [links]="shopLinks" />
+      <lib-footer-link-column title="Company" [links]="companyLinks" />
+      <lib-footer-link-column title="Support" [links]="supportLinks" />
+    </div>
+  </div>
+  <lib-divider />
+  <div class="footer__bottom">
+    <span class="footer__copy">&copy; 2026 Mane Haus. All rights reserved.</span>
+    <span class="footer__location">Toronto, Ontario, Canada</span>
+  </div>
+</footer>

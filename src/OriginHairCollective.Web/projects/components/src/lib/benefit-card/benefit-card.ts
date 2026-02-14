@@ -19,8 +19,8 @@ import { DomSanitizer } from '@angular/platform-browser';
       gap: 16px;
       padding: 32px;
       border-radius: 16px;
-      background: #1e1c18;
-      border: 1px solid rgba(201, 160, 82, 0.082);
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
     }
 
     .benefit-card__icon-wrap {
@@ -30,13 +30,13 @@ import { DomSanitizer } from '@angular/platform-browser';
       width: 52px;
       height: 52px;
       border-radius: 14px;
-      background: rgba(201, 160, 82, 0.082);
+      background: var(--color-border);
     }
 
     .benefit-card__icon {
       display: flex;
       align-items: center;
-      color: #c9a052;
+      color: var(--color-gold);
     }
 
     :host ::ng-deep .benefit-card__icon svg {
@@ -45,18 +45,18 @@ import { DomSanitizer } from '@angular/platform-browser';
     }
 
     .benefit-card__title {
-      font-family: 'Fraunces', serif;
+      font-family: var(--font-heading);
       font-size: 20px;
       font-weight: 600;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       margin: 0;
     }
 
     .benefit-card__description {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 15px;
       line-height: 1.6;
-      color: #9a9590;
+      color: var(--color-text-secondary);
       margin: 0;
     }
 

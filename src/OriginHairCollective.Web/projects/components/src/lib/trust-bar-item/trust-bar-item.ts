@@ -19,7 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     .trust-item__icon {
       display: flex;
       align-items: center;
-      color: #c9a052;
+      color: var(--color-gold);
     }
 
     :host ::ng-deep .trust-item__icon svg {
@@ -28,10 +28,10 @@ import { DomSanitizer } from '@angular/platform-browser';
     }
 
     .trust-item__text {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 13px;
       font-weight: 500;
-      color: #9a9590;
+      color: var(--color-text-secondary);
     }
 
     @media (max-width: 768px) {

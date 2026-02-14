@@ -1,4 +1,4 @@
-import { Component, ElementRef, output, signal, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, input, output, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatMessageComponent, type ChatMessageData } from '../chat-message/chat-message';
 import { ChatTypingIndicatorComponent } from '../chat-typing-indicator/chat-typing-indicator';
@@ -10,21 +10,32 @@ import { ChatTypingIndicatorComponent } from '../chat-typing-indicator/chat-typi
   styleUrl: './chat-widget.scss',
 })
 export class ChatWidgetComponent {
+  brandName = input('Origin Hair Collective');
+
   isOpen = signal(false);
   isTyping = signal(false);
   inputValue = '';
 
-  messages = signal<ChatMessageData[]>([
-    {
-      sender: 'ai',
-      content: 'Welcome to Origin Hair Collective! How can I help you today?',
-      timestamp: '2:30 PM',
-    },
-  ]);
+  messages = signal<ChatMessageData[]>([]);
 
   messageSent = output<string>();
 
   @ViewChild('messageThread') messageThread?: ElementRef<HTMLDivElement>;
+
+  constructor() {
+    effect(() => {
+      const name = this.brandName();
+      if (this.messages().length === 0) {
+        this.messages.set([
+          {
+            sender: 'ai',
+            content: `Welcome to ${name}! How can I help you today?`,
+            timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+          },
+        ]);
+      }
+    });
+  }
 
   open(): void {
     this.isOpen.set(true);

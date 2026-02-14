@@ -28,14 +28,14 @@ import { Component, output } from '@angular/core';
       width: 40px;
       height: 40px;
       border-radius: 100px;
-      border: 1px solid rgba(201, 160, 82, 0.19);
+      border: 1px solid var(--color-gold-border);
       background: transparent;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       cursor: pointer;
       transition: border-color 0.2s ease;
 
       &:hover {
-        border-color: rgba(201, 160, 82, 0.4);
+        border-color: var(--color-gold-border-strong);
       }
     }
   `,

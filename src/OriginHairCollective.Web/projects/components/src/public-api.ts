@@ -18,3 +18,4 @@ export { ChatMessageComponent, type ChatMessageData } from './lib/chat-message/c
 export { ChatTypingIndicatorComponent } from './lib/chat-typing-indicator/chat-typing-indicator';
 export { ChatWidgetComponent } from './lib/chat-widget/chat-widget';
 export { EmailSignupComponent } from './lib/email-signup/email-signup';
+export { CountdownTimerComponent, type CountdownValues } from './lib/countdown-timer/countdown-timer';

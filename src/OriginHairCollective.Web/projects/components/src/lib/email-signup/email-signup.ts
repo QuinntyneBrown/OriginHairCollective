@@ -60,12 +60,12 @@ import { Component, input, output } from '@angular/core';
       height: 56px;
       padding: 0 24px;
       border-radius: 100px;
-      border: 1px solid rgba(201, 160, 82, 0.19);
+      border: 1px solid var(--color-gold-border);
       background: transparent;
 
       svg {
         flex-shrink: 0;
-        color: #6b6860;
+        color: var(--color-text-muted);
       }
 
       input {
@@ -74,12 +74,12 @@ import { Component, input, output } from '@angular/core';
         background: transparent;
         border: none;
         outline: none;
-        color: #faf7f0;
-        font-family: 'DM Sans', sans-serif;
+        color: var(--color-text-primary);
+        font-family: var(--font-body);
         font-size: 14px;
 
         &::placeholder {
-          color: #6b6860;
+          color: var(--color-text-muted);
         }
       }
     }
@@ -93,9 +93,9 @@ import { Component, input, output } from '@angular/core';
       height: 56px;
       border: none;
       border-radius: 100px;
-      background: #c9a052;
-      color: #0b0a08;
-      font-family: 'DM Sans', sans-serif;
+      background: var(--color-gold);
+      color: var(--color-bg-primary);
+      font-family: var(--font-body);
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 1.2px;

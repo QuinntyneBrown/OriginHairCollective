@@ -20,25 +20,25 @@ import { Component, input } from '@angular/core';
       gap: 24px;
       padding: 48px 64px;
       border-radius: 20px;
-      background: #161412;
-      border: 1px solid rgba(201, 160, 82, 0.082);
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
       width: 100%;
       box-sizing: border-box;
     }
 
     .testimonial-card__quote-icon {
-      font-family: 'Fraunces', serif;
+      font-family: var(--font-heading);
       font-size: 80px;
       line-height: 0.5;
-      color: rgba(201, 160, 82, 0.19);
+      color: var(--color-gold-border);
     }
 
     .testimonial-card__quote {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 20px;
       font-style: italic;
       line-height: 1.6;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       text-align: center;
       margin: 0;
     }
@@ -50,16 +50,16 @@ import { Component, input } from '@angular/core';
     }
 
     .testimonial-card__stars {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 18px;
-      color: #c9a052;
+      color: var(--color-gold);
     }
 
     .testimonial-card__name {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 15px;
       font-weight: 500;
-      color: #9a9590;
+      color: var(--color-text-secondary);
     }
 
     @media (max-width: 768px) {

@@ -17,22 +17,22 @@ import { Component, input } from '@angular/core';
       gap: 8px;
       padding: 8px 16px;
       border-radius: 100px;
-      background: rgba(201, 160, 82, 0.125);
+      background: var(--color-gold-bg);
     }
 
     .badge__dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #c9a052;
+      background: var(--color-gold);
     }
 
     .badge__text {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 1.5px;
-      color: #c9a052;
+      color: var(--color-gold);
       text-transform: uppercase;
     }
   `,

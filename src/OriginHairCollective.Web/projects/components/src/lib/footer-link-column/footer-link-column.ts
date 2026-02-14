@@ -23,23 +23,23 @@ export interface FooterLink {
     }
 
     .footer-links__title {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.5px;
-      color: #faf7f0;
+      color: var(--color-text-primary);
       margin: 0;
     }
 
     .footer-links__link {
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 13px;
-      color: #6b6860;
+      color: var(--color-text-muted);
       text-decoration: none;
       transition: color 0.2s ease;
 
       &:hover {
-        color: #9a9590;
+        color: var(--color-text-secondary);
       }
     }
 

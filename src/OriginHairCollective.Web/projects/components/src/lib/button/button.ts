@@ -43,7 +43,7 @@ import { NgClass } from '@angular/common';
       border: none;
       border-radius: 100px;
       cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
@@ -57,14 +57,14 @@ import { NgClass } from '@angular/common';
     }
 
     .btn--primary {
-      background: #c9a052;
-      color: #0b0a08;
+      background: var(--color-gold);
+      color: var(--color-bg-primary);
     }
 
     .btn--secondary {
       background: transparent;
-      color: #c9a052;
-      border: 1px solid rgba(201, 160, 82, 0.25);
+      color: var(--color-gold);
+      border: 1px solid var(--color-gold-border-strong);
     }
 
     .btn--small {

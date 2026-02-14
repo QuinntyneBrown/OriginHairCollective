@@ -18,7 +18,7 @@ import { NgClass } from '@angular/common';
       border: none;
       height: 1px;
       width: 100%;
-      background: #1e1c18;
+      background: var(--color-bg-card);
       margin: 0;
     }
 
@@ -26,11 +26,11 @@ import { NgClass } from '@angular/common';
       width: 56px;
       height: 2px;
       border-radius: 1px;
-      background: #c9a052;
+      background: var(--color-gold);
     }
 
     .divider--subtle {
-      background: #1e1c18;
+      background: var(--color-bg-card);
     }
 
     @media (max-width: 768px) {

@@ -51,6 +51,18 @@
     },
     {
       "path": "./projects/origin-hair-collective-coming-soon/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/mane-haus/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/mane-haus/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/main-haus-coming-soon/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/main-haus-coming-soon/tsconfig.spec.json"
     }
   ]
 }
