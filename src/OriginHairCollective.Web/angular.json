@@ -197,6 +197,12 @@
                   "maximumError": "8kB"
                 }
               ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/origin-hair-collective-admin/src/environments/environment.ts",
+                  "with": "projects/origin-hair-collective-admin/src/environments/environment.production.ts"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {
@@ -263,6 +269,12 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/origin-hair-collective-coming-soon/src/environments/environment.ts",
+                  "with": "projects/origin-hair-collective-coming-soon/src/environments/environment.production.ts"
                 }
               ],
               "outputHashing": "all"
@@ -399,6 +411,12 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/main-haus-coming-soon/src/environments/environment.ts",
+                  "with": "projects/main-haus-coming-soon/src/environments/environment.production.ts"
                 }
               ],
               "outputHashing": "all"
