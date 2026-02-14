@@ -17,7 +17,11 @@
     "e2e:admin": "npx playwright test --config=playwright.admin.config.ts",
     "e2e:admin:headed": "npx playwright test --config=playwright.admin.config.ts --headed",
     "e2e:admin:ui": "npx playwright test --config=playwright.admin.config.ts --ui",
-    "e2e:admin:chromium": "npx playwright test --config=playwright.admin.config.ts --project=chromium"
+    "e2e:admin:chromium": "npx playwright test --config=playwright.admin.config.ts --project=chromium",
+    "e2e:coming-soon": "npx playwright test --config=playwright.coming-soon.config.ts",
+    "e2e:coming-soon:headed": "npx playwright test --config=playwright.coming-soon.config.ts --headed",
+    "e2e:coming-soon:ui": "npx playwright test --config=playwright.coming-soon.config.ts --ui",
+    "e2e:coming-soon:chromium": "npx playwright test --config=playwright.coming-soon.config.ts --project=chromium"
   },
   "prettier": {
     "printWidth": 100,
