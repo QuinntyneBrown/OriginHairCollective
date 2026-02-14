@@ -36,7 +36,7 @@ var newsletterApi = builder.AddProject<Projects.CrownCommerce_Newsletter_Api>("n
     .WithReference(messaging)
     .WaitFor(messaging);
 
-var schedulingApi = builder.AddProject<Projects.CrownCommerce_Scheduling_Api>("scheduling-api")
+var crmApi = builder.AddProject<Projects.CrownCommerce_Crm_Api>("crm-api")
     .WithReference(messaging)
     .WaitFor(messaging);
 
@@ -49,7 +49,7 @@ var apiGateway = builder.AddProject<Projects.CrownCommerce_ApiGateway>("api-gate
     .WithReference(notificationApi)
     .WithReference(identityApi)
     .WithReference(newsletterApi)
-    .WithReference(schedulingApi);
+    .WithReference(crmApi);
 
 builder.AddNpmApp("angular", "../../CrownCommerce.Web", "start")
     .WithReference(apiGateway)
