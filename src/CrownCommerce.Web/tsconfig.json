@@ -50,10 +50,10 @@
       "path": "./projects/origin-hair-collective/tsconfig.spec.json"
     },
     {
-      "path": "./projects/origin-hair-collective-admin/tsconfig.app.json"
+      "path": "./projects/crown-commerce-admin/tsconfig.app.json"
     },
     {
-      "path": "./projects/origin-hair-collective-admin/tsconfig.spec.json"
+      "path": "./projects/crown-commerce-admin/tsconfig.spec.json"
     },
     {
       "path": "./projects/origin-hair-collective-coming-soon/tsconfig.app.json"
@@ -68,10 +68,10 @@
       "path": "./projects/mane-haus/tsconfig.spec.json"
     },
     {
-      "path": "./projects/main-haus-coming-soon/tsconfig.app.json"
+      "path": "./projects/mane-haus-coming-soon/tsconfig.app.json"
     },
     {
-      "path": "./projects/main-haus-coming-soon/tsconfig.spec.json"
+      "path": "./projects/mane-haus-coming-soon/tsconfig.spec.json"
     }
   ]
 }
