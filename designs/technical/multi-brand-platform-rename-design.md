@@ -11,7 +11,7 @@ This document designs a rename that separates _platform infrastructure_ (shared,
 | Brand | Type | Status |
 |-------|------|--------|
 | Origin Hair Collective | Luxury hair | Active (marketing site, coming-soon, admin) |
-| Mane Haus | Luxury hair & styling | Coming soon |
+| Mane Haus | Luxury hair | Coming soon |
 
 ---
 

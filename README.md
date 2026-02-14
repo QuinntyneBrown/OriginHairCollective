@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="designs/ui/images/GitHub%20README%20Banner%20(1280x320).png" alt="CrownCommerce" />
+  <img src="designs/ui/images/GitHub%20README%20Banner.png" alt="CrownCommerce" />
 </p>
 
 <p align="center">
@@ -13,7 +13,7 @@
 | Brand | Description | Status |
 |-------|-------------|--------|
 | **Origin Hair Collective** | Premium hair | Active |
-| **Mane Haus** | Luxury hair & styling | Coming Soon |
+| **Mane Haus** | Luxury hair | Coming Soon |
 
 ## Tech Stack
 
