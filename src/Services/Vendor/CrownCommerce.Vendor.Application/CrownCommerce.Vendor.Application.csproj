@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrownCommerce.Vendor.Core\CrownCommerce.Vendor.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Shared\CrownCommerce.Shared.Contracts\CrownCommerce.Shared.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

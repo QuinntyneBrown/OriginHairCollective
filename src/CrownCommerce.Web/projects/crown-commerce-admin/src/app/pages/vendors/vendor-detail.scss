@@ -1,0 +1,274 @@
+@use '../shared-page';
+
+.form-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}
+
+// Summary cards
+.summary-row {
+  display: flex;
+  gap: 20px;
+}
+
+.summary-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--outline);
+}
+
+.summary-label {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+// Status chips
+.chip--pending {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.chip--evaluating {
+  background: var(--info-light, #e3f2fd);
+  color: var(--info, #1976d2);
+}
+
+.chip--approved {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.chip--rejected {
+  background: var(--error-light, #fce4ec);
+  color: var(--error);
+}
+
+.chip--trialorder {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.chip--rating-excellent {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.chip--rating-good {
+  background: var(--info-light, #e3f2fd);
+  color: var(--info, #1976d2);
+}
+
+.chip--rating-fair {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.chip--rating-poor {
+  background: var(--error-light, #fce4ec);
+  color: var(--error);
+}
+
+.chip--success {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.text-error {
+  color: var(--error) !important;
+}
+
+// Tab content
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 0;
+}
+
+// Section cards
+.section-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.section-score {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+// Checklist criteria
+.criteria-list {
+  padding: 16px 24px;
+}
+
+.criterion-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--outline-variant, #e0e0e0);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.criterion-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  min-width: 32px;
+}
+
+.criterion-label {
+  flex: 1;
+  font-size: 14px;
+  color: var(--on-surface);
+}
+
+.score-field {
+  width: 72px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.criterion-max {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  min-width: 32px;
+}
+
+.notes-field {
+  width: 200px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+// Grand total
+.grand-total-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--outline);
+  border-radius: var(--radius-md);
+}
+
+.grand-total-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.grand-total-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.grand-total-rating {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+// Save row
+.save-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Red flags
+.red-flag-note {
+  padding: 12px 24px 0;
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  margin: 0;
+}
+
+.red-flags-list {
+  padding: 16px 24px;
+}
+
+.red-flag-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--outline-variant, #e0e0e0);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// Follow-up
+.follow-up-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.send-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.send-note {
+  font-size: 13px;
+  color: var(--on-surface-variant);
+}
+
+.cell-bold {
+  font-weight: 500 !important;
+}

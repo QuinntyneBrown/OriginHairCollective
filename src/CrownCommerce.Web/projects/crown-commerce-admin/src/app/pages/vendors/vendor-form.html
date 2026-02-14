@@ -1,0 +1,121 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Vendor Relations</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="form-header-left">
+      <button mat-icon-button routerLink="/vendors">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h2 class="page-title">{{ isEdit() ? 'Edit Vendor' : 'Add New Vendor' }}</h2>
+        <p class="page-subtitle">{{ isEdit() ? 'Update vendor information' : 'Fill in the vendor details below' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <mat-card class="form-card">
+    <div class="form-card-header">
+      <span class="form-card-title">Vendor Information</span>
+    </div>
+
+    <div class="form-body">
+      <!-- Company Name -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Company Name</mat-label>
+        <input matInput placeholder="e.g. Guangzhou Hair Co., Ltd." [(ngModel)]="form.companyName">
+      </mat-form-field>
+
+      <!-- Platform + Hair Origin -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Platform</mat-label>
+          <mat-select [(ngModel)]="form.platform" placeholder="Select platform...">
+            @for (platform of platforms; track platform) {
+              <mat-option [value]="platform">{{ platform }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Hair Origin Country</mat-label>
+          <mat-select [(ngModel)]="form.hairOriginCountry" placeholder="Select country...">
+            @for (country of countries; track country) {
+              <mat-option [value]="country">{{ country }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Contact Name + Email -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Name</mat-label>
+          <input matInput placeholder="e.g. Li Wei" [(ngModel)]="form.contactName">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Email</mat-label>
+          <input matInput placeholder="e.g. contact@supplier.com" [(ngModel)]="form.contactEmail">
+        </mat-form-field>
+      </div>
+
+      <!-- WhatsApp + Factory Location -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>WhatsApp</mat-label>
+          <input matInput placeholder="e.g. +86 138 0000 0000" [(ngModel)]="form.contactWhatsApp">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Factory Location</mat-label>
+          <input matInput placeholder="e.g. Guangzhou, China" [(ngModel)]="form.factoryLocation">
+        </mat-form-field>
+      </div>
+
+      <!-- Website URL + Evaluated By -->
+      <div class="two-col">
+        <mat-form-field appearance="outline">
+          <mat-label>Website URL</mat-label>
+          <input matInput placeholder="https://..." [(ngModel)]="form.websiteUrl">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Evaluated By</mat-label>
+          <input matInput placeholder="e.g. Quinn" [(ngModel)]="form.evaluatedBy">
+        </mat-form-field>
+      </div>
+
+      @if (isEdit()) {
+        <!-- Status (edit only) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="form.status" placeholder="Select status...">
+            @for (status of statuses; track status) {
+              <mat-option [value]="status">{{ status }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+
+      <!-- Notes -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Notes</mat-label>
+        <textarea matInput rows="4" placeholder="Enter notes about this vendor..." [(ngModel)]="form.notes"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button routerLink="/vendors">Cancel</button>
+      <button mat-flat-button color="primary" class="primary-btn" (click)="save()">
+        <mat-icon>save</mat-icon>
+        {{ isEdit() ? 'Update Vendor' : 'Save Vendor' }}
+      </button>
+    </div>
+  </mat-card>
+</div>

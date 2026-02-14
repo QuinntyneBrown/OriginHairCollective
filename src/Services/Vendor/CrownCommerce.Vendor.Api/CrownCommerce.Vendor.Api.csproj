@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrownCommerce.Vendor.Application\CrownCommerce.Vendor.Application.csproj" />
+    <ProjectReference Include="..\CrownCommerce.Vendor.Infrastructure\CrownCommerce.Vendor.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Aspire\CrownCommerce.ServiceDefaults\CrownCommerce.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

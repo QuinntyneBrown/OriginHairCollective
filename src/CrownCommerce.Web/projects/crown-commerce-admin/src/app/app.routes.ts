@@ -68,6 +68,34 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'vendors',
+        loadComponent: () =>
+          import('./pages/vendors/vendors-list').then(
+            (m) => m.VendorsListPage
+          ),
+      },
+      {
+        path: 'vendors/new',
+        loadComponent: () =>
+          import('./pages/vendors/vendor-form').then(
+            (m) => m.VendorFormPage
+          ),
+      },
+      {
+        path: 'vendors/:id',
+        loadComponent: () =>
+          import('./pages/vendors/vendor-detail').then(
+            (m) => m.VendorDetailPage
+          ),
+      },
+      {
+        path: 'vendors/:id/edit',
+        loadComponent: () =>
+          import('./pages/vendors/vendor-form').then(
+            (m) => m.VendorFormPage
+          ),
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',

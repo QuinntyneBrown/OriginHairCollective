@@ -35,5 +35,6 @@ export class AdminLayout {
     { icon: 'group', label: 'Subscribers', route: '/subscribers' },
     { icon: 'view_carousel', label: 'Hero Content', route: '/hero-content' },
     { icon: 'verified', label: 'Trust Bar', route: '/trust-bar' },
+    { icon: 'handshake', label: 'Vendors', route: '/vendors' },
   ];
 }

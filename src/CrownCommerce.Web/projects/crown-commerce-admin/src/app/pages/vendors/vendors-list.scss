@@ -1,0 +1,74 @@
+@use '../shared-page';
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}
+
+.search-field {
+  width: 300px;
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+.filter-btn {
+  border-radius: var(--radius-full) !important;
+  --mdc-outlined-button-outline-color: var(--outline-variant);
+  --mdc-outlined-button-label-text-color: var(--primary);
+
+  mat-icon {
+    color: var(--primary);
+  }
+}
+
+.cell-bold {
+  font-weight: 500 !important;
+}
+
+.chip--pending {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.chip--evaluating {
+  background: var(--info-light, #e3f2fd);
+  color: var(--info, #1976d2);
+}
+
+.chip--approved {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.chip--rejected {
+  background: var(--error-light, #fce4ec);
+  color: var(--error);
+}
+
+.chip--trialorder {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.chip--rating-excellent {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.chip--rating-good {
+  background: var(--info-light, #e3f2fd);
+  color: var(--info, #1976d2);
+}
+
+.chip--rating-fair {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.chip--rating-poor {
+  background: var(--error-light, #fce4ec);
+  color: var(--error);
+}

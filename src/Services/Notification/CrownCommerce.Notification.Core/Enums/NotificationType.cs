@@ -11,5 +11,6 @@ public enum NotificationType
     WholesaleFollowUp,
     ChatConversationStarted,
     NewsletterConfirmation,
-    NewsletterCampaign
+    NewsletterCampaign,
+    VendorFollowUp
 }

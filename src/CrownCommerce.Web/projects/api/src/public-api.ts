@@ -46,6 +46,22 @@ export type {
   CampaignRecipient,
 } from './lib/models/newsletter.models';
 
+// Models — Vendor
+export type {
+  Vendor,
+  VendorDetail,
+  VendorScore,
+  VendorRedFlag,
+  VendorFollowUp,
+  CreateVendorRequest,
+  UpdateVendorRequest,
+  SaveScoresRequest,
+  ScoreItem,
+  SaveRedFlagsRequest,
+  RedFlagItem,
+  CreateFollowUpRequest,
+} from './lib/models/vendor.models';
+
 // Services
 export { AuthService } from './lib/services/auth.service';
 export { CatalogService } from './lib/services/catalog.service';
@@ -56,3 +72,4 @@ export { InquiryService } from './lib/services/inquiry.service';
 export { NotificationService } from './lib/services/notification.service';
 export { ChatService } from './lib/services/chat.service';
 export { NewsletterService } from './lib/services/newsletter.service';
+export { VendorService } from './lib/services/vendor.service';

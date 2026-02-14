@@ -1,0 +1,192 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Vendor Relations</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  @if (vendor(); as v) {
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="form-header-left">
+        <button mat-icon-button routerLink="/vendors">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div>
+          <h2 class="page-title">{{ v.companyName }}</h2>
+          <p class="page-subtitle">{{ v.platform }} &middot; {{ v.hairOriginCountry }} &middot; {{ v.contactEmail }}</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a mat-stroked-button [routerLink]="'/vendors/' + v.id + '/edit'">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </a>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-row">
+      <div class="summary-card">
+        <span class="summary-label">Status</span>
+        <span class="summary-value chip" [class]="'chip chip--' + v.status.toLowerCase()">{{ v.status }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Grand Total</span>
+        <span class="summary-value">{{ grandTotal() }} / {{ grandMax() }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Rating</span>
+        <span class="summary-value chip" [class]="'chip chip--rating-' + rating().toLowerCase()">{{ rating() }}</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Red Flags</span>
+        <span class="summary-value" [class.text-success]="allRedFlagsCleared()" [class.text-error]="!allRedFlagsCleared()">
+          {{ allRedFlagsCleared() ? 'All Clear' : 'Needs Review' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <mat-tab-group>
+      <!-- Checklist Scoring Tab -->
+      <mat-tab label="Checklist Scoring">
+        <div class="tab-content">
+          @for (section of sectionTotals(); track section.key) {
+            <mat-card class="section-card">
+              <div class="section-header">
+                <span class="section-title">{{ section.label }}</span>
+                <span class="section-score">{{ section.score }} / {{ section.max }}</span>
+              </div>
+              <div class="criteria-list">
+                @for (item of checklist(); track item.criterionNumber) {
+                  @if (item.section === section.key) {
+                    <div class="criterion-row">
+                      <span class="criterion-number">{{ item.criterionNumber }}</span>
+                      <span class="criterion-label">{{ item.criterionLabel }}</span>
+                      <mat-form-field appearance="outline" class="score-field">
+                        <input matInput type="number" [min]="0" [max]="item.maxScore" [(ngModel)]="item.score" placeholder="0">
+                      </mat-form-field>
+                      <span class="criterion-max">/ {{ item.maxScore }}</span>
+                      <mat-form-field appearance="outline" class="notes-field">
+                        <input matInput [(ngModel)]="item.notes" placeholder="Notes...">
+                      </mat-form-field>
+                    </div>
+                  }
+                }
+              </div>
+            </mat-card>
+          }
+
+          <div class="grand-total-row">
+            <span class="grand-total-label">Grand Total:</span>
+            <span class="grand-total-value">{{ grandTotal() }} / {{ grandMax() }}</span>
+            <span class="grand-total-rating chip" [class]="'chip chip--rating-' + rating().toLowerCase()">
+              {{ rating() }}
+            </span>
+          </div>
+
+          <div class="save-row">
+            <button mat-flat-button color="primary" class="primary-btn" (click)="saveScores()">
+              <mat-icon>save</mat-icon>
+              Save Scores
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Red Flags Tab -->
+      <mat-tab label="Red Flags">
+        <div class="tab-content">
+          <mat-card class="section-card">
+            <div class="section-header">
+              <span class="section-title">Red Flag Checklist</span>
+              <span class="section-score" [class.text-success]="allRedFlagsCleared()" [class.text-error]="!allRedFlagsCleared()">
+                {{ redFlags().filter(f => f.isCleared).length }} / {{ redFlags().length }} cleared
+              </span>
+            </div>
+            <p class="red-flag-note">Check each box to confirm the red flag is absent (no red flag found). Unchecked items require further investigation.</p>
+            <div class="red-flags-list">
+              @for (flag of redFlags(); track flag.description) {
+                <div class="red-flag-item">
+                  <mat-checkbox [(ngModel)]="flag.isCleared" color="primary">
+                    {{ flag.description }}
+                  </mat-checkbox>
+                </div>
+              }
+            </div>
+          </mat-card>
+
+          <div class="save-row">
+            <button mat-flat-button color="primary" class="primary-btn" (click)="saveRedFlags()">
+              <mat-icon>save</mat-icon>
+              Save Red Flags
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Follow-up Emails Tab -->
+      <mat-tab label="Follow-up Emails">
+        <div class="tab-content">
+          <!-- Compose Follow-up -->
+          <mat-card class="section-card">
+            <div class="section-header">
+              <span class="section-title">Send Follow-up Email</span>
+            </div>
+            <div class="follow-up-form">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Subject</mat-label>
+                <input matInput placeholder="e.g. Follow-up on sample order" [ngModel]="followUpSubject()" (ngModelChange)="followUpSubject.set($event)">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Message Body</mat-label>
+                <textarea matInput rows="6" placeholder="Enter your message..." [ngModel]="followUpBody()" (ngModelChange)="followUpBody.set($event)"></textarea>
+              </mat-form-field>
+              <div class="send-row">
+                <span class="send-note">Email will be sent to {{ v.contactEmail }}</span>
+                <button mat-flat-button color="primary" class="primary-btn" (click)="sendFollowUp()" [disabled]="sendingFollowUp() || !followUpSubject() || !followUpBody()">
+                  <mat-icon>send</mat-icon>
+                  Send Follow-up
+                </button>
+              </div>
+            </div>
+          </mat-card>
+
+          <!-- Follow-up History -->
+          @if (v.followUps.length > 0) {
+            <mat-card class="section-card">
+              <div class="section-header">
+                <span class="section-title">Follow-up History</span>
+              </div>
+              <table mat-table [dataSource]="v.followUps" class="table-full-width">
+                <ng-container matColumnDef="subject">
+                  <th mat-header-cell *matHeaderCellDef>Subject</th>
+                  <td mat-cell *matCellDef="let row">{{ row.subject }}</td>
+                </ng-container>
+                <ng-container matColumnDef="sentAt">
+                  <th mat-header-cell *matHeaderCellDef>Sent At</th>
+                  <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'medium' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let row">
+                    <span class="chip" [class]="row.isSent ? 'chip chip--success' : 'chip chip--warning'">
+                      {{ row.isSent ? 'Sent' : 'Pending' }}
+                    </span>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="followUpColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: followUpColumns;"></tr>
+              </table>
+            </mat-card>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  }
+</div>

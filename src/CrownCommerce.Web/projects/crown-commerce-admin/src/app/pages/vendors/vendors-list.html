@@ -1,0 +1,120 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Vendor Relations</h1>
+  <div class="toolbar-actions">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+  </div>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Vendors</h2>
+      <p class="page-subtitle">Manage and evaluate your hair vendors</p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/vendors/new" class="primary-btn">
+      <mat-icon>add</mat-icon>
+      Add Vendor
+    </a>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="filter-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Search vendors...">
+    </mat-form-field>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>filter_list</mat-icon>
+      Status
+    </button>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>public</mat-icon>
+      Platform
+    </button>
+    <button mat-stroked-button class="filter-btn">
+      <mat-icon>flag</mat-icon>
+      Country
+    </button>
+  </div>
+
+  <!-- Vendors Table -->
+  <div class="table-card">
+    <table mat-table [dataSource]="vendors()" class="table-full-width">
+      <ng-container matColumnDef="companyName">
+        <th mat-header-cell *matHeaderCellDef>Company Name</th>
+        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.companyName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="platform">
+        <th mat-header-cell *matHeaderCellDef>Platform</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="chip chip--default">{{ row.platform }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef>Hair Origin</th>
+        <td mat-cell *matCellDef="let row">{{ row.hairOriginCountry }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="chip" [class]="'chip chip--' + row.status.toLowerCase()">{{ row.status }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef>Score</th>
+        <td mat-cell *matCellDef="let row" class="cell-bold">
+          @if (row.grandTotal > 0) {
+            {{ row.grandTotal }} / {{ row.maxTotal }}
+          } @else {
+            --
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef>Rating</th>
+        <td mat-cell *matCellDef="let row">
+          @if (row.grandTotal > 0) {
+            <span class="chip" [class]="'chip chip--rating-' + row.rating.toLowerCase()">{{ row.rating }}</span>
+          } @else {
+            --
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="contact">
+        <th mat-header-cell *matHeaderCellDef>Contact</th>
+        <td mat-cell *matCellDef="let row">{{ row.contactName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="actions-cell">
+            <a mat-icon-button class="action-btn" [routerLink]="'/vendors/' + row.id">
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <a mat-icon-button class="action-btn" [routerLink]="'/vendors/' + row.id + '/edit'">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button mat-icon-button class="action-btn action-btn--delete" (click)="deleteVendor(row.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <div class="paginator-row">
+      <span class="paginator-text">Showing {{ vendors().length }} vendors</span>
+      <div class="paginator-buttons">
+        <button mat-stroked-button disabled>Previous</button>
+        <a mat-flat-button color="primary" class="primary-btn">Next</a>
+      </div>
+    </div>
+  </div>
+</div>
