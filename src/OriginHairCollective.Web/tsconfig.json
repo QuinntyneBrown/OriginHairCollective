@@ -4,6 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "api": [
+        "./dist/api"
+      ],
       "components": [
         "./dist/components"
       ]
@@ -28,6 +31,12 @@
   },
   "files": [],
   "references": [
+    {
+      "path": "./projects/api/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/api/tsconfig.spec.json"
+    },
     {
       "path": "./projects/components/tsconfig.lib.json"
     },

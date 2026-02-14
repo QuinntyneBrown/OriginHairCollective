@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-gold: #d4b896;
+  --color-rose: #b8816b;
+  --color-bg-primary: #0c0a09;
+  --color-bg-secondary: #171413;
+  --color-bg-card: #1e1b18;
+  --color-text-primary: #faf7f2;
+  --color-text-secondary: #9e958c;
+  --color-text-muted: #6b6560;
+  --color-text-faint: #4a4540;
+  --color-border: rgba(212, 184, 150, 0.082);
+  --color-gold-bg: rgba(212, 184, 150, 0.125);
+  --color-gold-border: rgba(212, 184, 150, 0.19);
+  --color-gold-border-strong: rgba(212, 184, 150, 0.25);
+
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

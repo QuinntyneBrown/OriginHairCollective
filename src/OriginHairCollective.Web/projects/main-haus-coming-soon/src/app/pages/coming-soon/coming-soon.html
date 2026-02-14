@@ -1,0 +1,52 @@
+<div class="coming-soon">
+  <!-- Nav -->
+  <header class="coming-soon__nav">
+    <lib-logo text="MANE HAUS" />
+  </header>
+
+  <!-- Spacer -->
+  <div class="coming-soon__spacer"></div>
+
+  <!-- Accent Line -->
+  <lib-divider variant="accent" />
+
+  <!-- Pre-heading -->
+  <span class="coming-soon__pre">SOMETHING BEAUTIFUL IS COMING</span>
+
+  <!-- Title -->
+  <h1 class="coming-soon__title">
+    <span class="coming-soon__title--mobile">MANE<br>HAUS</span>
+    <span class="coming-soon__title--desktop">MANE HAUS</span>
+  </h1>
+
+  <!-- Tagline -->
+  <p class="coming-soon__tagline">
+    <span class="coming-soon__tagline--mobile">Luxury Hair Extensions &amp; Styling</span>
+    <span class="coming-soon__tagline--desktop">Luxury Hair Extensions &amp; Styling &nbsp;&middot;&nbsp; Toronto</span>
+  </p>
+
+  <!-- Divider -->
+  <div class="coming-soon__divider"></div>
+
+  <!-- Countdown -->
+  <lib-countdown-timer [targetDate]="launchDate" />
+
+  <!-- Email Signup -->
+  <div class="coming-soon__signup">
+    <span class="coming-soon__signup-label">Be the first to know</span>
+    <lib-email-signup
+      placeholder="Enter your email"
+      buttonText="NOTIFY ME"
+      (submitted)="onEmailSubmitted($event)"
+    />
+  </div>
+
+  <!-- Spacer -->
+  <div class="coming-soon__spacer"></div>
+
+  <!-- Footer -->
+  <footer class="coming-soon__footer">
+    <a href="https://instagram.com/manehaus" class="coming-soon__social">@ManeHaus</a>
+    <span class="coming-soon__copy">&copy; 2026 Mane Haus. All rights reserved.</span>
+  </footer>
+</div>
