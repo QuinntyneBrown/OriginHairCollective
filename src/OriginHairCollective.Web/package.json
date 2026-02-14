@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve origin-hair-collective",
+    "start:mane-haus": "ng serve main-haus-coming-soon",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
