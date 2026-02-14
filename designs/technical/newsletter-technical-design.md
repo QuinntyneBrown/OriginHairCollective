@@ -4,7 +4,9 @@
 
 This document describes the technical design for adding newsletter capabilities to the Origin Hair Collective platform. The feature enables the business to build a subscriber list, compose newsletter campaigns, and deliver email content to opted-in customers — covering product launches, promotions, hair care tips, and company updates.
 
-The design follows the existing microservices architecture, event-driven patterns, and layered project conventions already established in the codebase.
+The Newsletter service supports **two distinct brands** — **Origin Hair Collective** and **Mane Haus** — from a single microservice deployment. Each brand maintains its own subscriber list, email sender identity, email branding, and campaign management. Both brands' coming soon pages integrate with this service for pre-launch email collection.
+
+The design follows the existing microservices architecture, event-driven patterns, and layered project conventions already established in the codebase. For the full multi-brand architecture, see `dual-frontend-microservices-design.md`.
 
 ---
 
@@ -19,6 +21,11 @@ The design follows the existing microservices architecture, event-driven pattern
 - Track delivery metrics (sent, opened, clicked, bounced, unsubscribed) per campaign.
 - Integrate with existing services via MassTransit events — auto-subscribe users at registration or order placement when they opt in.
 - Support audience segmentation by subscriber tags/preferences.
+- **Support brand-scoped subscriber lists** — Origin Hair Collective and Mane Haus each have independent subscriber bases within the same database.
+- **Support brand-specific email branding** — sender name, sender email, logo, color scheme, footer text, and social links differ by brand.
+- **Power both coming soon pages** — the Origin Hair Collective coming soon page and the Mane Haus coming soon page both collect email subscribers through this service.
+- **Support brand-scoped campaigns** — campaigns are created for a specific brand and sent only to that brand's subscribers.
+- **Provide brand-filtered admin views** — the admin dashboard can filter subscribers, campaigns, and stats by brand.
 
 ### Non-Goals
 
@@ -26,6 +33,7 @@ The design follows the existing microservices architecture, event-driven pattern
 - A/B testing of subject lines or content variants (future enhancement).
 - Real-time push notifications or SMS newsletter delivery.
 - Paid subscription tiers or premium newsletter content.
+- Cross-brand campaigns (a single campaign that sends to subscribers of both brands simultaneously). Admins must create separate campaigns per brand.
 
 ---
 
@@ -44,33 +52,53 @@ src/Services/Newsletter/
 ### Service Interaction Diagram
 
 ```
-┌──────────────┐     ┌───────────────┐     ┌──────────────────┐
-│   Angular    │────▶│  API Gateway  │────▶│  Newsletter API   │
-│   Frontend   │     │   (YARP)      │     │  /api/newsletters  │
-└──────────────┘     └───────────────┘     └────────┬─────────┘
-                                                     │
-                          ┌──────────────────────────┤
-                          │                          │
-                          ▼                          ▼
-                   ┌─────────────┐          ┌──────────────────┐
-                   │  RabbitMQ   │          │  Newsletter DB   │
-                   │ (MassTransit)│          │   (SQLite)       │
-                   └──────┬──────┘          └──────────────────┘
-                          │
-              ┌───────────┼───────────┐
-              ▼           ▼           ▼
-     ┌──────────────┐ ┌────────┐ ┌────────────┐
-     │  Identity    │ │ Order  │ │ Notification│
-     │  Service     │ │Service │ │  Service    │
-     └──────────────┘ └────────┘ └────────────┘
+┌──────────────────────────┐     ┌──────────────────────────┐
+│  Origin Hair Collective  │     │       Mane Haus          │
+│  Coming Soon / Marketing │     │  Coming Soon / Marketing │
+│  X-Brand: Origin         │     │  X-Brand: ManeHaus       │
+│  HairCollective          │     │                          │
+└────────────┬─────────────┘     └────────────┬─────────────┘
+             │                                 │
+             └─────────────┬───────────────────┘
+                           │
+                  ┌────────▼─────────┐
+                  │   API Gateway    │
+                  │   (YARP)         │
+                  │   Forwards       │
+                  │   X-Brand header │
+                  └────────┬─────────┘
+                           │
+                  ┌────────▼─────────────────┐
+                  │    Newsletter API         │
+                  │    /api/newsletters       │
+                  │                           │
+                  │  Reads X-Brand header     │
+                  │  to scope all operations  │
+                  │  by brand                 │
+                  └───┬──────────────┬────────┘
+                      │              │
+           ┌──────────┘              └──────────┐
+           ▼                                    ▼
+    ┌─────────────┐                   ┌──────────────────┐
+    │  RabbitMQ   │                   │  Newsletter DB   │
+    │ (MassTransit)│                   │   (SQLite)       │
+    └──────┬──────┘                   │                  │
+           │                          │  Subscribers,    │
+  ┌────────┼────────┐                │  Campaigns all   │
+  ▼        ▼        ▼                │  have Brand col  │
+┌────────┐┌────────┐┌────────────┐   └──────────────────┘
+│Identity││ Order  ││Notification│
+│Service ││Service ││  Service   │
+└────────┘└────────┘└────────────┘
 ```
 
 **Key relationships:**
 
-- **Identity Service** publishes `UserRegisteredEvent` — Newsletter service auto-creates a subscriber record when users opt in during registration.
-- **Order Service** publishes `OrderCreatedEvent` — Newsletter service can subscribe customers who opted in at checkout.
-- **Newsletter Service** publishes `NewsletterSentEvent` — Notification service logs the send for audit purposes.
-- **Newsletter Service** owns its subscriber list, campaigns, and delivery tracking independently.
+- **Both frontends** (Origin and Mane Haus coming soon pages, marketing sites) call the same Newsletter API endpoints. The `X-Brand` HTTP header identifies which brand the request is for.
+- **Identity Service** publishes `UserRegisteredEvent` (with `Brand` field) — Newsletter service auto-creates a subscriber record for the corresponding brand when users opt in during registration.
+- **Order Service** publishes `OrderCreatedEvent` (with `Brand` field) — Newsletter service can subscribe customers who opted in at checkout, scoped to the brand they purchased from.
+- **Newsletter Service** publishes `NewsletterSentEvent` (with `Brand` field) — Notification service logs the send for audit purposes.
+- **Newsletter Service** owns its subscriber list, campaigns, and delivery tracking independently. Brand is a data-level discriminator, not an infrastructure-level separation.
 
 ---
 
@@ -80,7 +108,7 @@ src/Services/Newsletter/
 
 #### `Subscriber`
 
-The core entity representing a newsletter subscriber.
+The core entity representing a newsletter subscriber. A single email address can subscribe to both brands independently — the unique constraint is on `(Email, Brand)`.
 
 ```csharp
 public sealed class Subscriber
@@ -96,6 +124,7 @@ public sealed class Subscriber
     public DateTime CreatedAt { get; set; }
     public DateTime? UnsubscribedAt { get; set; }
     public string? UnsubscribeToken { get; set; }     // One-click unsubscribe token
+    public Brand Brand { get; set; }                  // OriginHairCollective or ManeHaus
     public ICollection<SubscriberTag> Tags { get; set; }
 }
 ```
@@ -116,7 +145,7 @@ public sealed class SubscriberTag
 
 #### `Campaign`
 
-Represents a single newsletter edition or email blast.
+Represents a single newsletter edition or email blast. Each campaign targets a specific brand's subscriber list.
 
 ```csharp
 public sealed class Campaign
@@ -128,7 +157,8 @@ public sealed class Campaign
     public CampaignStatus Status { get; set; }        // Draft, Scheduled, Sending, Sent, Cancelled
     public DateTime? ScheduledAt { get; set; }
     public DateTime? SentAt { get; set; }
-    public string? TargetTag { get; set; }             // null = all active subscribers
+    public string? TargetTag { get; set; }             // null = all active subscribers for the brand
+    public Brand Brand { get; set; }                   // Which brand this campaign is sent from
     public int TotalRecipients { get; set; }
     public int TotalSent { get; set; }
     public int TotalOpened { get; set; }
@@ -201,19 +231,22 @@ The Newsletter service uses its own isolated SQLite database (`newsletter.db`), 
 
 #### `Subscribers`
 
-| Column             | Type         | Constraints                  |
-|--------------------|--------------|------------------------------|
-| Id                 | GUID         | PK                           |
-| Email              | TEXT         | NOT NULL, UNIQUE INDEX       |
-| FirstName          | TEXT         | NULLABLE                     |
-| LastName           | TEXT         | NULLABLE                     |
-| UserId             | GUID         | NULLABLE, INDEX              |
-| Status             | INTEGER      | NOT NULL (enum)              |
-| ConfirmationToken  | TEXT         | NULLABLE                     |
-| ConfirmedAt        | DATETIME     | NULLABLE                     |
-| CreatedAt          | DATETIME     | NOT NULL                     |
-| UnsubscribedAt     | DATETIME     | NULLABLE                     |
-| UnsubscribeToken   | TEXT         | NULLABLE, UNIQUE INDEX       |
+| Column             | Type         | Constraints                          |
+|--------------------|--------------|--------------------------------------|
+| Id                 | GUID         | PK                                   |
+| Email              | TEXT         | NOT NULL                             |
+| FirstName          | TEXT         | NULLABLE                             |
+| LastName           | TEXT         | NULLABLE                             |
+| UserId             | GUID         | NULLABLE, INDEX                      |
+| Status             | INTEGER      | NOT NULL (enum)                      |
+| ConfirmationToken  | TEXT         | NULLABLE                             |
+| ConfirmedAt        | DATETIME     | NULLABLE                             |
+| CreatedAt          | DATETIME     | NOT NULL                             |
+| UnsubscribedAt     | DATETIME     | NULLABLE                             |
+| UnsubscribeToken   | TEXT         | NULLABLE, UNIQUE INDEX               |
+| Brand              | INTEGER      | NOT NULL, DEFAULT 0, INDEX           |
+
+**Unique Index:** (`Email`, `Brand`) — allows the same email to subscribe to both brands independently.
 
 #### `SubscriberTags`
 
@@ -228,25 +261,26 @@ The Newsletter service uses its own isolated SQLite database (`newsletter.db`), 
 
 #### `Campaigns`
 
-| Column            | Type         | Constraints       |
-|-------------------|--------------|--------------------|
-| Id                | GUID         | PK                 |
-| Subject           | TEXT         | NOT NULL           |
-| HtmlBody          | TEXT         | NOT NULL           |
-| PlainTextBody     | TEXT         | NULLABLE           |
-| Status            | INTEGER      | NOT NULL (enum)    |
-| ScheduledAt       | DATETIME     | NULLABLE           |
-| SentAt            | DATETIME     | NULLABLE           |
-| TargetTag         | TEXT         | NULLABLE           |
-| TotalRecipients   | INTEGER      | NOT NULL, DEFAULT 0|
-| TotalSent         | INTEGER      | NOT NULL, DEFAULT 0|
-| TotalOpened       | INTEGER      | NOT NULL, DEFAULT 0|
-| TotalClicked      | INTEGER      | NOT NULL, DEFAULT 0|
-| TotalBounced      | INTEGER      | NOT NULL, DEFAULT 0|
-| TotalUnsubscribed | INTEGER      | NOT NULL, DEFAULT 0|
-| CreatedByUserId   | GUID         | NOT NULL           |
-| CreatedAt         | DATETIME     | NOT NULL           |
-| UpdatedAt         | DATETIME     | NULLABLE           |
+| Column            | Type         | Constraints             |
+|-------------------|--------------|--------------------------|
+| Id                | GUID         | PK                       |
+| Subject           | TEXT         | NOT NULL                 |
+| HtmlBody          | TEXT         | NOT NULL                 |
+| PlainTextBody     | TEXT         | NULLABLE                 |
+| Status            | INTEGER      | NOT NULL (enum)          |
+| ScheduledAt       | DATETIME     | NULLABLE                 |
+| SentAt            | DATETIME     | NULLABLE                 |
+| TargetTag         | TEXT         | NULLABLE                 |
+| Brand             | INTEGER      | NOT NULL, DEFAULT 0, INDEX|
+| TotalRecipients   | INTEGER      | NOT NULL, DEFAULT 0      |
+| TotalSent         | INTEGER      | NOT NULL, DEFAULT 0      |
+| TotalOpened       | INTEGER      | NOT NULL, DEFAULT 0      |
+| TotalClicked      | INTEGER      | NOT NULL, DEFAULT 0      |
+| TotalBounced      | INTEGER      | NOT NULL, DEFAULT 0      |
+| TotalUnsubscribed | INTEGER      | NOT NULL, DEFAULT 0      |
+| CreatedByUserId   | GUID         | NOT NULL                 |
+| CreatedAt         | DATETIME     | NOT NULL                 |
+| UpdatedAt         | DATETIME     | NULLABLE                 |
 
 #### `CampaignRecipients`
 
@@ -270,12 +304,15 @@ The Newsletter service uses its own isolated SQLite database (`newsletter.db`), 
 
 All endpoints are exposed through the API Gateway at `/api/newsletters/*` with prefix stripping. The Newsletter API internally handles routes without the prefix.
 
+**Brand resolution:** Public endpoints resolve the brand from the `X-Brand` HTTP header (set by the frontend's HTTP interceptor). If the header is absent, the service defaults to `Brand.OriginHairCollective` for backwards compatibility. Admin endpoints accept an explicit `brand` query parameter or use the `X-Brand` header.
+
 ### 6.1 Public Endpoints (No Authentication)
 
 #### Subscribe
 
 ```
 POST /api/newsletters/subscribe
+Headers: X-Brand: OriginHairCollective | ManeHaus
 ```
 
 **Request Body:**
@@ -296,12 +333,15 @@ POST /api/newsletters/subscribe
 ```
 
 **Behavior:**
-1. Validate email format.
-2. If the email already exists and is `Active`, return `200` with an informational message.
-3. If the email already exists and is `Unsubscribed`, reset status to `Pending` and issue a new confirmation token.
-4. Generate a `ConfirmationToken` (cryptographic random, URL-safe).
-5. Persist `Subscriber` with `Status = Pending`.
-6. Publish `SubscriptionRequestedEvent` to trigger confirmation email via the Notification service.
+1. Resolve `Brand` from `X-Brand` header via `IBrandResolver`.
+2. Validate email format.
+3. If the email already exists **for this brand** and is `Active`, return `200` with an informational message.
+4. If the email already exists **for this brand** and is `Unsubscribed`, reset status to `Pending` and issue a new confirmation token.
+5. Generate a `ConfirmationToken` (cryptographic random, URL-safe).
+6. Persist `Subscriber` with `Status = Pending` and the resolved `Brand`.
+7. Publish `SubscriptionRequestedEvent` (including `Brand`) to trigger a brand-specific confirmation email via the Notification service.
+
+**Coming soon page integration:** Both the Origin Hair Collective coming soon page and the Mane Haus coming soon page call this endpoint. The `X-Brand` header is set automatically by each frontend's HTTP interceptor, ensuring subscribers are assigned to the correct brand.
 
 #### Confirm Subscription
 
@@ -368,10 +408,12 @@ GET /api/newsletters/track/click?cid={campaignId}&sid={subscriberId}&url={encode
 
 ### 6.2 Admin Endpoints (Requires JWT Authentication, Admin Role)
 
+All admin endpoints accept an optional `brand` query parameter to filter results by brand. If omitted, the `X-Brand` header is used. The admin dashboard sends the `X-Brand` header based on the admin's brand selector.
+
 #### List Subscribers
 
 ```
-GET /api/newsletters/admin/subscribers?page=1&pageSize=25&status=Active&tag=promotions
+GET /api/newsletters/admin/subscribers?page=1&pageSize=25&status=Active&tag=promotions&brand=OriginHairCollective
 ```
 
 **Response:** `200 OK`
@@ -384,6 +426,7 @@ GET /api/newsletters/admin/subscribers?page=1&pageSize=25&status=Active&tag=prom
       "firstName": "Jane",
       "lastName": "Doe",
       "status": "Active",
+      "brand": "OriginHairCollective",
       "tags": ["new-arrivals", "promotions"],
       "confirmedAt": "2026-01-15T10:30:00Z",
       "createdAt": "2026-01-15T10:00:00Z"
@@ -398,7 +441,7 @@ GET /api/newsletters/admin/subscribers?page=1&pageSize=25&status=Active&tag=prom
 #### Get Subscriber Count by Status
 
 ```
-GET /api/newsletters/admin/subscribers/stats
+GET /api/newsletters/admin/subscribers/stats?brand=OriginHairCollective
 ```
 
 **Response:** `200 OK`
@@ -407,7 +450,8 @@ GET /api/newsletters/admin/subscribers/stats
   "totalActive": 142,
   "totalPending": 8,
   "totalUnsubscribed": 23,
-  "recentSubscribers": 12
+  "recentSubscribers": 12,
+  "brand": "OriginHairCollective"
 }
 ```
 
@@ -422,10 +466,10 @@ DELETE /api/newsletters/admin/subscribers/{id}
 #### List Campaigns
 
 ```
-GET /api/newsletters/admin/campaigns?page=1&pageSize=10&status=Sent
+GET /api/newsletters/admin/campaigns?page=1&pageSize=10&status=Sent&brand=ManeHaus
 ```
 
-**Response:** `200 OK` with paginated campaign list including metrics.
+**Response:** `200 OK` with paginated campaign list including metrics. Each campaign includes its `brand` field.
 
 #### Get Campaign Details
 
@@ -448,15 +492,16 @@ POST /api/newsletters/admin/campaigns
   "htmlBody": "<html>...</html>",
   "plainTextBody": "Spring Collection is Here! ...",
   "targetTag": "new-arrivals",
-  "scheduledAt": "2026-03-01T09:00:00Z"
+  "scheduledAt": "2026-03-01T09:00:00Z",
+  "brand": "OriginHairCollective"
 }
 ```
 
 **Response:** `201 Created`
 
 **Behavior:**
-1. Validate required fields.
-2. Create campaign with `Status = Draft` (or `Scheduled` if `scheduledAt` is provided).
+1. Validate required fields including `brand`.
+2. Create campaign with `Status = Draft` (or `Scheduled` if `scheduledAt` is provided) and the specified `Brand`.
 3. `CreatedByUserId` is extracted from the JWT claims.
 
 #### Update Campaign
@@ -485,10 +530,10 @@ POST /api/newsletters/admin/campaigns/{id}/send
 
 **Behavior:**
 1. Validate campaign is in `Draft` or `Scheduled` status.
-2. Query active subscribers (filtered by `TargetTag` if set).
+2. Query active subscribers **for the campaign's brand** (filtered by `TargetTag` if set).
 3. Create `CampaignRecipient` records with `Status = Queued`.
 4. Set `Campaign.Status = Sending`, `Campaign.TotalRecipients`.
-5. Publish `CampaignSendRequestedEvent` to begin asynchronous delivery.
+5. Publish `CampaignSendRequestedEvent` (including `Brand`) to begin asynchronous delivery.
 
 #### Cancel Campaign
 
@@ -516,6 +561,8 @@ New event records added to `OriginHairCollective.Shared.Contracts`:
 
 ### Events Published by Newsletter Service
 
+All events include a `Brand` field so that consumers can take brand-appropriate actions (e.g., brand-specific confirmation email templates, brand-tagged audit logs).
+
 ```csharp
 // Triggers confirmation email via Notification service
 public sealed record SubscriptionRequestedEvent(
@@ -523,18 +570,21 @@ public sealed record SubscriptionRequestedEvent(
     string Email,
     string? FirstName,
     string ConfirmationToken,
+    Brand Brand,                    // Which brand the subscriber signed up for
     DateTime OccurredAt);
 
 // Informational — subscriber is now active
 public sealed record SubscriberConfirmedEvent(
     Guid SubscriberId,
     string Email,
+    Brand Brand,
     DateTime OccurredAt);
 
 // Informational — subscriber opted out
 public sealed record SubscriberUnsubscribedEvent(
     Guid SubscriberId,
     string Email,
+    Brand Brand,
     DateTime OccurredAt);
 
 // Triggers batch email delivery
@@ -542,6 +592,7 @@ public sealed record CampaignSendRequestedEvent(
     Guid CampaignId,
     string Subject,
     int TotalRecipients,
+    Brand Brand,                    // Determines sender identity and email branding
     DateTime OccurredAt);
 
 // Published after all recipients have been processed
@@ -549,6 +600,7 @@ public sealed record CampaignCompletedEvent(
     Guid CampaignId,
     int TotalSent,
     int TotalFailed,
+    Brand Brand,
     DateTime OccurredAt);
 ```
 
@@ -556,21 +608,24 @@ public sealed record CampaignCompletedEvent(
 
 ```csharp
 // Existing event — Newsletter service adds a consumer to auto-subscribe
-// customers who opt in during registration
+// customers who opt in during registration. The Brand field determines
+// which brand's subscriber list the user is added to.
 public sealed record UserRegisteredEvent(
     Guid UserId,
     string Email,
     string FirstName,
     string LastName,
     bool NewsletterOptIn,
+    Brand Brand,                    // Which brand site the user registered from
     DateTime OccurredAt);
 
 // Existing event — auto-subscribe at checkout if opted in
-// (OrderCreatedEvent already exists in Shared.Contracts)
-// Newsletter consumer checks for an opt-in flag
+// (OrderCreatedEvent already exists in Shared.Contracts with Brand field)
+// Newsletter consumer checks for an opt-in flag and uses the Brand field
+// to assign the subscriber to the correct brand
 ```
 
-**Note:** `UserRegisteredEvent` is a new event that would need to be published by the Identity service when a user registers. The `OrderCreatedEvent` already exists; the Newsletter service adds its own consumer that only acts if the customer opted in (determined by a new `NewsletterOptIn` field on the order or a separate subscription check).
+**Note:** `UserRegisteredEvent` includes a `Brand` field indicating which frontend the user registered through. The Newsletter consumer creates a subscriber record scoped to that brand. If a user registers on both sites, they will have separate subscriber records per brand.
 
 ---
 
@@ -580,15 +635,15 @@ public sealed record UserRegisteredEvent(
 
 | Consumer | Listens To | Behavior |
 |----------|-----------|----------|
-| `UserRegisteredNewsletterConsumer` | `UserRegisteredEvent` | If `NewsletterOptIn = true`, create subscriber with `Status = Active` (implicit consent via registration), set `UserId` link. |
-| `CampaignSendConsumer` | `CampaignSendRequestedEvent` | Fetches all `Queued` recipients for the campaign, sends emails in batches via `IEmailSender`, updates `CampaignRecipient` statuses, publishes `CampaignCompletedEvent` when done. |
+| `UserRegisteredNewsletterConsumer` | `UserRegisteredEvent` | If `NewsletterOptIn = true`, create subscriber with `Status = Active` (implicit consent via registration), set `UserId` link, set `Brand` from event's `Brand` field. |
+| `CampaignSendConsumer` | `CampaignSendRequestedEvent` | Fetches all `Queued` recipients for the campaign, resolves brand-specific sender identity from `BrandSettings`, sends emails in batches via `IEmailSender` with brand-appropriate `FromName`/`FromEmail`, updates `CampaignRecipient` statuses, publishes `CampaignCompletedEvent` (with `Brand`) when done. |
 
 ### 8.2 Notification Service Consumers (New)
 
 | Consumer | Listens To | Behavior |
 |----------|-----------|----------|
-| `SubscriptionConfirmationConsumer` | `SubscriptionRequestedEvent` | Sends the double opt-in confirmation email with the confirmation link. Logs to `NotificationLog` with `Type = NewsletterConfirmation`. |
-| `CampaignCompletedNotificationConsumer` | `CampaignCompletedEvent` | Logs the campaign completion in `NotificationLog` for audit. |
+| `SubscriptionConfirmationConsumer` | `SubscriptionRequestedEvent` | Reads `Brand` from event, resolves brand-specific sender identity and confirmation URL from `BrandSettings`, sends the double opt-in confirmation email with brand-appropriate branding. Logs to `NotificationLog` with `Type = NewsletterConfirmation` and `Brand`. |
+| `CampaignCompletedNotificationConsumer` | `CampaignCompletedEvent` | Logs the campaign completion in `NotificationLog` for audit with `Brand`. |
 
 ### Required Enum Updates
 
@@ -646,12 +701,17 @@ Configuration via `appsettings.json`:
       "UseSsl": true,
       "Username": "...",
       "Password": "..."
-    },
-    "FromName": "Origin Hair Collective",
-    "FromEmail": "hello@originhair.com"
+    }
   }
 }
 ```
+
+**Note:** `FromName` and `FromEmail` are no longer static configuration values. They are resolved per-request from `BrandSettings` based on the subscriber's or campaign's `Brand`:
+
+| Brand | FromName | FromEmail |
+|-------|----------|-----------|
+| OriginHairCollective | Origin Hair Collective | newsletter@originhair.com |
+| ManeHaus | Mane Haus | newsletter@manehaus.com |
 
 **Phase 2 (Future) — SendGrid / Amazon SES:**
 
@@ -684,14 +744,33 @@ Before sending, the service processes the HTML body to:
 
 1. **Inject tracking pixel:** Append a `<img>` tag pointing to the open-tracking endpoint.
 2. **Rewrite links:** Replace `<a href="...">` URLs with click-tracking redirect URLs.
-3. **Inject unsubscribe link:** Add the subscriber-specific unsubscribe URL to the email footer and the `List-Unsubscribe` header (RFC 8058 compliance).
+3. **Inject unsubscribe link:** Add the subscriber-specific unsubscribe URL to the email footer and the `List-Unsubscribe` header (RFC 8058 compliance). The unsubscribe URL uses the brand-specific base URL.
+4. **Inject brand-specific footer:** Include brand logo, social links, copyright text, and contact email from `BrandConfig`.
 
 ```csharp
 public interface IEmailContentProcessor
 {
-    string ProcessHtml(string htmlBody, Guid campaignId, Guid subscriberId, string unsubscribeToken);
+    string ProcessHtml(
+        string htmlBody,
+        Guid campaignId,
+        Guid subscriberId,
+        string unsubscribeToken,
+        Brand brand,                // Determines logo, colors, footer text
+        BrandConfig brandConfig);   // Provides brand-specific URLs and names
 }
 ```
+
+**Brand-specific email template elements:**
+
+| Element | Origin Hair Collective | Mane Haus |
+|---------|----------------------|-----------|
+| Logo | Origin Hair Collective logo asset | Mane Haus logo asset |
+| Color palette | Gold (#C9A96E) and charcoal (#0B0A08) | Brand-specific palette (TBD) |
+| Footer display name | "Origin Hair Collective" | "Mane Haus" |
+| Footer URL | originhair.com | manehaus.com |
+| Unsubscribe base URL | `https://originhair.com/api/newsletters/unsubscribe` | `https://manehaus.com/api/newsletters/unsubscribe` |
+| Social link | `@OriginHairCollective` | `@ManeHaus` |
+| Contact email | hello@originhaircollective.com | hello@manehaus.com |
 
 ---
 
@@ -828,6 +907,9 @@ Admin endpoints use the existing JWT bearer authentication from the Identity ser
 ### Subscribe DTOs
 
 ```csharp
+// Brand is resolved from the X-Brand header, not included in the request body.
+// This keeps the public API simple — the coming soon pages and marketing sites
+// don't need to know about the Brand enum.
 public sealed record SubscribeRequestDto(
     string Email,
     string? FirstName,
@@ -846,6 +928,7 @@ public sealed record SubscriberDto(
     string? FirstName,
     string? LastName,
     string Status,
+    Brand Brand,                    // NEW — which brand this subscriber belongs to
     List<string> Tags,
     DateTime? ConfirmedAt,
     DateTime CreatedAt,
@@ -855,7 +938,8 @@ public sealed record SubscriberStatsDto(
     int TotalActive,
     int TotalPending,
     int TotalUnsubscribed,
-    int RecentSubscribers);
+    int RecentSubscribers,
+    Brand Brand);                   // NEW — stats are brand-scoped
 
 public sealed record PagedResultDto<T>(
     IReadOnlyList<T> Items,
@@ -872,7 +956,8 @@ public sealed record CreateCampaignDto(
     string HtmlBody,
     string? PlainTextBody,
     string? TargetTag,
-    DateTime? ScheduledAt);
+    DateTime? ScheduledAt,
+    Brand Brand);                   // NEW — admin explicitly selects brand
 
 public sealed record UpdateCampaignDto(
     string? Subject,
@@ -880,12 +965,14 @@ public sealed record UpdateCampaignDto(
     string? PlainTextBody,
     string? TargetTag,
     DateTime? ScheduledAt);
+    // Brand cannot be changed after creation
 
 public sealed record CampaignDto(
     Guid Id,
     string Subject,
     string Status,
     string? TargetTag,
+    Brand Brand,                    // NEW
     int TotalRecipients,
     int TotalSent,
     int TotalOpened,
@@ -903,6 +990,7 @@ public sealed record CampaignDetailDto(
     string? PlainTextBody,
     string Status,
     string? TargetTag,
+    Brand Brand,                    // NEW
     int TotalRecipients,
     int TotalSent,
     int TotalOpened,
@@ -933,13 +1021,13 @@ public sealed record CampaignRecipientDto(
 public interface ISubscriberRepository
 {
     Task<Subscriber?> GetByIdAsync(Guid id, CancellationToken ct = default);
-    Task<Subscriber?> GetByEmailAsync(string email, CancellationToken ct = default);
+    Task<Subscriber?> GetByEmailAndBrandAsync(string email, Brand brand, CancellationToken ct = default);
     Task<Subscriber?> GetByConfirmationTokenAsync(string token, CancellationToken ct = default);
     Task<Subscriber?> GetByUnsubscribeTokenAsync(string token, CancellationToken ct = default);
     Task<(IReadOnlyList<Subscriber> Items, int TotalCount)> GetPagedAsync(
-        int page, int pageSize, SubscriberStatus? status, string? tag, CancellationToken ct = default);
-    Task<IReadOnlyList<Subscriber>> GetActiveByTagAsync(string? tag, CancellationToken ct = default);
-    Task<SubscriberStats> GetStatsAsync(CancellationToken ct = default);
+        int page, int pageSize, SubscriberStatus? status, string? tag, Brand? brand, CancellationToken ct = default);
+    Task<IReadOnlyList<Subscriber>> GetActiveByTagAndBrandAsync(string? tag, Brand brand, CancellationToken ct = default);
+    Task<SubscriberStats> GetStatsByBrandAsync(Brand brand, CancellationToken ct = default);
     Task AddAsync(Subscriber subscriber, CancellationToken ct = default);
     Task UpdateAsync(Subscriber subscriber, CancellationToken ct = default);
     Task DeleteAsync(Guid id, CancellationToken ct = default);
@@ -949,7 +1037,7 @@ public interface ICampaignRepository
 {
     Task<Campaign?> GetByIdAsync(Guid id, CancellationToken ct = default);
     Task<(IReadOnlyList<Campaign> Items, int TotalCount)> GetPagedAsync(
-        int page, int pageSize, CampaignStatus? status, CancellationToken ct = default);
+        int page, int pageSize, CampaignStatus? status, Brand? brand, CancellationToken ct = default);
     Task<IReadOnlyList<Campaign>> GetScheduledDueAsync(DateTime asOf, CancellationToken ct = default);
     Task AddAsync(Campaign campaign, CancellationToken ct = default);
     Task UpdateAsync(Campaign campaign, CancellationToken ct = default);
@@ -967,6 +1055,13 @@ public interface ICampaignRecipientRepository
 }
 ```
 
+**Key changes from single-brand design:**
+- `GetByEmailAsync` is replaced by `GetByEmailAndBrandAsync` — the same email may exist as two separate subscribers (one per brand).
+- `GetPagedAsync` accepts an optional `Brand?` filter — admin can view subscribers for a specific brand or all.
+- `GetActiveByTagAsync` is replaced by `GetActiveByTagAndBrandAsync` — campaign sends target a specific brand's subscribers.
+- `GetStatsAsync` is replaced by `GetStatsByBrandAsync` — stats are always brand-scoped.
+- `GetScheduledDueAsync` does not filter by brand — the scheduler processes all due campaigns regardless of brand.
+
 ---
 
 ## 15. Service Layer
@@ -974,7 +1069,9 @@ public interface ICampaignRecipientRepository
 ```csharp
 public interface INewsletterSubscriptionService
 {
+    // Brand is resolved internally via IBrandResolver from the X-Brand header
     Task<SubscribeResponseDto> SubscribeAsync(SubscribeRequestDto request, CancellationToken ct = default);
+    // Confirm and Unsubscribe are token-based — brand is resolved from the subscriber record
     Task ConfirmAsync(string token, CancellationToken ct = default);
     Task UnsubscribeAsync(string token, CancellationToken ct = default);
 }
@@ -982,13 +1079,13 @@ public interface INewsletterSubscriptionService
 public interface INewsletterAdminService
 {
     Task<PagedResultDto<SubscriberDto>> GetSubscribersAsync(
-        int page, int pageSize, SubscriberStatus? status, string? tag, CancellationToken ct = default);
-    Task<SubscriberStatsDto> GetSubscriberStatsAsync(CancellationToken ct = default);
+        int page, int pageSize, SubscriberStatus? status, string? tag, Brand? brand, CancellationToken ct = default);
+    Task<SubscriberStatsDto> GetSubscriberStatsAsync(Brand brand, CancellationToken ct = default);
     Task DeleteSubscriberAsync(Guid id, CancellationToken ct = default);
     Task<CampaignDetailDto> CreateCampaignAsync(CreateCampaignDto request, Guid userId, CancellationToken ct = default);
     Task<CampaignDetailDto> UpdateCampaignAsync(Guid id, UpdateCampaignDto request, CancellationToken ct = default);
     Task<PagedResultDto<CampaignDto>> GetCampaignsAsync(
-        int page, int pageSize, CampaignStatus? status, CancellationToken ct = default);
+        int page, int pageSize, CampaignStatus? status, Brand? brand, CancellationToken ct = default);
     Task<CampaignDetailDto> GetCampaignAsync(Guid id, CancellationToken ct = default);
     Task SendCampaignAsync(Guid id, CancellationToken ct = default);
     Task CancelCampaignAsync(Guid id, CancellationToken ct = default);
@@ -1002,6 +1099,13 @@ public interface ITrackingService
     Task<string> RecordClickAsync(Guid campaignId, Guid subscriberId, string targetUrl, CancellationToken ct = default);
 }
 ```
+
+**Key service layer behavior:**
+- `SubscribeAsync` resolves brand from `IBrandResolver`, looks up existing subscriber by `(email, brand)`, and creates brand-scoped subscriber records.
+- `GetSubscriberStatsAsync` requires a `Brand` parameter — stats are always brand-specific.
+- `GetSubscribersAsync` and `GetCampaignsAsync` accept optional `Brand?` filter for admin views.
+- `CreateCampaignAsync` reads `Brand` from `CreateCampaignDto` — campaigns are permanently bound to a brand.
+- `SendCampaignAsync` queries active subscribers **for the campaign's brand** only.
 
 ---
 
@@ -1095,12 +1199,33 @@ src/Services/Newsletter/
       "UseSsl": false,
       "Username": "",
       "Password": ""
+    }
+  },
+  "Brands": {
+    "OriginHairCollective": {
+      "DisplayName": "Origin Hair Collective",
+      "ShortName": "Origin",
+      "BaseUrl": "https://originhair.com",
+      "FromEmail": "newsletter@originhair.com",
+      "FromName": "Origin Hair Collective",
+      "InstagramHandle": "@OriginHairCollective",
+      "InstagramUrl": "https://instagram.com/originhaircollective",
+      "ContactEmail": "hello@originhaircollective.com",
+      "Tagline": "Premium virgin hair crafted for the modern woman."
     },
-    "FromName": "Origin Hair Collective",
-    "FromEmail": "newsletter@originhair.com"
+    "ManeHaus": {
+      "DisplayName": "Mane Haus",
+      "ShortName": "Mane Haus",
+      "BaseUrl": "https://manehaus.com",
+      "FromEmail": "newsletter@manehaus.com",
+      "FromName": "Mane Haus",
+      "InstagramHandle": "@ManeHaus",
+      "InstagramUrl": "https://instagram.com/manehaus",
+      "ContactEmail": "hello@manehaus.com",
+      "Tagline": "Luxury hair, boldly redefined."
+    }
   },
   "Newsletter": {
-    "BaseUrl": "https://originhair.com",
     "BatchSize": 50,
     "BatchDelayMs": 1000,
     "SchedulerIntervalMinutes": 1
@@ -1118,6 +1243,11 @@ builder.AddServiceDefaults();
 // Database
 builder.Services.AddDbContext<NewsletterDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("NewsletterDb")));
+
+// Brand resolution
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IBrandResolver, HttpBrandResolver>();
+builder.Services.Configure<BrandSettings>(builder.Configuration.GetSection("Brands"));
 
 // Repositories
 builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
@@ -1190,18 +1320,25 @@ app.Run();
 
 | Scenario | Expected Behavior |
 |----------|-------------------|
-| Subscribe with new email | Creates pending subscriber, publishes `SubscriptionRequestedEvent` |
-| Subscribe with existing active email | Returns 200, no duplicate created |
-| Subscribe with unsubscribed email | Resets to pending, issues new confirmation token |
-| Confirm with valid token | Sets status to Active, clears token |
+| Subscribe with new email (Origin) | Creates pending subscriber with `Brand = OriginHairCollective`, publishes `SubscriptionRequestedEvent` with `Brand` |
+| Subscribe with new email (Mane Haus) | Creates pending subscriber with `Brand = ManeHaus`, publishes `SubscriptionRequestedEvent` with `Brand` |
+| Same email subscribes to both brands | Two separate subscriber records created, each with its own confirmation token |
+| Subscribe with existing active email (same brand) | Returns 200, no duplicate created |
+| Subscribe with existing active email (different brand) | Creates new pending subscriber for the other brand |
+| Subscribe with unsubscribed email (same brand) | Resets to pending, issues new confirmation token |
+| Confirm with valid token | Sets status to Active, clears token, brand preserved from original record |
 | Confirm with invalid/expired token | Returns 404 |
-| Unsubscribe with valid token | Sets status to Unsubscribed |
-| Send campaign to tagged audience | Only matching active subscribers receive it |
+| Unsubscribe with valid token | Sets status to Unsubscribed, only affects the specific brand subscription |
+| Send campaign to tagged audience | Only matching active subscribers **for the campaign's brand** receive it |
 | Send campaign already sent | Returns 400 |
 | Batch send with partial failures | Failed recipients marked, campaign still completes |
 | Tracking pixel fires | OpenedAt set only on first open |
 | Admin endpoints without auth | Returns 401 |
 | Admin endpoints with non-admin role | Returns 403 |
+| Admin list subscribers with brand filter | Returns only subscribers for the specified brand |
+| Admin create campaign with brand | Campaign created with specified brand, cannot be changed later |
+| Origin coming soon page email signup | Subscriber created with `Brand = OriginHairCollective`, confirmation email uses Origin branding |
+| Mane Haus coming soon page email signup | Subscriber created with `Brand = ManeHaus`, confirmation email uses Mane Haus branding |
 
 ---
 
@@ -1211,11 +1348,13 @@ The Newsletter service integrates with the existing OpenTelemetry infrastructure
 
 ### Metrics
 
-- `newsletter.subscribers.total` — Gauge of active subscribers.
-- `newsletter.campaigns.sent` — Counter of campaigns sent.
-- `newsletter.emails.sent` — Counter of individual emails sent.
-- `newsletter.emails.bounced` — Counter of bounced emails.
-- `newsletter.emails.opened` — Counter of opened emails.
+All metrics are tagged with a `brand` dimension for per-brand dashboards:
+
+- `newsletter.subscribers.total` — Gauge of active subscribers (tagged by `brand`).
+- `newsletter.campaigns.sent` — Counter of campaigns sent (tagged by `brand`).
+- `newsletter.emails.sent` — Counter of individual emails sent (tagged by `brand`).
+- `newsletter.emails.bounced` — Counter of bounced emails (tagged by `brand`).
+- `newsletter.emails.opened` — Counter of opened emails (tagged by `brand`).
 
 ### Tracing
 
@@ -1232,39 +1371,50 @@ Standard health check endpoints inherited from `ServiceDefaults`:
 
 ## 20. Implementation Phases
 
-### Phase 1: Core Subscription Management
+### Phase 1: Core Subscription Management with Brand Support
 
 - Newsletter service scaffold (all four layers).
-- Subscriber CRUD with double opt-in flow.
-- Public subscribe/confirm/unsubscribe endpoints.
+- `Brand` enum integration via `Shared.Contracts`.
+- `IBrandResolver` and `BrandSettings` registration.
+- Subscriber CRUD with double opt-in flow, brand-scoped `(Email, Brand)` uniqueness.
+- Public subscribe/confirm/unsubscribe endpoints with `X-Brand` header resolution.
 - API Gateway and Aspire integration.
-- `SubscriptionRequestedEvent` published; Notification service consumer sends confirmation email.
-- Admin subscriber listing and stats endpoints.
+- `SubscriptionRequestedEvent` (with `Brand`) published; Notification service consumer sends brand-specific confirmation email.
+- Admin subscriber listing and stats endpoints with brand filtering.
 
-### Phase 2: Campaign Management and Delivery
+### Phase 2: Coming Soon Page Integration
 
-- Campaign CRUD (draft, update, delete).
-- Send campaign flow with batch processing via `CampaignSendConsumer`.
+- Wire Origin Hair Collective coming soon page email signup to `POST /api/newsletters/subscribe` with `X-Brand: OriginHairCollective` interceptor.
+- Create Mane Haus coming soon page Angular project with brand-specific design tokens and Mane Haus identity.
+- Wire Mane Haus coming soon page email signup to `POST /api/newsletters/subscribe` with `X-Brand: ManeHaus` interceptor.
+- Register both coming soon apps in Angular workspace configuration.
+- Brand-specific confirmation email templates (Origin vs Mane Haus branding, logos, colors, footer).
+
+### Phase 3: Campaign Management and Delivery
+
+- Campaign CRUD (draft, update, delete) with mandatory `Brand` field.
+- Send campaign flow with batch processing via `CampaignSendConsumer` using brand-specific `FromName`/`FromEmail`.
 - SMTP email sender implementation.
+- Brand-aware `IEmailContentProcessor` with brand-specific footer, logo, unsubscribe URL.
 - Tracking pixel and click-tracking endpoints.
 - Campaign metrics (aggregate counters on `Campaign` entity).
-- Admin campaign endpoints with recipient status view.
+- Admin campaign endpoints with brand filter and recipient status view.
 
-### Phase 3: Automation and Integration
+### Phase 4: Automation and Integration
 
-- `CampaignSchedulerService` for scheduled sends.
-- `UserRegisteredNewsletterConsumer` for auto-subscribe at registration.
-- Order-based opt-in subscription.
-- Subscriber tagging and audience segmentation for campaigns.
+- `CampaignSchedulerService` for scheduled sends (processes all brands).
+- `UserRegisteredNewsletterConsumer` for auto-subscribe at registration, brand-scoped by `UserRegisteredEvent.Brand`.
+- Order-based opt-in subscription, brand-scoped by `OrderCreatedEvent.Brand`.
+- Subscriber tagging and audience segmentation for campaigns (within a brand).
 
-### Phase 4: Advanced Features (Future)
+### Phase 5: Advanced Features (Future)
 
 - SendGrid / Amazon SES email provider support.
 - Bounce and complaint webhook handlers.
 - A/B testing for subject lines.
-- Email template management (reusable layouts).
-- Subscriber import/export (CSV).
-- Analytics dashboard data endpoints.
+- Email template management (reusable layouts per brand).
+- Subscriber import/export (CSV) with brand column.
+- Analytics dashboard data endpoints with brand dimension.
 
 ---
 
@@ -1286,8 +1436,189 @@ No new external packages are required beyond what is already in `Directory.Packa
 
 | Service | Change | Impact |
 |---------|--------|--------|
-| **Shared.Contracts** | Add 5 new event records | Low — additive only |
-| **Identity** | Publish `UserRegisteredEvent` on registration, add `NewsletterOptIn` to `RegisterDto` | Low — new event, optional DTO field |
-| **Notification** | Add 2 enum values, add 1–2 new consumers | Low — additive only |
-| **API Gateway** | Add newsletter route and cluster | Low — configuration only |
-| **Aspire AppHost** | Add newsletter project reference | Low — one line |
+| **Shared.Contracts** | Add 5 new event records with `Brand` field; add `Brand` enum | Low — additive only |
+| **Identity** | Publish `UserRegisteredEvent` (with `Brand`) on registration, add `NewsletterOptIn` to `RegisterDto` | Low — new event, optional DTO field |
+| **Notification** | Add 2 enum values, add 1–2 new consumers that read `Brand` from events for brand-specific email templates | Low — additive only |
+| **API Gateway** | Add newsletter route and cluster; CORS update for Mane Haus origins | Low — configuration only |
+| **Aspire AppHost** | Add newsletter project reference; register Mane Haus coming soon app | Low — additive |
+| **Angular Workspace** | Add `mane-haus-coming-soon` project; update Origin coming soon with brand interceptor | Medium — new project + interceptor wiring |
+| **ServiceDefaults** | Add `BrandSettings`, `BrandConfig`, `IBrandResolver` shared infrastructure | Low — shared utility code |
+
+---
+
+## 22. Coming Soon Page Integration
+
+This section details how the Origin Hair Collective coming soon page and the Mane Haus coming soon page integrate with the Newsletter service for pre-launch email collection.
+
+### 22.1 Architecture
+
+Both coming soon pages are lightweight Angular applications that display brand-specific landing content and an email signup form. The email signup form posts to the Newsletter service's public `POST /api/newsletters/subscribe` endpoint. The `X-Brand` header on the request tells the Newsletter service which brand the subscriber is signing up for.
+
+```
+┌─────────────────────────────┐     ┌─────────────────────────────┐
+│  Origin Coming Soon Page    │     │  Mane Haus Coming Soon Page │
+│                             │     │                             │
+│  ┌───────────────────────┐  │     │  ┌───────────────────────┐  │
+│  │  lib-email-signup     │  │     │  │  lib-email-signup     │  │
+│  │  component            │  │     │  │  component            │  │
+│  └──────────┬────────────┘  │     │  └──────────┬────────────┘  │
+│             │               │     │             │               │
+│  onEmailSubmit() ──────────────────────────────────────────┐    │
+│  X-Brand: Origin            │     │  X-Brand: ManeHaus     │    │
+│  HairCollective             │     │                        │    │
+└─────────────┬───────────────┘     └────────────┬───────────┘    │
+              │                                   │               │
+              └───────────────┬───────────────────┘               │
+                              │                                   │
+                   ┌──────────▼──────────────┐                    │
+                   │  POST /api/newsletters/ │                    │
+                   │  subscribe              │                    │
+                   │                         │                    │
+                   │  Newsletter Service     │                    │
+                   │  creates Subscriber     │◄────────────────────
+                   │  with Brand column      │
+                   └─────────────────────────┘
+```
+
+### 22.2 Origin Hair Collective Coming Soon Page
+
+**Location:** `projects/origin-hair-collective-coming-soon/`
+
+The existing coming soon page is updated to:
+
+1. Add `provideHttpClient` with the `brandInterceptor('OriginHairCollective')` to `app.config.ts`.
+2. Update the `onEmailSubmit` handler in `app.ts` to call `POST /api/newsletters/subscribe`.
+3. Add success/error feedback UI after form submission.
+
+**Updated `app.config.ts`:**
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { brandInterceptor } from 'components';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([brandInterceptor('OriginHairCollective')])),
+  ],
+};
+```
+
+**Updated `app.ts`:**
+```typescript
+@Component({ ... })
+export class App {
+  private readonly http = inject(HttpClient);
+
+  protected readonly socialLinks: SocialLink[] = [
+    { platform: 'instagram', href: 'https://instagram.com/originhaircollective' },
+    { platform: 'email', href: 'mailto:hello@originhaircollective.com' },
+  ];
+
+  protected submitted = false;
+  protected error = false;
+
+  onEmailSubmit(email: string): void {
+    this.http.post('/api/newsletters/subscribe', { email })
+      .subscribe({
+        next: () => { this.submitted = true; this.error = false; },
+        error: () => { this.error = true; }
+      });
+  }
+}
+```
+
+**Subscriber flow:**
+1. Visitor enters email on Origin coming soon page.
+2. `POST /api/newsletters/subscribe` is sent with `X-Brand: OriginHairCollective` header.
+3. Newsletter service creates a `Subscriber` with `Brand = OriginHairCollective`, `Status = Pending`.
+4. `SubscriptionRequestedEvent` published with `Brand = OriginHairCollective`.
+5. Notification service sends a confirmation email branded with Origin Hair Collective identity.
+6. Visitor clicks confirmation link → subscriber becomes `Active` for Origin brand.
+
+### 22.3 Mane Haus Coming Soon Page
+
+**Location:** `projects/mane-haus-coming-soon/` (new)
+
+A new Angular application with Mane Haus brand identity. Structurally identical to the Origin coming soon page but with:
+
+- Mane Haus logo (via `<lib-logo brand="mane-haus" />`).
+- Mane Haus tagline: "Luxury hair, boldly redefined."
+- Mane Haus social links and handle.
+- Mane Haus brand-specific color palette and imagery.
+- `brandInterceptor('ManeHaus')` in the HTTP client configuration.
+
+**`app.config.ts`:**
+```typescript
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([brandInterceptor('ManeHaus')])),
+  ],
+};
+```
+
+**Subscriber flow:**
+1. Visitor enters email on Mane Haus coming soon page.
+2. `POST /api/newsletters/subscribe` is sent with `X-Brand: ManeHaus` header.
+3. Newsletter service creates a `Subscriber` with `Brand = ManeHaus`, `Status = Pending`.
+4. `SubscriptionRequestedEvent` published with `Brand = ManeHaus`.
+5. Notification service sends a confirmation email branded with Mane Haus identity.
+6. Visitor clicks confirmation link → subscriber becomes `Active` for Mane Haus brand.
+
+### 22.4 Cross-Brand Subscription
+
+If a visitor subscribes on both coming soon pages with the same email address, two separate subscriber records are created — one for each brand. Each has its own:
+
+- Confirmation token and confirmation flow.
+- Unsubscribe token and unsubscribe flow.
+- Status (can be Active on one brand, Unsubscribed on the other).
+- Tag list.
+
+Unsubscribing from one brand does not affect the other brand's subscription.
+
+### 22.5 Confirmation Email Branding
+
+The confirmation email sent by the Notification service differs by brand:
+
+| Element | Origin Hair Collective | Mane Haus |
+|---------|----------------------|-----------|
+| Subject | "Confirm your Origin Hair Collective subscription" | "Confirm your Mane Haus subscription" |
+| From | Origin Hair Collective <newsletter@originhair.com> | Mane Haus <newsletter@manehaus.com> |
+| Logo | Origin Hair Collective logo | Mane Haus logo |
+| Body text | "Thank you for joining the Origin Hair Collective community..." | "Thank you for joining the Mane Haus community..." |
+| Confirmation URL | `https://originhair.com/api/newsletters/confirm?token=...` | `https://manehaus.com/api/newsletters/confirm?token=...` |
+| Footer | Origin Hair Collective branding, Instagram, contact | Mane Haus branding, Instagram, contact |
+
+### 22.6 Angular Workspace Registration
+
+Both coming soon pages are registered in `angular.json`:
+
+```json
+{
+  "origin-hair-collective-coming-soon": {
+    "projectType": "application",
+    "root": "projects/origin-hair-collective-coming-soon",
+    "...": "existing configuration"
+  },
+  "mane-haus-coming-soon": {
+    "projectType": "application",
+    "root": "projects/mane-haus-coming-soon",
+    "sourceRoot": "projects/mane-haus-coming-soon/src",
+    "prefix": "app",
+    "architect": {
+      "build": { "builder": "@angular/build:application", "..." : "..." },
+      "serve": { "builder": "@angular/build:dev-server", "...": "..." },
+      "test": { "builder": "@angular/build:unit-test" }
+    }
+  }
+}
+```
+
+Development commands:
+```bash
+ng serve origin-hair-collective-coming-soon   # Origin coming soon on localhost:4200
+ng serve mane-haus-coming-soon                # Mane Haus coming soon on localhost:4201
+```
