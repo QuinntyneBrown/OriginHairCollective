@@ -54,7 +54,7 @@ public sealed class CrmDbContext : DbContext
             .HasMany(s => s.Stylists)
             .WithOne()
             .HasForeignKey(st => st.SalonId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
         // Configure indexes
         modelBuilder.Entity<Contact>()
