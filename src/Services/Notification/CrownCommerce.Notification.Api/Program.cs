@@ -2,6 +2,7 @@
 using CrownCommerce.Notification.Application.Services;
 using CrownCommerce.Notification.Core.Interfaces;
 using CrownCommerce.Notification.Infrastructure.Data;
+using CrownCommerce.Notification.Infrastructure.Email;
 using CrownCommerce.Notification.Infrastructure.Repositories;
 using CrownCommerce.ServiceDefaults;
 using MassTransit;
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<NotificationDbContext>(options =>
 
 builder.Services.AddScoped<INotificationLogRepository, NotificationLogRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IEmailSender, SendGridEmailSender>();
 
 builder.Services.AddMassTransit(x =>
 {
