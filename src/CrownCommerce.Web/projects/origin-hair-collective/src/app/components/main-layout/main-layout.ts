@@ -1,5 +1,5 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   ButtonComponent,
   ChatWidgetComponent,
@@ -16,6 +16,7 @@ import { ChatService } from 'api';
   selector: 'app-main-layout',
   imports: [
     RouterOutlet,
+    RouterLink,
     ButtonComponent,
     CloseButtonComponent,
     FooterLinkColumnComponent,

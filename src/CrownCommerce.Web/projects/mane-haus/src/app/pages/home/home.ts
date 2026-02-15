@@ -14,6 +14,7 @@ import { CatalogService, ContentService } from 'api';
 import type { HairProduct, Testimonial, GalleryImage } from 'api';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
 import { ErrorStateComponent } from '../../components/error-state/error-state';
+import { NewsletterSignupComponent } from '../../components/newsletter-signup/newsletter-signup';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { ErrorStateComponent } from '../../components/error-state/error-state';
     DividerComponent,
     LoadingSpinnerComponent,
     ErrorStateComponent,
+    NewsletterSignupComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
