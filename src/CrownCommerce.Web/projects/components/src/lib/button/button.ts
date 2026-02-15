@@ -89,7 +89,6 @@ export class ButtonComponent {
   variant = input<'primary' | 'secondary'>('primary');
   size = input<'small' | 'medium' | 'large'>('medium');
   showArrow = input(false);
-  disabled = input(false);
   type = input<'button' | 'submit'>('button');
   disabled = input(false);
   clicked = output<void>();
