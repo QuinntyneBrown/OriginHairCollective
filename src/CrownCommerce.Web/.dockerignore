@@ -1,0 +1,10 @@
+node_modules
+dist
+.angular
+.git
+e2e
+**/*.spec.ts
+**/*.stories.ts
+.storybook
+playwright-report
+test-results

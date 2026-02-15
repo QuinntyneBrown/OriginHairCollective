@@ -309,6 +309,27 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "azure": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/origin-hair-collective-coming-soon/src/environments/environment.ts",
+                  "with": "projects/origin-hair-collective-coming-soon/src/environments/environment.azure.ts"
+                }
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
