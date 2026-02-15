@@ -1,0 +1,34 @@
+<section class="collection">
+  <lib-section-header label="THE COLLECTION" heading="Premium Hair, Curated For You" />
+
+  <div class="collection__filters">
+    @for (cat of categories; track cat) {
+      <button
+        class="collection__filter"
+        [class.collection__filter--active]="activeCategory() === cat"
+        (click)="setCategory(cat)"
+      >
+        {{ cat | titlecase }}
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-state message="Unable to load products." (retry)="loadProducts()" />
+  } @else {
+    <div class="collection__grid">
+      @for (product of filteredProducts(); track product.id) {
+        <a [routerLink]="['/product', product.id]" class="collection__link">
+          <lib-product-card
+            [imageUrl]="product.imageUrl ?? ''"
+            [title]="product.name"
+            [description]="product.description"
+            [price]="formatPrice(product.price)"
+          />
+        </a>
+      }
+    </div>
+  }
+</section>

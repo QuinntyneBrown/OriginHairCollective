@@ -1,0 +1,39 @@
+<section class="auth-page">
+  <lib-section-header label="WELCOME BACK" heading="Sign In" />
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-page__form">
+    <div class="auth-page__field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="your@email.com" />
+      @if (form.controls.email.touched && form.controls.email.errors) {
+        <span class="auth-page__error">
+          @if (form.controls.email.errors['required']) {
+            Email is required.
+          } @else {
+            Please enter a valid email.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="auth-page__field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="Your password" />
+      @if (form.controls.password.touched && form.controls.password.errors) {
+        <span class="auth-page__error">Password is required.</span>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <p class="auth-page__submit-error">{{ errorMessage() }}</p>
+    }
+
+    <lib-button variant="primary" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'SIGNING IN...' : 'SIGN IN' }}
+    </lib-button>
+  </form>
+
+  <p class="auth-page__footer">
+    Don't have an account? <a routerLink="/register">Create one</a>
+  </p>
+</section>

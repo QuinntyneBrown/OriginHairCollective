@@ -1,0 +1,40 @@
+<section class="cart">
+  <lib-section-header label="YOUR CART" heading="Shopping Cart" />
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-state message="Unable to load cart." (retry)="loadCart()" />
+  } @else if (items().length === 0) {
+    <div class="cart__empty">
+      <p>Your cart is empty.</p>
+      <a routerLink="/collection"><lib-button variant="primary">SHOP NOW</lib-button></a>
+    </div>
+  } @else {
+    <div class="cart__items">
+      @for (item of items(); track item.id) {
+        <div class="cart__item">
+          <div class="cart__item-info">
+            <span class="cart__item-name">{{ item.productName }}</span>
+            <span class="cart__item-price">${{ item.unitPrice }} x {{ item.quantity }}</span>
+          </div>
+          <div class="cart__item-right">
+            <span class="cart__item-total">${{ item.lineTotal.toFixed(2) }}</span>
+            <button class="cart__item-remove" (click)="removeItem(item.id)">Remove</button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="cart__summary">
+      <div class="cart__total">
+        <span>Total</span>
+        <span>${{ cartTotal().toFixed(2) }}</span>
+      </div>
+      <div class="cart__actions">
+        <a routerLink="/checkout"><lib-button variant="primary">PROCEED TO CHECKOUT</lib-button></a>
+        <lib-button variant="secondary" (click)="clearCart()">CLEAR CART</lib-button>
+      </div>
+    </div>
+  }
+</section>

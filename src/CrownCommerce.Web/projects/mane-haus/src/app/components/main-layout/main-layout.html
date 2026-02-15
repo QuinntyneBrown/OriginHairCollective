@@ -3,9 +3,19 @@
   <lib-logo text="MANE HAUS" />
   <nav class="header__nav">
     @for (link of navLinks; track link.label) {
-      <a [href]="link.href" class="header__link">{{ link.label }}</a>
+      <a [routerLink]="link.href" routerLinkActive="active" class="header__link">{{ link.label }}</a>
     }
-    <lib-button variant="primary" size="small">SHOP NOW</lib-button>
+    <a routerLink="/cart" class="header__cart-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/>
+        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+      </svg>
+      @if (cartService.itemCount() > 0) {
+        <span class="header__cart-badge">{{ cartService.itemCount() }}</span>
+      }
+    </a>
+    <a routerLink="/collection"><lib-button variant="primary" size="small">SHOP NOW</lib-button></a>
   </nav>
   <button
     class="header__menu"
@@ -32,9 +42,9 @@
       <div class="mobile-nav__divider"></div>
       <div class="mobile-nav__links">
         @for (link of navLinks; track link.label) {
-          <a [href]="link.href" class="mobile-nav__link" (click)="toggleMobileMenu()">{{ link.label }}</a>
+          <a [routerLink]="link.href" routerLinkActive="active" class="mobile-nav__link" (click)="toggleMobileMenu()">{{ link.label }}</a>
         }
-        <lib-button variant="primary">SHOP NOW</lib-button>
+        <a routerLink="/collection" (click)="toggleMobileMenu()"><lib-button variant="primary">SHOP NOW</lib-button></a>
       </div>
     </nav>
   </div>
@@ -46,7 +56,7 @@
 </main>
 
 <!-- Chat Widget -->
-<lib-chat-widget brandName="Mane Haus" />
+<lib-chat-widget brandName="Mane Haus" (messageSent)="onChatMessage($event)" />
 
 <!-- Footer -->
 <footer class="footer">
@@ -60,14 +70,29 @@
       <lib-social-icons [links]="socialLinks" />
     </div>
     <div class="footer__columns">
-      <lib-footer-link-column title="Shop" [links]="shopLinks" />
-      <lib-footer-link-column title="Company" [links]="companyLinks" />
-      <lib-footer-link-column title="Support" [links]="supportLinks" />
+      <nav class="footer-links">
+        <h4 class="footer-links__title">Shop</h4>
+        @for (link of shopLinks; track link.label) {
+          <a class="footer-links__link" [routerLink]="link.href">{{ link.label }}</a>
+        }
+      </nav>
+      <nav class="footer-links">
+        <h4 class="footer-links__title">Company</h4>
+        @for (link of companyLinks; track link.label) {
+          <a class="footer-links__link" [routerLink]="link.href">{{ link.label }}</a>
+        }
+      </nav>
+      <nav class="footer-links">
+        <h4 class="footer-links__title">Support</h4>
+        @for (link of supportLinks; track link.label) {
+          <a class="footer-links__link" [routerLink]="link.href">{{ link.label }}</a>
+        }
+      </nav>
     </div>
   </div>
   <lib-divider />
   <div class="footer__bottom">
-    <span class="footer__copy">&copy; 2026 Mane Haus. All rights reserved.</span>
+    <span class="footer__copy">&copy; {{ currentYear }} Mane Haus. All rights reserved.</span>
     <span class="footer__location">Toronto, Ontario, Canada</span>
   </div>
 </footer>

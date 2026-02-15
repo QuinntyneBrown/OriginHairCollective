@@ -1,0 +1,10 @@
+<section class="content-page">
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-state message="Page not found or failed to load." (retry)="loadPage()" />
+  } @else if (page(); as p) {
+    <h1 class="content-page__title">{{ p.title }}</h1>
+    <div class="content-page__body" [innerHTML]="p.body"></div>
+  }
+</section>

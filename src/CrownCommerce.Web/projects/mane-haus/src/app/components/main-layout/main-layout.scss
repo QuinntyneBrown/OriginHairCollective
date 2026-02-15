@@ -26,6 +26,39 @@
     &:hover {
       color: var(--color-text-primary);
     }
+
+    &.active {
+      color: var(--color-gold);
+    }
+  }
+
+  &__cart-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+
+  &__cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: var(--color-gold);
+    color: var(--color-bg-primary);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__menu {
@@ -81,6 +114,34 @@
 
     &:hover {
       color: var(--color-gold);
+    }
+  }
+}
+
+// ─── Footer Links (inline) ──────────────────────────────
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__title {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-text-primary);
+    margin: 0;
+  }
+
+  &__link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-text-secondary);
     }
   }
 }

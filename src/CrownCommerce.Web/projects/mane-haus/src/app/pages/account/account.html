@@ -1,0 +1,66 @@
+<section class="account">
+  <lib-section-header label="MY ACCOUNT" heading="Your Profile" />
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-state message="Failed to load profile." (retry)="loadProfile()" />
+  } @else if (profile(); as p) {
+    @if (!editing()) {
+      <div class="account__info">
+        <div class="account__detail">
+          <span class="account__label">Name</span>
+          <span class="account__value">{{ p.firstName }} {{ p.lastName }}</span>
+        </div>
+        <div class="account__detail">
+          <span class="account__label">Email</span>
+          <span class="account__value">{{ p.email }}</span>
+        </div>
+        @if (p.phone) {
+          <div class="account__detail">
+            <span class="account__label">Phone</span>
+            <span class="account__value">{{ p.phone }}</span>
+          </div>
+        }
+        <div class="account__detail">
+          <span class="account__label">Member since</span>
+          <span class="account__value">{{ p.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      @if (saveSuccess()) {
+        <p class="account__success">Profile updated successfully.</p>
+      }
+
+      <div class="account__actions">
+        <lib-button variant="primary" (click)="startEditing()">EDIT PROFILE</lib-button>
+        <a routerLink="/account/orders" class="account__link">View Order History</a>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="saveProfile()" class="account__form">
+        <div class="account__field">
+          <label for="firstName">First Name</label>
+          <input id="firstName" formControlName="firstName" />
+        </div>
+        <div class="account__field">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" formControlName="lastName" />
+        </div>
+        <div class="account__field">
+          <label for="phone">Phone</label>
+          <input id="phone" formControlName="phone" />
+        </div>
+        <div class="account__form-actions">
+          <lib-button variant="primary" type="submit" [disabled]="saving()">
+            {{ saving() ? 'SAVING...' : 'SAVE CHANGES' }}
+          </lib-button>
+          <lib-button variant="secondary" (click)="cancelEditing()">CANCEL</lib-button>
+        </div>
+      </form>
+    }
+
+    <div class="account__logout">
+      <lib-button variant="secondary" (click)="logout()">SIGN OUT</lib-button>
+    </div>
+  }
+</section>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   ButtonComponent,
   BadgeComponent,
@@ -9,10 +10,16 @@ import {
   TestimonialCardComponent,
   DividerComponent,
 } from 'components';
+import { CatalogService, ContentService } from 'api';
+import type { HairProduct, Testimonial, GalleryImage } from 'api';
+import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
+import { ErrorStateComponent } from '../../components/error-state/error-state';
+import { NewsletterSignupComponent } from '../../components/newsletter-signup/newsletter-signup';
 
 @Component({
   selector: 'app-home',
   imports: [
+    RouterLink,
     ButtonComponent,
     BadgeComponent,
     SectionHeaderComponent,
@@ -21,11 +28,29 @@ import {
     BenefitCardComponent,
     TestimonialCardComponent,
     DividerComponent,
+    LoadingSpinnerComponent,
+    ErrorStateComponent,
+    NewsletterSignupComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  private readonly catalogService = inject(CatalogService);
+  private readonly contentService = inject(ContentService);
+
+  readonly products = signal<HairProduct[]>([]);
+  readonly productsLoading = signal(true);
+  readonly productsError = signal(false);
+
+  readonly testimonials = signal<Testimonial[]>([]);
+  readonly testimonialsLoading = signal(true);
+  readonly testimonialsError = signal(false);
+
+  readonly galleryImages = signal<GalleryImage[]>([]);
+  readonly galleryLoading = signal(true);
+  readonly galleryError = signal(false);
+
   readonly gemIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`;
 
   readonly timerIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>`;
@@ -47,12 +72,58 @@ export class HomePage {
     },
   ];
 
-  readonly communityPhotos = [
-    { url: 'https://images.unsplash.com/photo-1597093109929-b4728476cdb3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 1' },
-    { url: 'https://images.unsplash.com/photo-1677091508080-d6ee28356318?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 2' },
-    { url: 'https://images.unsplash.com/photo-1537230067530-d9bd0fe43222?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 3' },
-    { url: 'https://images.unsplash.com/photo-1657039917959-ce3797ef50d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 4' },
-    { url: 'https://images.unsplash.com/photo-1710527988568-3040fd125358?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 5' },
-    { url: 'https://images.unsplash.com/flagged/photo-1577133409406-78f7ff2ae33f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600&q=80', alt: 'Hair style 6' },
-  ];
+  ngOnInit(): void {
+    this.loadProducts();
+    this.loadTestimonials();
+    this.loadGallery();
+  }
+
+  formatPrice(price: number): string {
+    return `FROM $${price}`;
+  }
+
+  loadProducts(): void {
+    this.productsLoading.set(true);
+    this.productsError.set(false);
+    this.catalogService.getProducts().subscribe({
+      next: (products) => {
+        this.products.set(products);
+        this.productsLoading.set(false);
+      },
+      error: () => {
+        this.productsError.set(true);
+        this.productsLoading.set(false);
+      },
+    });
+  }
+
+  loadTestimonials(): void {
+    this.testimonialsLoading.set(true);
+    this.testimonialsError.set(false);
+    this.contentService.getTestimonials().subscribe({
+      next: (testimonials) => {
+        this.testimonials.set(testimonials);
+        this.testimonialsLoading.set(false);
+      },
+      error: () => {
+        this.testimonialsError.set(true);
+        this.testimonialsLoading.set(false);
+      },
+    });
+  }
+
+  loadGallery(): void {
+    this.galleryLoading.set(true);
+    this.galleryError.set(false);
+    this.contentService.getGalleryByCategory('community').subscribe({
+      next: (images) => {
+        this.galleryImages.set(images);
+        this.galleryLoading.set(false);
+      },
+      error: () => {
+        this.galleryError.set(true);
+        this.galleryLoading.set(false);
+      },
+    });
+  }
 }

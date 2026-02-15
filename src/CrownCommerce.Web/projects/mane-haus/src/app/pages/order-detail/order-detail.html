@@ -1,0 +1,40 @@
+<section class="order-detail">
+  <lib-section-header label="ORDER" heading="Order Details" />
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (error()) {
+    <app-error-state message="Failed to load order." (retry)="loadOrder()" />
+  } @else if (order(); as o) {
+    <div class="order-detail__status">
+      <span class="order-detail__badge">{{ o.status }}</span>
+      <span class="order-detail__date">{{ o.createdAt | date:'medium' }}</span>
+    </div>
+
+    <div class="order-detail__section">
+      <h3>Items</h3>
+      @for (item of o.items; track item.id) {
+        <div class="order-detail__item">
+          <span>{{ item.productName }} x{{ item.quantity }}</span>
+          <span>${{ item.lineTotal.toFixed(2) }}</span>
+        </div>
+      }
+      <div class="order-detail__total">
+        <span>Total</span>
+        <span>${{ o.totalAmount.toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <div class="order-detail__section">
+      <h3>Shipping</h3>
+      <p>{{ o.customerName }}</p>
+      <p>{{ o.customerEmail }}</p>
+      <p>{{ o.shippingAddress }}</p>
+      @if (o.trackingNumber) {
+        <p class="order-detail__tracking">Tracking: {{ o.trackingNumber }}</p>
+      }
+    </div>
+
+    <a routerLink="/account/orders" class="order-detail__back">&larr; Back to Orders</a>
+  }
+</section>

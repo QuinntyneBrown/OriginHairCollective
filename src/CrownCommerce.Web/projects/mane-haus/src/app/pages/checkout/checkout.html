@@ -1,0 +1,68 @@
+<section class="checkout">
+  <lib-section-header label="CHECKOUT" heading="Complete Your Order" />
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else {
+    <div class="checkout__layout">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="checkout__form">
+        <h3 class="checkout__section-title">Shipping Information</h3>
+
+        <div class="checkout__field">
+          <label for="customerName">Full Name *</label>
+          <input id="customerName" formControlName="customerName" placeholder="Full name" />
+          @if (form.controls.customerName.touched && form.controls.customerName.errors) {
+            <span class="checkout__error">Name is required.</span>
+          }
+        </div>
+
+        <div class="checkout__field">
+          <label for="customerEmail">Email *</label>
+          <input id="customerEmail" type="email" formControlName="customerEmail" placeholder="your@email.com" />
+          @if (form.controls.customerEmail.touched && form.controls.customerEmail.errors) {
+            <span class="checkout__error">Valid email is required.</span>
+          }
+        </div>
+
+        <div class="checkout__field">
+          <label for="shippingAddress">Shipping Address *</label>
+          <textarea id="shippingAddress" formControlName="shippingAddress" placeholder="Full shipping address" rows="3"></textarea>
+          @if (form.controls.shippingAddress.touched && form.controls.shippingAddress.errors) {
+            <span class="checkout__error">Shipping address is required.</span>
+          }
+        </div>
+
+        <h3 class="checkout__section-title">Payment</h3>
+        <div class="checkout__field">
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod" formControlName="paymentMethod">
+            <option value="card">Credit / Debit Card</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+
+        @if (errorMessage()) {
+          <p class="checkout__submit-error">{{ errorMessage() }}</p>
+        }
+
+        <lib-button variant="primary" type="submit" [disabled]="submitting() || items().length === 0">
+          {{ submitting() ? 'PROCESSING...' : 'PLACE ORDER' }}
+        </lib-button>
+      </form>
+
+      <div class="checkout__summary">
+        <h3 class="checkout__section-title">Order Summary</h3>
+        @for (item of items(); track item.id) {
+          <div class="checkout__summary-item">
+            <span>{{ item.productName }} x{{ item.quantity }}</span>
+            <span>${{ item.lineTotal.toFixed(2) }}</span>
+          </div>
+        }
+        <div class="checkout__summary-total">
+          <span>Total</span>
+          <span>${{ cartTotal().toFixed(2) }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</section>

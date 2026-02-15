@@ -1,0 +1,81 @@
+<section class="auth-page">
+  <lib-section-header label="JOIN THE HAUS" heading="Create Account" />
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-page__form">
+    <div class="auth-page__row">
+      <div class="auth-page__field">
+        <label for="firstName">First Name *</label>
+        <input id="firstName" formControlName="firstName" placeholder="First name" />
+        @if (form.controls.firstName.touched && form.controls.firstName.errors) {
+          <span class="auth-page__error">First name is required.</span>
+        }
+      </div>
+      <div class="auth-page__field">
+        <label for="lastName">Last Name *</label>
+        <input id="lastName" formControlName="lastName" placeholder="Last name" />
+        @if (form.controls.lastName.touched && form.controls.lastName.errors) {
+          <span class="auth-page__error">Last name is required.</span>
+        }
+      </div>
+    </div>
+
+    <div class="auth-page__field">
+      <label for="email">Email *</label>
+      <input id="email" type="email" formControlName="email" placeholder="your@email.com" />
+      @if (form.controls.email.touched && form.controls.email.errors) {
+        <span class="auth-page__error">
+          @if (form.controls.email.errors['required']) {
+            Email is required.
+          } @else {
+            Please enter a valid email.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="auth-page__field">
+      <label for="phone">Phone</label>
+      <input id="phone" formControlName="phone" placeholder="(optional)" />
+    </div>
+
+    <div class="auth-page__field">
+      <label for="password">Password *</label>
+      <input id="password" type="password" formControlName="password" placeholder="Min. 8 characters" />
+      @if (form.controls.password.touched && form.controls.password.errors) {
+        <span class="auth-page__error">
+          @if (form.controls.password.errors['required']) {
+            Password is required.
+          } @else {
+            Password must be at least 8 characters.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="auth-page__field">
+      <label for="confirmPassword">Confirm Password *</label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword" placeholder="Re-enter password" />
+      @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.errors) {
+        <span class="auth-page__error">
+          @if (form.controls.confirmPassword.errors['required']) {
+            Please confirm your password.
+          } @else {
+            Passwords do not match.
+          }
+        </span>
+      }
+    </div>
+
+    @if (errorMessage()) {
+      <p class="auth-page__submit-error">{{ errorMessage() }}</p>
+    }
+
+    <lib-button variant="primary" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT' }}
+    </lib-button>
+  </form>
+
+  <p class="auth-page__footer">
+    Already have an account? <a routerLink="/login">Sign in</a>
+  </p>
+</section>

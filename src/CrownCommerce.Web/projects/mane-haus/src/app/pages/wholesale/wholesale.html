@@ -1,0 +1,58 @@
+<section class="wholesale">
+  <lib-section-header label="WHOLESALE" heading="Partner With Mane Haus" />
+  <p class="wholesale__intro">
+    Interested in carrying Mane Haus products? Fill out the form below and our wholesale team will get back to you.
+  </p>
+
+  @if (submitted()) {
+    <div class="wholesale__success">
+      <h3>Thank you!</h3>
+      <p>Your wholesale inquiry has been received. We'll be in touch soon.</p>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="wholesale__form">
+      <div class="wholesale__field">
+        <label for="name">Business / Contact Name *</label>
+        <input id="name" formControlName="name" placeholder="Your business or name" />
+        @if (form.controls.name.touched && form.controls.name.errors) {
+          <span class="wholesale__error">Name is required.</span>
+        }
+      </div>
+
+      <div class="wholesale__field">
+        <label for="email">Email *</label>
+        <input id="email" type="email" formControlName="email" placeholder="your@email.com" />
+        @if (form.controls.email.touched && form.controls.email.errors) {
+          <span class="wholesale__error">
+            @if (form.controls.email.errors['required']) {
+              Email is required.
+            } @else {
+              Please enter a valid email.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="wholesale__field">
+        <label for="phone">Phone</label>
+        <input id="phone" formControlName="phone" placeholder="(optional)" />
+      </div>
+
+      <div class="wholesale__field">
+        <label for="message">Message *</label>
+        <textarea id="message" formControlName="message" placeholder="Tell us about your business and what you're interested in" rows="5"></textarea>
+        @if (form.controls.message.touched && form.controls.message.errors) {
+          <span class="wholesale__error">Message is required.</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <p class="wholesale__submit-error">{{ errorMessage() }}</p>
+      }
+
+      <lib-button variant="primary" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'SENDING...' : 'SUBMIT INQUIRY' }}
+      </lib-button>
+    </form>
+  }
+</section>

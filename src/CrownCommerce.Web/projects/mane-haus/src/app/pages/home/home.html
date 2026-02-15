@@ -8,8 +8,8 @@
       Flawless by design, crafted to perfection.
     </p>
     <div class="hero__cta-row">
-      <lib-button variant="primary" [showArrow]="true">SHOP NOW</lib-button>
-      <lib-button variant="secondary">OUR STORY</lib-button>
+      <a routerLink="/collection"><lib-button variant="primary" [showArrow]="true">SHOP NOW</lib-button></a>
+      <a routerLink="/our-story"><lib-button variant="secondary">OUR STORY</lib-button></a>
     </div>
   </div>
   <div class="hero__image"></div>
@@ -39,28 +39,22 @@
 <section class="products" id="collection">
   <lib-section-header label="THE COLLECTION" heading="Premium Hair, Curated For You" />
   <div class="products__grid">
-    <lib-product-card
-      imageUrl="https://images.unsplash.com/photo-1557411143-fab338a679f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
-      tag="BESTSELLER"
-      title="Virgin Hair Bundles"
-      description="Body wave, straight, and deep wave textures. 100% unprocessed virgin hair from $149."
-      price="FROM $149"
-    />
-    <lib-product-card
-      imageUrl="https://images.unsplash.com/photo-1587070840484-0eaef4815586?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
-      tag="ESSENTIAL"
-      title="Lace Closures"
-      description="Seamless HD lace closures for a natural, undetectable finish. 4×4 and 5×5 options."
-      price="FROM $119"
-      tagColor="rose"
-    />
-    <lib-product-card
-      imageUrl="https://images.unsplash.com/photo-1560564066-a3a5cfc81584?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80"
-      tag="PREMIUM"
-      title="Lace Frontals"
-      description="13×4 and 13×6 Swiss lace frontals. Full hairline coverage for a flawless, versatile look."
-      price="FROM $159"
-    />
+    @if (productsLoading()) {
+      <app-loading-spinner />
+    } @else if (productsError()) {
+      <app-error-state message="Unable to load products." (retry)="loadProducts()" />
+    } @else {
+      @for (product of products(); track product.id) {
+        <a [routerLink]="['/product', product.id]" class="products__link">
+          <lib-product-card
+            [imageUrl]="product.imageUrl ?? ''"
+            [title]="product.name"
+            [description]="product.description"
+            [price]="formatPrice(product.price)"
+          />
+        </a>
+      }
+    }
   </div>
 </section>
 
@@ -89,10 +83,18 @@
 <!-- Testimonials Section -->
 <section class="testimonials">
   <span class="section-label">WHAT THEY SAY</span>
-  <lib-testimonial-card
-    quote="I've tried every hair brand out there. Mane Haus is different — the quality is unmatched, the texture is incredible, and it literally lasts forever. I'm never going back."
-    author="Jasmine T., Toronto"
-  />
+  @if (testimonialsLoading()) {
+    <app-loading-spinner />
+  } @else if (testimonialsError()) {
+    <app-error-state message="Unable to load testimonials." (retry)="loadTestimonials()" />
+  } @else {
+    @for (t of testimonials(); track t.id) {
+      <lib-testimonial-card
+        [quote]="t.content"
+        [author]="t.customerName + (t.customerLocation ? ', ' + t.customerLocation : '')"
+      />
+    }
+  }
 </section>
 
 <!-- Community Section -->
@@ -102,10 +104,23 @@
     <span class="community__handle">&#64;ManeHaus</span>
   </div>
   <div class="community__photos">
-    @for (photo of communityPhotos; track photo.alt) {
-      <div class="community__photo" [style.background-image]="'url(' + photo.url + ')'"></div>
+    @if (galleryLoading()) {
+      <app-loading-spinner />
+    } @else if (galleryError()) {
+      <app-error-state message="Unable to load gallery." (retry)="loadGallery()" />
+    } @else {
+      @for (photo of galleryImages(); track photo.id) {
+        <div class="community__photo" [style.background-image]="'url(' + photo.imageUrl + ')'"></div>
+      }
     }
   </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="newsletter-section">
+  <h3 class="newsletter-section__heading">Stay in the Loop</h3>
+  <p class="newsletter-section__sub">Get exclusive deals, styling tips, and first access to new drops.</p>
+  <app-newsletter-signup />
 </section>
 
 <!-- Final CTA -->
@@ -115,7 +130,7 @@
     Join thousands of women across Canada who trust Mane Haus for their
     premium hair needs. Experience the difference that quality makes.
   </p>
-  <lib-button variant="primary" size="large" [showArrow]="true">SHOP NOW</lib-button>
+  <a routerLink="/collection"><lib-button variant="primary" size="large" [showArrow]="true">SHOP NOW</lib-button></a>
   <p class="final-cta__trust">
     Free shipping on orders over $150 · 30-day quality guarantee
   </p>
