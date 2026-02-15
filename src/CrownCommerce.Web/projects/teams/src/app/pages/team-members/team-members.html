@@ -1,0 +1,65 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Team Members</h1>
+    <p class="page-subtitle">{{ filteredMembers().length }} members</p>
+  </div>
+  <button mat-flat-button color="primary" class="invite-btn">
+    <mat-icon>person_add</mat-icon>
+    Invite
+  </button>
+</div>
+
+<div class="content-area">
+  <!-- Filters Row -->
+  <div class="filters-row">
+    <!-- Search -->
+    <div class="search-bar">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input class="search-input"
+             placeholder="Search members..."
+             (input)="onSearch($event)" />
+    </div>
+
+    <!-- Status Filter -->
+    <mat-button-toggle-group [value]="statusFilter()"
+                             (change)="onFilterChange($event.value)"
+                             class="status-toggle">
+      <mat-button-toggle value="all">All ({{ members().length }})</mat-button-toggle>
+      <mat-button-toggle value="online">Online ({{ onlineCount() }})</mat-button-toggle>
+      <mat-button-toggle value="away">Away ({{ awayCount() }})</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Members Grid -->
+  <div class="members-grid">
+    @for (member of filteredMembers(); track member.id) {
+      <mat-card class="member-card">
+        <mat-card-content>
+          <div class="member-avatar-wrap">
+            <div class="member-avatar">{{ member.initials }}</div>
+            <span class="status-dot" [class]="'status-dot--' + member.status"></span>
+          </div>
+          <span class="member-name">{{ member.name }}</span>
+          <span class="member-role">{{ member.role }}</span>
+          <span class="member-dept">{{ member.department }}</span>
+          <div class="member-actions">
+            <button mat-icon-button class="action-btn">
+              <mat-icon>chat</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn">
+              <mat-icon>videocam</mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  @if (filteredMembers().length === 0) {
+    <div class="empty-state">
+      <mat-icon>person_search</mat-icon>
+      <span>No members found</span>
+    </div>
+  }
+</div>

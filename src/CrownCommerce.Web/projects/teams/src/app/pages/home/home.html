@@ -1,0 +1,93 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ greeting() }}, Quinn</h1>
+    <p class="page-subtitle">{{ todayFormatted() }}</p>
+  </div>
+  <div class="header-actions">
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+  </div>
+</div>
+
+<div class="content-area">
+  <!-- Time Zone Cards -->
+  <section>
+    <h3 class="section-title">Team Time Zones</h3>
+    <div class="timezone-row">
+      @for (tz of timeZones(); track tz.city) {
+        <div class="timezone-card">
+          <span class="tz-flag">{{ tz.flag }}</span>
+          <span class="tz-city">{{ tz.city }}</span>
+          <span class="tz-time">{{ getCurrentTime(tz.offset) }}</span>
+          <span class="tz-label">{{ tz.timezone }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Two Column Layout -->
+  <div class="home-grid">
+    <!-- Upcoming Meetings -->
+    <section class="meetings-section">
+      <h3 class="section-title">Upcoming Meetings</h3>
+      <div class="meetings-list">
+        @for (meeting of upcomingMeetings(); track meeting.id) {
+          <mat-card class="meeting-card">
+            <div class="meeting-accent" [style.background]="meeting.color"></div>
+            <div class="meeting-body">
+              <div class="meeting-header">
+                <span class="meeting-title">{{ meeting.title }}</span>
+                <span class="meeting-time">{{ meeting.startTime }} - {{ meeting.endTime }}</span>
+              </div>
+              <div class="meeting-meta">
+                @if (meeting.isVirtual) {
+                  <mat-icon class="meeting-meta-icon">videocam</mat-icon>
+                  <span>Virtual</span>
+                } @else {
+                  <mat-icon class="meeting-meta-icon">location_on</mat-icon>
+                  <span>{{ meeting.location }}</span>
+                }
+              </div>
+              <div class="meeting-participants">
+                @for (p of meeting.participants; track p.name; let i = $index) {
+                  @if (i < 3) {
+                    <div class="participant-avatar" [style.z-index]="10 - i">{{ p.initials }}</div>
+                  }
+                }
+                @if (meeting.participants.length > 3) {
+                  <div class="participant-avatar participant-avatar--more">+{{ meeting.participants.length - 3 }}</div>
+                }
+              </div>
+            </div>
+          </mat-card>
+        }
+        @if (upcomingMeetings().length === 0) {
+          <div class="empty-state">
+            <mat-icon>event_available</mat-icon>
+            <span>No meetings today</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="activity-section">
+      <h3 class="section-title">Recent Activity</h3>
+      <div class="activity-list">
+        @for (activity of activities(); track activity.id) {
+          <div class="activity-item">
+            <div class="activity-icon" [style.background]="activity.color + '1A'" [style.color]="activity.color">
+              <mat-icon>{{ activity.icon }}</mat-icon>
+            </div>
+            <div class="activity-content">
+              <span class="activity-title">{{ activity.title }}</span>
+              <span class="activity-desc">{{ activity.description }}</span>
+            </div>
+            <span class="activity-time">{{ activity.time }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>

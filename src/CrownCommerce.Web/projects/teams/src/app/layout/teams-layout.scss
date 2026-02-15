@@ -1,0 +1,304 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+// ─── Shell Variants ──────────────────────────────────
+.shell {
+  height: 100vh;
+  overflow: hidden;
+
+  &--desktop {
+    display: flex;
+  }
+
+  &--tablet {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--mobile {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// ─── Desktop Sidebar ─────────────────────────────────
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 14px;
+  overflow-y: auto;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+
+  &--sm {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-name {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sidebar-text);
+}
+
+.logo-sub {
+  font-size: 11px;
+  color: var(--sidebar-text-muted);
+}
+
+// Navigation
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--sidebar-text-muted);
+  font-size: 14px;
+  font-weight: 400;
+  transition: background 0.15s ease;
+
+  .nav-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: var(--sidebar-text-muted);
+  }
+
+  &:hover {
+    background: var(--sidebar-hover-bg);
+  }
+
+  &--active {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-text);
+    font-weight: 500;
+
+    .nav-icon {
+      color: var(--primary);
+    }
+  }
+}
+
+// User section
+.sidebar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+
+  &--sm {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 12px;
+  }
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-text);
+}
+
+.user-role {
+  font-size: 11px;
+  color: var(--sidebar-text-muted);
+}
+
+.settings-btn {
+  --mdc-icon-button-icon-color: var(--sidebar-text-muted);
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// ─── Tablet Top Nav ──────────────────────────────────
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.topnav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topnav-brand {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.topnav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.topnav-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+
+  .topnav-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: var(--surface-hover);
+  }
+
+  &--active {
+    background: var(--primary);
+    color: var(--on-primary);
+
+    .topnav-icon {
+      color: var(--on-primary);
+    }
+  }
+}
+
+.topnav-right {
+  display: flex;
+  align-items: center;
+}
+
+// ─── Mobile Bottom Tabs ──────────────────────────────
+.bottom-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 64px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+.bottom-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: var(--text-tertiary);
+  transition: color 0.15s ease;
+
+  .bottom-tab-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .bottom-tab-label {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  &--active {
+    color: var(--primary);
+  }
+}
+
+// ─── Main Content ────────────────────────────────────
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--surface);
+}

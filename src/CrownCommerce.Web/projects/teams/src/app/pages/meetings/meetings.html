@@ -1,0 +1,76 @@
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Meetings</h1>
+    <p class="page-subtitle">{{ currentMonthYear() }}</p>
+  </div>
+  <button mat-flat-button color="primary" class="new-meeting-btn">
+    <mat-icon>add</mat-icon>
+    New Meeting
+  </button>
+</div>
+
+<div class="content-area">
+  <!-- Week Picker -->
+  <div class="week-picker">
+    @for (day of weekDays(); track day.dateStr) {
+      <div class="day-cell"
+           [class.day-cell--selected]="day.dateStr === selectedDate()"
+           [class.day-cell--today]="day.isToday"
+           (click)="selectDate(day.dateStr)">
+        <span class="day-name">{{ day.dayName }}</span>
+        <span class="day-number">{{ day.dayNumber }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Schedule -->
+  <section>
+    <h3 class="section-title">Schedule</h3>
+    <div class="schedule-list">
+      @for (meeting of filteredMeetings(); track meeting.id) {
+        <mat-card class="schedule-card">
+          <div class="schedule-accent" [style.background]="meeting.color"></div>
+          <div class="schedule-body">
+            <div class="schedule-time-col">
+              <span class="schedule-start">{{ meeting.startTime }}</span>
+              <span class="schedule-end">{{ meeting.endTime }}</span>
+            </div>
+            <div class="schedule-divider"></div>
+            <div class="schedule-details">
+              <span class="schedule-title">{{ meeting.title }}</span>
+              <div class="schedule-meta">
+                @if (meeting.isVirtual) {
+                  <mat-icon class="meta-icon">videocam</mat-icon>
+                  <span>Virtual Meeting</span>
+                } @else {
+                  <mat-icon class="meta-icon">location_on</mat-icon>
+                  <span>{{ meeting.location }}</span>
+                }
+              </div>
+              <div class="schedule-participants">
+                @for (p of meeting.participants; track p.name; let i = $index) {
+                  @if (i < 4) {
+                    <div class="schedule-avatar" [style.z-index]="10 - i">{{ p.initials }}</div>
+                  }
+                }
+                @if (meeting.participants.length > 4) {
+                  <div class="schedule-avatar schedule-avatar--more">+{{ meeting.participants.length - 4 }}</div>
+                }
+              </div>
+            </div>
+            <button mat-icon-button class="join-btn">
+              <mat-icon>videocam</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      }
+      @if (filteredMeetings().length === 0) {
+        <div class="empty-state">
+          <mat-icon>event_available</mat-icon>
+          <span>No meetings scheduled for this day</span>
+        </div>
+      }
+    </div>
+  </section>
+</div>

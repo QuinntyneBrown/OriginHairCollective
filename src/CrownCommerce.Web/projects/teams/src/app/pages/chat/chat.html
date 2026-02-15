@@ -1,0 +1,104 @@
+<div class="chat-shell">
+  <!-- Channel List -->
+  @if (!isMobile() || showChannelList()) {
+    <aside class="channel-list">
+      <div class="channel-header">
+        <h2 class="channel-header-title">Messages</h2>
+        <button mat-icon-button><mat-icon>edit_square</mat-icon></button>
+      </div>
+
+      <!-- Search -->
+      <div class="channel-search">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input class="search-input" placeholder="Search conversations..." />
+      </div>
+
+      <!-- Channels Section -->
+      <div class="channel-section">
+        <span class="channel-section-label">Channels</span>
+        @for (channel of publicChannels(); track channel.id) {
+          <div class="channel-item"
+               [class.channel-item--active]="channel.id === selectedChannelId()"
+               (click)="selectChannel(channel.id)">
+            <mat-icon class="channel-icon">{{ channel.icon }}</mat-icon>
+            <span class="channel-name"># {{ channel.name }}</span>
+            @if (channel.unreadCount > 0) {
+              <span class="unread-badge">{{ channel.unreadCount }}</span>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Direct Messages Section -->
+      <div class="channel-section">
+        <span class="channel-section-label">Direct Messages</span>
+        @for (dm of directMessages(); track dm.id) {
+          <div class="channel-item"
+               [class.channel-item--active]="dm.id === selectedChannelId()"
+               (click)="selectChannel(dm.id)">
+            <div class="dm-avatar">{{ dm.name[0] }}</div>
+            <span class="channel-name">{{ dm.name }}</span>
+            @if (dm.unreadCount > 0) {
+              <span class="unread-badge">{{ dm.unreadCount }}</span>
+            }
+          </div>
+        }
+      </div>
+    </aside>
+  }
+
+  <!-- Message Thread -->
+  @if (!isMobile() || !showChannelList()) {
+    <div class="message-thread">
+      <!-- Thread Header -->
+      <div class="thread-header">
+        @if (isMobile()) {
+          <button mat-icon-button (click)="backToChannels()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        }
+        <div class="thread-info">
+          <span class="thread-name">
+            @if (selectedChannel(); as ch) {
+              @if (ch.isPrivate) {
+                {{ ch.name }}
+              } @else {
+                # {{ ch.name }}
+              }
+            }
+          </span>
+        </div>
+        <div class="thread-actions">
+          <button mat-icon-button><mat-icon>videocam</mat-icon></button>
+          <button mat-icon-button><mat-icon>call</mat-icon></button>
+          <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="messages-area">
+        @for (msg of messages(); track msg.id) {
+          <div class="message" [class.message--own]="msg.isOwn">
+            @if (!msg.isOwn) {
+              <div class="message-avatar">{{ msg.senderInitials }}</div>
+            }
+            <div class="message-bubble">
+              @if (!msg.isOwn) {
+                <span class="message-sender">{{ msg.senderName }}</span>
+              }
+              <p class="message-text">{{ msg.content }}</p>
+              <span class="message-time">{{ msg.timestamp }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <button mat-icon-button class="attach-btn"><mat-icon>attach_file</mat-icon></button>
+        <input class="message-input" placeholder="Type a message..." />
+        <button mat-icon-button class="send-btn"><mat-icon>send</mat-icon></button>
+      </div>
+    </div>
+  }
+</div>

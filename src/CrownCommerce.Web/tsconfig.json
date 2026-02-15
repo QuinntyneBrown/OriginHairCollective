@@ -72,6 +72,12 @@
     },
     {
       "path": "./projects/mane-haus-coming-soon/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/teams/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/teams/tsconfig.spec.json"
     }
   ]
 }
