@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Identity\CrownCommerce.Identity.Api\CrownCommerce.Identity.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Scheduling\CrownCommerce.Scheduling.Api\CrownCommerce.Scheduling.Api.csproj" />
+    <ProjectReference Include="..\..\Gateway\CrownCommerce.ApiGateway\CrownCommerce.ApiGateway.csproj" />
+  </ItemGroup>
+
+</Project>

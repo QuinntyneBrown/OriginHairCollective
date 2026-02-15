@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve origin-hair-collective",
+    "start:teams": "ng serve teams --proxy-config projects/teams/proxy.aspire.conf.js",
+    "start:coming-soon": "ng serve origin-hair-collective-coming-soon",
     "start:mane-haus": "ng serve mane-haus-coming-soon",
     "build": "ng build",
     "build:libs": "ng build components && ng build api && ng build features",
