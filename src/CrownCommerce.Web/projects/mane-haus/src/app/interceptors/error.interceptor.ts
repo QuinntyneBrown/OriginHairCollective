@@ -8,8 +8,16 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error) => {
-      if (error.status === 401) {
-        router.navigate(['/login']);
+      switch (error.status) {
+        case 401:
+          router.navigate(['/login']);
+          break;
+        case 404:
+          console.error(`Resource not found: ${req.url}`);
+          break;
+        case 500:
+          console.error(`Server error: ${req.url}`);
+          break;
       }
       return throwError(() => error);
     }),

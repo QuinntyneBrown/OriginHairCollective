@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 
 const SESSION_KEY = 'cart_session_id';
 

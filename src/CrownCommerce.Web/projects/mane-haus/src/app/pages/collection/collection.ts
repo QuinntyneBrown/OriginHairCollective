@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { TitleCasePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { SectionHeaderComponent, ProductCardComponent } from 'components';
@@ -9,7 +10,7 @@ import { ErrorStateComponent } from '../../components/error-state/error-state';
 
 @Component({
   selector: 'app-collection',
-  imports: [RouterLink, SectionHeaderComponent, ProductCardComponent, LoadingSpinnerComponent, ErrorStateComponent],
+  imports: [TitleCasePipe, RouterLink, SectionHeaderComponent, ProductCardComponent, LoadingSpinnerComponent, ErrorStateComponent],
   templateUrl: './collection.html',
   styleUrl: './collection.scss',
 })

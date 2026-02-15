@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import {
   ButtonComponent,
   BadgeComponent,
@@ -38,6 +39,8 @@ import { NewsletterSignupComponent } from '../../components/newsletter-signup/ne
 export class HomePage implements OnInit {
   private readonly catalogService = inject(CatalogService);
   private readonly contentService = inject(ContentService);
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
 
   readonly products = signal<HairProduct[]>([]);
   readonly productsLoading = signal(true);
@@ -73,6 +76,9 @@ export class HomePage implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.title.setTitle('Mane Haus | Premium Hair Extensions');
+    this.meta.updateTag({ name: 'description', content: 'Mane Haus - Luxury virgin hair extensions, bundles, closures, and frontals. Based in Toronto, serving Canada and beyond.' });
+
     this.loadProducts();
     this.loadTestimonials();
     this.loadGallery();

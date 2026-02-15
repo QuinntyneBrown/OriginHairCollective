@@ -175,6 +175,31 @@
   }
 }
 
+// ─── Newsletter Section ────────────────────────────────
+.newsletter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 64px 80px;
+  background: var(--color-bg-secondary);
+
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  &__sub {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+}
+
 // ─── Final CTA ──────────────────────────────────────────
 .final-cta {
   display: flex;
@@ -325,6 +350,18 @@
       grid-template-rows: 130px 130px;
       gap: 3px;
       height: auto;
+    }
+  }
+
+  .newsletter-section {
+    padding: 48px 24px;
+
+    &__heading {
+      font-size: 22px;
+    }
+
+    &__sub {
+      font-size: 14px;
     }
   }
 

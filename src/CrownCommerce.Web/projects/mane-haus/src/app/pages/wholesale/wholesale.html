@@ -13,7 +13,8 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="wholesale__form">
       <div class="wholesale__field">
         <label for="name">Business / Contact Name *</label>
-        <input id="name" formControlName="name" placeholder="Your business or name" />
+        <input id="name" formControlName="name" placeholder="e.g. Jane Doe / Luxe Hair Studio" />
+        <span class="wholesale__hint">Enter your business name and/or contact person</span>
         @if (form.controls.name.touched && form.controls.name.errors) {
           <span class="wholesale__error">Name is required.</span>
         }

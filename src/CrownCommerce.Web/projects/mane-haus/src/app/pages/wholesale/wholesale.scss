@@ -59,6 +59,12 @@
     }
   }
 
+  &__hint {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--color-text-muted);
+  }
+
   &__error {
     font-family: var(--font-body);
     font-size: 12px;
