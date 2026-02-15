@@ -9,6 +9,9 @@
       ],
       "components": [
         "./dist/components"
+      ],
+      "features": [
+        "./dist/features"
       ]
     },
     "strict": true,
@@ -42,6 +45,12 @@
     },
     {
       "path": "./projects/components/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/features/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/features/tsconfig.spec.json"
     },
     {
       "path": "./projects/origin-hair-collective/tsconfig.app.json"

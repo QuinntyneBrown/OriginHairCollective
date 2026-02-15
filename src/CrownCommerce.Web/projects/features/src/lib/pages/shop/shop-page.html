@@ -1,0 +1,56 @@
+<section class="shop">
+  <lib-section-header label="THE COLLECTION" heading="Shop All Products" />
+
+  <div class="shop__filters">
+    <div class="shop__filter-group">
+      <span class="shop__filter-label">Category:</span>
+      <button class="shop__filter-btn" [class.active]="!activeCategory()" (click)="filterByCategory(null)">All</button>
+      @for (cat of categories; track cat) {
+        <button class="shop__filter-btn" [class.active]="activeCategory() === cat" (click)="filterByCategory(cat)">{{ cat }}s</button>
+      }
+    </div>
+    <div class="shop__filter-group">
+      <span class="shop__filter-label">Texture:</span>
+      <button class="shop__filter-btn" [class.active]="!activeTexture()" (click)="filterByTexture(null)">All</button>
+      @for (tex of textures; track tex) {
+        <button class="shop__filter-btn" [class.active]="activeTexture() === tex" (click)="filterByTexture(tex)">{{ tex }}</button>
+      }
+    </div>
+    <div class="shop__filter-group">
+      <span class="shop__filter-label">Origin:</span>
+      <button class="shop__filter-btn" [class.active]="!activeOrigin()" (click)="filterByOrigin(null)">All</button>
+      @for (origin of origins; track origin) {
+        <button class="shop__filter-btn" [class.active]="activeOrigin() === origin" (click)="filterByOrigin(origin)">{{ origin }}</button>
+      }
+    </div>
+    <div class="shop__filter-group">
+      <span class="shop__filter-label">Sort:</span>
+      <select class="shop__sort" (change)="sortProducts($any($event.target).value)">
+        <option value="name">Name</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="shop__status">Loading products...</p>
+  } @else if (error()) {
+    <p class="shop__status shop__status--error">{{ error() }}</p>
+  } @else if (filteredProducts().length === 0) {
+    <p class="shop__status">No products match your filters.</p>
+  } @else {
+    <div class="shop__grid">
+      @for (product of filteredProducts(); track product.id) {
+        <lib-product-card
+          [imageUrl]="product.imageUrl ?? ''"
+          [tag]="product.type.toUpperCase()"
+          [title]="product.name"
+          [description]="product.description"
+          [price]="formatPrice(product)"
+          (click)="navigateToProduct(product)"
+        />
+      }
+    </div>
+  }
+</section>

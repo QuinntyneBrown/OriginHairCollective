@@ -1,0 +1,38 @@
+<section class="cart">
+  <h1 class="cart__title">Your Cart</h1>
+
+  @if (loading()) {
+    <p class="cart__status">Loading cart...</p>
+  } @else if (items().length === 0) {
+    <div class="cart__empty">
+      <p>Your cart is empty.</p>
+      <lib-button variant="primary" (click)="continueShopping()">CONTINUE SHOPPING</lib-button>
+    </div>
+  } @else {
+    <div class="cart__items">
+      @for (item of items(); track item.id) {
+        <div class="cart__item">
+          <div class="cart__item-info">
+            <h3 class="cart__item-name">{{ item.productName }}</h3>
+            <p class="cart__item-price">${{ item.unitPrice }} CAD x {{ item.quantity }}</p>
+          </div>
+          <div class="cart__item-total">
+            <span>${{ item.lineTotal.toFixed(2) }} CAD</span>
+            <button class="cart__item-remove" (click)="removeItem(item.id)">Remove</button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="cart__summary">
+      <div class="cart__total">
+        <span>Total</span>
+        <span class="cart__total-amount">${{ total.toFixed(2) }} CAD</span>
+      </div>
+      <div class="cart__actions">
+        <lib-button variant="secondary" (click)="clearCart()">CLEAR CART</lib-button>
+        <lib-button variant="primary" [showArrow]="true" (click)="proceedToCheckout()">PROCEED TO CHECKOUT</lib-button>
+      </div>
+    </div>
+  }
+</section>

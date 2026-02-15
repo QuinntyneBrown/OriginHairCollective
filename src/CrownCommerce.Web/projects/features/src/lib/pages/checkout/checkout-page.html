@@ -1,0 +1,43 @@
+<section class="checkout">
+  @if (orderComplete()) {
+    <div class="checkout__success">
+      <h1>Order Confirmed!</h1>
+      <p>Thank you for your order. Your order ID is <strong>{{ orderId() }}</strong>.</p>
+      <p>A confirmation email will be sent to {{ customerEmail }}.</p>
+      <lib-button variant="primary" (click)="goHome()">BACK TO HOME</lib-button>
+    </div>
+  } @else {
+    <h1 class="checkout__title">Checkout</h1>
+
+    @if (error()) {
+      <p class="checkout__error">{{ error() }}</p>
+    }
+
+    <form class="checkout__form" (ngSubmit)="submitOrder()">
+      <div class="checkout__field">
+        <label class="checkout__label" for="name">Full Name</label>
+        <input class="checkout__input" id="name" type="text" [(ngModel)]="customerName" name="name" required />
+      </div>
+      <div class="checkout__field">
+        <label class="checkout__label" for="email">Email</label>
+        <input class="checkout__input" id="email" type="email" [(ngModel)]="customerEmail" name="email" required />
+      </div>
+      <div class="checkout__field">
+        <label class="checkout__label" for="address">Shipping Address</label>
+        <textarea class="checkout__textarea" id="address" [(ngModel)]="shippingAddress" name="address" required rows="3"></textarea>
+      </div>
+
+      <div class="checkout__payment-notice">
+        <p>Payment will be processed securely. In production, Stripe Elements would appear here.</p>
+      </div>
+
+      <lib-button variant="primary" type="submit" [showArrow]="true">
+        @if (submitting()) {
+          PROCESSING...
+        } @else {
+          PLACE ORDER
+        }
+      </lib-button>
+    </form>
+  }
+</section>

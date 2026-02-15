@@ -1,0 +1,45 @@
+@if (submitted()) {
+  <div class="inquiry-form__success">
+    <h2>Message Sent!</h2>
+    <p>Thank you for reaching out. We'll get back to you soon.</p>
+  </div>
+} @else {
+  @if (error()) {
+    <p class="inquiry-form__error">{{ error() }}</p>
+  }
+
+  <form class="inquiry-form" (ngSubmit)="submit()">
+    <div class="inquiry-form__field">
+      <label class="inquiry-form__label">Name *</label>
+      <input class="inquiry-form__input" type="text" [(ngModel)]="name" name="name" required />
+    </div>
+    <div class="inquiry-form__field">
+      <label class="inquiry-form__label">Email *</label>
+      <input class="inquiry-form__input" type="email" [(ngModel)]="email" name="email" required />
+    </div>
+    @if (showPhoneField()) {
+      <div class="inquiry-form__field">
+        <label class="inquiry-form__label">Phone (optional)</label>
+        <input class="inquiry-form__input" type="tel" [(ngModel)]="phone" name="phone" />
+      </div>
+    }
+    @if (showProductField()) {
+      <div class="inquiry-form__field">
+        <label class="inquiry-form__label">Product Interest (optional)</label>
+        <select class="inquiry-form__select" [(ngModel)]="productId" name="productId">
+          <option value="">-- Select a product --</option>
+          @for (product of products(); track product.id) {
+            <option [value]="product.id">{{ product.name }}</option>
+          }
+        </select>
+      </div>
+    }
+    <div class="inquiry-form__field">
+      <label class="inquiry-form__label">Message *</label>
+      <textarea class="inquiry-form__textarea" [(ngModel)]="message" name="message" required rows="5"></textarea>
+    </div>
+    <lib-button variant="primary" type="submit">
+      @if (submitting()) { SENDING... } @else { {{ submitLabel() }} }
+    </lib-button>
+  </form>
+}

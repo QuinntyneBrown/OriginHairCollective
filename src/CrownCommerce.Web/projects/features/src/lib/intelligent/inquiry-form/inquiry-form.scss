@@ -1,0 +1,74 @@
+.inquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  &__success {
+    text-align: center;
+    padding: 40px 0;
+
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      color: var(--color-gold);
+    }
+
+    p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--color-text-secondary);
+      margin-top: 12px;
+    }
+  }
+
+  &__error {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-rose);
+    padding: 12px 16px;
+    background: rgba(255, 100, 100, 0.1);
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-text-primary);
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-gold);
+    }
+  }
+
+  &__select {
+    cursor: pointer;
+  }
+
+  &__textarea {
+    resize: vertical;
+  }
+}
