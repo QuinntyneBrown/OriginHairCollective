@@ -1,9 +1,6 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Meetings</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
@@ -114,9 +111,6 @@
     <!-- Options -->
     <div class="form-card">
       <h3 class="form-section-title">Options</h3>
-      <mat-checkbox [(ngModel)]="sendEmail" color="primary">
-        Send email notification to all attendees
-      </mat-checkbox>
       <mat-checkbox [(ngModel)]="exportCalendar" color="primary">
         Download .ics file (for Google Calendar, Outlook, Apple Calendar)
       </mat-checkbox>

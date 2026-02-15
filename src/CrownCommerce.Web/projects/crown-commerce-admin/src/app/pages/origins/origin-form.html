@@ -1,0 +1,78 @@
+<!-- Toolbar -->
+<div class="toolbar">
+  <h1 class="toolbar-title">Origins</h1>
+</div>
+
+<!-- Content Area -->
+<div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="form-header-left">
+      <button mat-icon-button routerLink="/origins">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h2 class="page-title">{{ isEditMode() ? 'Edit Origin' : 'Add New Origin' }}</h2>
+        <p class="page-subtitle">{{ isEditMode() ? 'Update the origin details below' : 'Fill in the origin details below' }}</p>
+      </div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <!-- Form Card -->
+    <mat-card class="form-card">
+      <div class="form-card-header">
+        <span class="form-card-title">Origin Information</span>
+      </div>
+
+      <div class="form-body">
+        <!-- Country + Region -->
+        <div class="two-col">
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <input matInput placeholder="e.g. Cambodia" [(ngModel)]="country" required>
+            @if (!country.trim()) {
+              <mat-error>Country is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <input matInput placeholder="e.g. Phnom Penh" [(ngModel)]="region" required>
+            @if (!region.trim()) {
+              <mat-error>Region is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="4" placeholder="Enter origin description..." [(ngModel)]="description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button routerLink="/origins">Cancel</button>
+        <button mat-flat-button color="primary" class="primary-btn" [disabled]="!isFormValid || saving()" (click)="onSubmit()">
+          @if (saving()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+            {{ isEditMode() ? 'Update Origin' : 'Save Origin' }}
+          }
+        </button>
+      </div>
+    </mat-card>
+  }
+</div>

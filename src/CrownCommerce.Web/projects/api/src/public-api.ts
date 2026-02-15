@@ -10,7 +10,7 @@ export { authInterceptor } from './lib/auth.interceptor';
 export type { PagedResult } from './lib/models/common.models';
 
 // Models — Catalog
-export type { HairProduct, HairOrigin } from './lib/models/catalog.models';
+export type { HairProduct, HairOrigin, CreateProductRequest, UpdateProductRequest, CreateOriginRequest, UpdateOriginRequest } from './lib/models/catalog.models';
 
 // Models — Identity
 export type { LoginRequest, RegisterRequest, AuthResponse, UserProfile, UpdateProfileRequest } from './lib/models/identity.models';
@@ -22,7 +22,7 @@ export type { CartItem, AddToCartRequest, CreateOrderRequest, OrderItem, Order, 
 export type { CreatePaymentRequest, Payment, ConfirmPaymentRequest, CreateRefundRequest, Refund } from './lib/models/payment.models';
 
 // Models — Content
-export type { Testimonial, CreateTestimonialRequest, GalleryImage, FaqItem, ContentPage } from './lib/models/content.models';
+export type { Testimonial, CreateTestimonialRequest, UpdateTestimonialRequest, GalleryImage, FaqItem, ContentPage } from './lib/models/content.models';
 
 // Models — Inquiry
 export type { CreateInquiryRequest, Inquiry } from './lib/models/inquiry.models';

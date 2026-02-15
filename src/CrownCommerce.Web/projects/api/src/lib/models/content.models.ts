@@ -16,6 +16,14 @@ export interface CreateTestimonialRequest {
   imageUrl?: string;
 }
 
+export interface UpdateTestimonialRequest {
+  customerName: string;
+  customerLocation?: string;
+  content: string;
+  rating: number;
+  imageUrl?: string;
+}
+
 export interface GalleryImage {
   id: string;
   title: string;

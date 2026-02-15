@@ -45,7 +45,6 @@ export class MeetingFormPage implements OnInit {
   location = '';
   organizerId = '';
   selectedAttendeeIds: string[] = [];
-  sendEmail = true;
   exportCalendar = false;
 
   ngOnInit() {
@@ -69,9 +68,6 @@ export class MeetingFormPage implements OnInit {
       return;
     }
 
-    this.saving.set(true);
-    this.error.set('');
-
     const [startH, startM] = this.startTime.split(':').map(Number);
     const [endH, endM] = this.endTime.split(':').map(Number);
 
@@ -80,6 +76,14 @@ export class MeetingFormPage implements OnInit {
 
     const endDate = new Date(this.meetingDate);
     endDate.setHours(endH, endM, 0, 0);
+
+    if (endDate <= startDate) {
+      this.error.set('End time must be after start time.');
+      return;
+    }
+
+    this.saving.set(true);
+    this.error.set('');
 
     const request: CreateMeetingRequest = {
       title: this.title,
@@ -102,10 +106,13 @@ export class MeetingFormPage implements OnInit {
               a.download = 'meeting.ics';
               a.click();
               window.URL.revokeObjectURL(url);
+              this.router.navigate(['/schedule']);
             },
+            error: () => this.router.navigate(['/schedule']),
           });
+        } else {
+          this.router.navigate(['/schedule']);
         }
-        this.router.navigate(['/schedule']);
       },
       error: () => {
         this.error.set('Failed to book meeting. Please try again.');

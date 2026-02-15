@@ -111,4 +111,37 @@ test.describe('Hero Content', () => {
       await expect(heroPage.saveButton).toContainText('Save Changes');
     });
   });
+
+  test.describe('Interactive - Fill and Save', () => {
+    test('should fill Hero Title and verify value', async () => {
+      await heroPage.heroTitleField.fill('New Premium Title');
+      await expect(heroPage.heroTitleField).toHaveValue('New Premium Title');
+    });
+
+    test('should fill all fields', async () => {
+      await heroPage.heroTitleField.fill('Updated Title');
+      await heroPage.heroSubtitleField.fill('Updated Subtitle');
+      await heroPage.ctaButtonTextField.fill('Shop Collection');
+      await heroPage.ctaButtonLinkField.fill('/collection');
+
+      await expect(heroPage.heroTitleField).toHaveValue('Updated Title');
+      await expect(heroPage.heroSubtitleField).toHaveValue('Updated Subtitle');
+      await expect(heroPage.ctaButtonTextField).toHaveValue('Shop Collection');
+      await expect(heroPage.ctaButtonLinkField).toHaveValue('/collection');
+    });
+
+    test('should have Save Changes button enabled', async () => {
+      await expect(heroPage.saveButton).toBeEnabled();
+    });
+
+    test('should have Reset button enabled', async () => {
+      await expect(heroPage.resetButton).toBeEnabled();
+    });
+  });
+
+  test.describe('Interactive - Image Upload', () => {
+    test('should display clickable upload area', async () => {
+      await expect(heroPage.imageUploadArea).toBeVisible();
+    });
+  });
 });

@@ -10,23 +10,6 @@
   border-radius: var(--radius-full) !important;
 }
 
-.error-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  background: var(--error-light, #fde8e8);
-  color: var(--error);
-  font-size: 14px;
-
-  mat-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-  }
-}
-
 .form-layout {
   display: flex;
   flex-direction: column;

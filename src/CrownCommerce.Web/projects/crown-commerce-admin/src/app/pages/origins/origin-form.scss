@@ -1,0 +1,60 @@
+@use '../shared-page';
+
+.form-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.form-card-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--outline);
+}
+
+.form-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.two-col {
+  display: flex;
+  gap: 20px;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--outline);
+}
+
+.primary-btn {
+  --mdc-filled-button-container-color: var(--primary);
+  --mdc-filled-button-label-text-color: var(--on-primary);
+  border-radius: var(--radius-full) !important;
+}

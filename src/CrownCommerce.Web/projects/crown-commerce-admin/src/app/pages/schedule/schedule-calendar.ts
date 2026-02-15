@@ -5,8 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { SchedulingService, type CalendarEvent, type Employee } from 'api';
+import { ConfirmDialog } from '../../shared/confirm-dialog';
 
 interface CalendarDay {
   date: Date;
@@ -24,6 +28,7 @@ interface CalendarDay {
     MatButtonModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
     FormsModule,
   ],
   templateUrl: './schedule-calendar.html',
@@ -31,12 +36,16 @@ interface CalendarDay {
 })
 export class ScheduleCalendarPage implements OnInit {
   private readonly schedulingService = inject(SchedulingService);
+  private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
 
   readonly employees = signal<Employee[]>([]);
   readonly events = signal<CalendarEvent[]>([]);
   readonly currentDate = signal(new Date());
   readonly selectedEmployeeId = signal<string>('');
   readonly selectedEvent = signal<CalendarEvent | null>(null);
+  readonly loading = signal(true);
+  readonly error = signal<string | null>(null);
 
   readonly monthLabel = computed(() => {
     const d = this.currentDate();
@@ -94,6 +103,7 @@ export class ScheduleCalendarPage implements OnInit {
   ngOnInit() {
     this.schedulingService.getEmployees().subscribe({
       next: (data) => this.employees.set(data),
+      error: () => this.error.set('Failed to load employees'),
     });
     this.loadEvents();
   }
@@ -105,7 +115,14 @@ export class ScheduleCalendarPage implements OnInit {
     const empId = this.selectedEmployeeId() || undefined;
 
     this.schedulingService.getCalendarEvents(start.toISOString(), end.toISOString(), empId).subscribe({
-      next: (data) => this.events.set(data),
+      next: (data) => {
+        this.events.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to load calendar events');
+        this.loading.set(false);
+      },
     });
   }
 
@@ -137,6 +154,31 @@ export class ScheduleCalendarPage implements OnInit {
 
   formatTime(utcStr: string): string {
     return new Date(utcStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  cancelMeeting(meetingId: string) {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'Cancel Meeting',
+        message: 'Are you sure you want to cancel this meeting?',
+        confirmText: 'Cancel Meeting',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.schedulingService.cancelMeeting(meetingId).subscribe({
+        next: () => {
+          this.selectedEvent.set(null);
+          this.loadEvents();
+        },
+        error: () => this.error.set('Failed to cancel meeting'),
+      });
+    });
+  }
+
+  editMeeting(meetingId: string) {
+    this.router.navigate(['/meetings', meetingId, 'edit']);
   }
 
   getEventColor(status: string): string {

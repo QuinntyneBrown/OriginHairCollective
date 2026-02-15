@@ -97,4 +97,58 @@ test.describe('Testimonials List', () => {
       expect(text).toContain('12');
     });
   });
+
+  test.describe('Interactive - Search Filtering', () => {
+    test('should filter testimonials by search term', async () => {
+      await testimonialsPage.searchField.fill('Keisha');
+      const firstRowText = await testimonialsPage.dataTable.getCellText(0, 0);
+      expect(firstRowText).toContain('Keisha');
+    });
+  });
+
+  test.describe('Interactive - Add Testimonial', () => {
+    test('should open add testimonial dialog when clicking Add Testimonial', async ({ page }) => {
+      await testimonialsPage.addTestimonialButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toHaveText('Add Testimonial');
+    });
+
+    test('should display form fields in add testimonial dialog', async ({ page }) => {
+      await testimonialsPage.addTestimonialButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Customer Name' })).toBeVisible();
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Rating' })).toBeVisible();
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Review' })).toBeVisible();
+    });
+
+    test('should close dialog when clicking Cancel', async ({ page }) => {
+      await testimonialsPage.addTestimonialButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await dialog.locator('button').filter({ hasText: 'Cancel' }).click();
+      await expect(dialog).not.toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Edit Testimonial', () => {
+    test('should open edit testimonial dialog when clicking edit', async ({ page }) => {
+      const editBtn = testimonialsPage.dataTable.getEditButton(0);
+      await editBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toHaveText('Edit Testimonial');
+    });
+  });
+
+  test.describe('Interactive - Delete', () => {
+    test('should open confirmation dialog when clicking delete', async ({ page }) => {
+      const deleteBtn = testimonialsPage.dataTable.getDeleteButton(0);
+      await deleteBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toBeVisible();
+    });
+  });
 });

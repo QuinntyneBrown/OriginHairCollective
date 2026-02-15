@@ -1,13 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Conversations</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div>
@@ -20,7 +24,13 @@
     </button>
   </div>
 
-  <div class="conversations-layout">
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  <div class="conversations-layout" [style.display]="loading() ? 'none' : ''">
     <!-- Conversation List -->
     <div class="conv-list">
       @for (conv of conversations(); track conv.id) {

@@ -26,10 +26,31 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'products/:id/edit',
+        loadComponent: () =>
+          import('./pages/products/product-form').then(
+            (m) => m.ProductFormPage
+          ),
+      },
+      {
         path: 'origins',
         loadComponent: () =>
           import('./pages/origins/origins-list').then(
             (m) => m.OriginsListPage
+          ),
+      },
+      {
+        path: 'origins/new',
+        loadComponent: () =>
+          import('./pages/origins/origin-form').then(
+            (m) => m.OriginFormPage
+          ),
+      },
+      {
+        path: 'origins/:id/edit',
+        loadComponent: () =>
+          import('./pages/origins/origin-form').then(
+            (m) => m.OriginFormPage
           ),
       },
       {
@@ -69,6 +90,13 @@ export const routes: Routes = [
       },
       {
         path: 'meetings/new',
+        loadComponent: () =>
+          import('./pages/meetings/meeting-form').then(
+            (m) => m.MeetingFormPage
+          ),
+      },
+      {
+        path: 'meetings/:id/edit',
         loadComponent: () =>
           import('./pages/meetings/meeting-form').then(
             (m) => m.MeetingFormPage

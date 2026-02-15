@@ -16,4 +16,9 @@ export class InquiryService {
   getInquiries(): Observable<Inquiry[]> {
     return this.http.get<Inquiry[]>(`${this.baseUrl}/inquiries`);
   }
+
+  // TODO: Verify backend DELETE endpoint exists at /api/inquiries/inquiries/{id}
+  deleteInquiry(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/inquiries/${id}`);
+  }
 }

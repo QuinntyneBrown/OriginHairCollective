@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   SchedulingService,
   type Employee,
@@ -24,18 +25,27 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './conversations-list.html',
   styleUrl: './conversations-list.scss',
 })
+// TODO: Inject TeamHubService and subscribe to 'ReceiveMessage' events for real-time updates
+// Example:
+// private readonly teamHub = inject(TeamHubService);
+// In ngOnInit: this.teamHub.onMessage$.subscribe(msg => { ... update active conversation ... });
+// In selectConversation: join/leave channels
 export class ConversationsListPage implements OnInit {
   private readonly schedulingService = inject(SchedulingService);
 
   readonly employees = signal<Employee[]>([]);
+  readonly currentEmployee = signal<Employee | null>(null);
   readonly conversations = signal<ScheduleConversationSummary[]>([]);
   readonly activeConversation = signal<ScheduleConversation | null>(null);
   readonly newMessageContent = signal('');
   readonly showNewConversation = signal(false);
+  readonly loading = signal(true);
+  readonly error = signal<string | null>(null);
 
   // New conversation form
   newSubject = '';
@@ -53,13 +63,28 @@ export class ConversationsListPage implements OnInit {
   ngOnInit() {
     this.schedulingService.getEmployees().subscribe({
       next: (data) => this.employees.set(data),
+      error: () => this.error.set('Failed to load employees'),
+    });
+    this.schedulingService.getCurrentEmployee().subscribe({
+      next: (emp) => this.currentEmployee.set(emp),
+      error: () => {
+        // Fallback: use first employee if getCurrentEmployee fails
+        // TODO: Ensure backend /api/scheduling/employees/me returns authenticated user
+      },
     });
     this.loadConversations();
   }
 
   loadConversations() {
     this.schedulingService.getConversations().subscribe({
-      next: (data) => this.conversations.set(data),
+      next: (data) => {
+        this.conversations.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to load conversations');
+        this.loading.set(false);
+      },
     });
   }
 
@@ -67,6 +92,7 @@ export class ConversationsListPage implements OnInit {
     this.showNewConversation.set(false);
     this.schedulingService.getConversation(id).subscribe({
       next: (data) => this.activeConversation.set(data),
+      error: () => this.error.set('Failed to load conversation'),
     });
   }
 
@@ -80,13 +106,16 @@ export class ConversationsListPage implements OnInit {
     return emp ? `${emp.firstName[0]}${emp.lastName[0]}` : '??';
   }
 
+  private getCurrentEmployeeId(): string | null {
+    return this.currentEmployee()?.id ?? this.employees()[0]?.id ?? null;
+  }
+
   sendMessage() {
     const conv = this.activeConversation();
     const content = this.newMessageContent();
     if (!conv || !content.trim()) return;
 
-    // Use first employee as sender for demo
-    const senderId = this.employees()[0]?.id;
+    const senderId = this.getCurrentEmployeeId();
     if (!senderId) return;
 
     this.schedulingService.sendMessage(conv.id, { senderEmployeeId: senderId, content }).subscribe({
@@ -100,7 +129,9 @@ export class ConversationsListPage implements OnInit {
           });
         }
         this.newMessageContent.set('');
+        this.loadConversations();
       },
+      error: () => this.error.set('Failed to send message'),
     });
   }
 
@@ -112,7 +143,7 @@ export class ConversationsListPage implements OnInit {
   createConversation() {
     if (!this.newSubject || this.newParticipantIds.length === 0) return;
 
-    const creatorId = this.employees()[0]?.id;
+    const creatorId = this.getCurrentEmployeeId();
     if (!creatorId) return;
 
     this.schedulingService.createConversation({
@@ -129,6 +160,7 @@ export class ConversationsListPage implements OnInit {
         this.loadConversations();
         this.activeConversation.set(conv);
       },
+      error: () => this.error.set('Failed to create conversation'),
     });
   }
 

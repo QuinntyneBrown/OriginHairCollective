@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
-  <h1 class="toolbar-title">Products</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
+  <h1 class="toolbar-title">Inquiries</h1>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div>
@@ -16,7 +19,7 @@
       <p class="page-subtitle">Customer inquiries and product interest</p>
     </div>
     <div class="header-actions">
-      <button mat-stroked-button class="filter-btn">
+      <button mat-stroked-button class="filter-btn" (click)="exportInquiries()">
         <mat-icon>download</mat-icon>
         Export
       </button>
@@ -27,57 +30,65 @@
   <div class="filter-row">
     <mat-form-field appearance="outline" class="search-field">
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Search inquiries...">
+      <input matInput placeholder="Search inquiries..." (input)="searchTerm.set($any($event.target).value); pageIndex.set(0)">
     </mat-form-field>
-    <button mat-stroked-button class="filter-btn">
-      <mat-icon>filter_list</mat-icon>
-      Status
-    </button>
   </div>
 
-  <!-- Inquiries Table -->
-  <div class="table-card">
-    <table mat-table [dataSource]="inquiries()" class="table-full-width">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.name }}</td>
-      </ng-container>
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
-        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
-      </ng-container>
-      <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef>Phone</th>
-        <td mat-cell *matCellDef="let row">{{ row.phone }}</td>
-      </ng-container>
-      <ng-container matColumnDef="message">
-        <th mat-header-cell *matHeaderCellDef>Message</th>
-        <td mat-cell *matCellDef="let row">{{ row.message }}</td>
-      </ng-container>
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let row" class="cell-muted">{{ row.createdAt | date:'mediumDate' }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <div class="actions-cell">
-            <button mat-icon-button class="action-btn"><mat-icon>visibility</mat-icon></button>
-            <button mat-icon-button class="action-btn action-btn--delete"><mat-icon>delete</mat-icon></button>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (inquiries().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">mail_outline</mat-icon>
+      <p class="empty-text">No inquiries found</p>
+      <p class="empty-subtext">Customer inquiries will appear here</p>
+    </div>
+  } @else {
+    <!-- Inquiries Table -->
+    <div class="table-card">
+      <table mat-table [dataSource]="paginatedInquiries()" class="table-full-width">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Phone</th>
+          <td mat-cell *matCellDef="let row">{{ row.phone }}</td>
+        </ng-container>
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef>Message</th>
+          <td mat-cell *matCellDef="let row">{{ row.message }}</td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row" class="cell-muted">{{ row.createdAt | date:'mediumDate' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="actions-cell">
+              <button mat-icon-button class="action-btn" (click)="viewInquiry(row)"><mat-icon>visibility</mat-icon></button>
+              <button mat-icon-button class="action-btn action-btn--delete" (click)="deleteInquiry(row.id)"><mat-icon>delete</mat-icon></button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
-    <!-- Paginator -->
-    <div class="paginator-row">
-      <span class="paginator-text">Showing {{ inquiries().length }} inquiries</span>
-      <div class="paginator-buttons">
-        <button mat-stroked-button disabled>Previous</button>
-        <button mat-flat-button color="primary" class="primary-btn">Next</button>
+      <!-- Paginator -->
+      <div class="paginator-row">
+        <span class="paginator-text">Showing {{ pageIndex() * pageSize + 1 }}-{{ Math.min((pageIndex() + 1) * pageSize, filteredInquiries().length) }} of {{ filteredInquiries().length }} inquiries</span>
+        <div class="paginator-buttons">
+          <button mat-stroked-button [disabled]="pageIndex() === 0" (click)="previousPage()">Previous</button>
+          <button mat-flat-button color="primary" class="primary-btn" [disabled]="(pageIndex() + 1) * pageSize >= filteredInquiries().length" (click)="nextPage()">Next</button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

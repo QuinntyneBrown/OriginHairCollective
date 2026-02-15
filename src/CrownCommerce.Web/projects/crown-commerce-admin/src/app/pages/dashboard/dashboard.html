@@ -1,18 +1,21 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Dashboard</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Welcome -->
   <div class="welcome-row">
     <div class="welcome-text">
-      <h2 class="page-title">Welcome back, Quinn</h2>
+      <h2 class="page-title">Welcome back{{ userName() ? ', ' + userName() : '' }}</h2>
       <p class="page-subtitle">Here's what's happening with your store today.</p>
     </div>
   </div>

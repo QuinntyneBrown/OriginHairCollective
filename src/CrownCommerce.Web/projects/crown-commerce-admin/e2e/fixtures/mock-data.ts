@@ -160,3 +160,161 @@ export const navItems = [
 export const productFormOrigins = ['Cambodia', 'India', 'Vietnam', 'Indonesia', 'Myanmar'];
 export const productFormTextures = ['Straight', 'Curly', 'Wavy', 'Kinky', 'Body Wave'];
 export const productFormTypes = ['Bundle', 'Wig', 'Closure', 'Frontal'];
+
+// ── Subscriber Interfaces & Data ──
+
+export interface SubscriberInfo {
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  status: string;
+  tags: string[];
+  confirmedAt: string | null;
+  createdAt: string;
+  unsubscribedAt: string | null;
+}
+
+export interface SubscriberStatsInfo {
+  totalActive: number;
+  totalPending: number;
+  totalUnsubscribed: number;
+  recentSubscribers: number;
+}
+
+export const mockSubscribers: SubscriberInfo[] = [
+  { id: 'sub-1', email: 'alice@example.com', firstName: 'Alice', lastName: 'Johnson', status: 'Active', tags: ['origin-coming-soon'], confirmedAt: '2025-02-01T10:00:00Z', createdAt: '2025-01-28T09:00:00Z', unsubscribedAt: null },
+  { id: 'sub-2', email: 'bob@example.com', firstName: 'Bob', lastName: 'Smith', status: 'Active', tags: ['mane-haus-coming-soon'], confirmedAt: '2025-02-02T11:00:00Z', createdAt: '2025-01-30T08:00:00Z', unsubscribedAt: null },
+  { id: 'sub-3', email: 'carol@example.com', firstName: 'Carol', lastName: 'Davis', status: 'Pending', tags: ['origin-coming-soon'], confirmedAt: null, createdAt: '2025-02-05T14:00:00Z', unsubscribedAt: null },
+  { id: 'sub-4', email: 'dave@example.com', firstName: 'Dave', lastName: 'Wilson', status: 'Unsubscribed', tags: ['mane-haus-coming-soon'], confirmedAt: '2025-01-15T10:00:00Z', createdAt: '2025-01-10T09:00:00Z', unsubscribedAt: '2025-02-01T16:00:00Z' },
+];
+
+export const mockSubscriberStats: SubscriberStatsInfo = {
+  totalActive: 42,
+  totalPending: 8,
+  totalUnsubscribed: 3,
+  recentSubscribers: 12,
+};
+
+export const mockSubscribersPagedResult = {
+  items: mockSubscribers,
+  totalCount: 53,
+  page: 1,
+  pageSize: 20,
+};
+
+// ── Employee Interfaces & Data ──
+
+export interface EmployeeInfo {
+  id: string;
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string | null;
+  jobTitle: string;
+  department: string | null;
+  timeZone: string;
+  status: string;
+  presence: string;
+  lastSeenAt: string | null;
+  createdAt: string;
+}
+
+export const mockEmployees: EmployeeInfo[] = [
+  { id: 'emp-1', userId: 'user-1', email: 'quinn@crowncommerce.com', firstName: 'Quinn', lastName: 'Mitchell', phone: '+1-555-0101', jobTitle: 'CEO', department: 'Executive', timeZone: 'America/New_York', status: 'Active', presence: 'Online', lastSeenAt: '2025-02-10T10:00:00Z', createdAt: '2024-06-01T00:00:00Z' },
+  { id: 'emp-2', userId: 'user-2', email: 'grace@crowncommerce.com', firstName: 'Grace', lastName: 'Ochieng', phone: '+254-700-1234', jobTitle: 'Supply Chain Manager', department: 'Operations', timeZone: 'Africa/Nairobi', status: 'Active', presence: 'Offline', lastSeenAt: '2025-02-09T18:00:00Z', createdAt: '2024-07-15T00:00:00Z' },
+  { id: 'emp-3', userId: 'user-3', email: 'maya@crowncommerce.com', firstName: 'Maya', lastName: 'Patel', phone: null, jobTitle: 'Stylist', department: 'Creative', timeZone: 'America/Los_Angeles', status: 'OnLeave', presence: 'Away', lastSeenAt: '2025-02-05T12:00:00Z', createdAt: '2024-09-01T00:00:00Z' },
+];
+
+export const mockCurrentEmployee: EmployeeInfo = mockEmployees[0];
+
+// ── Calendar Event & Meeting Data ──
+
+export interface CalendarEventInfo {
+  id: string;
+  title: string;
+  startTimeUtc: string;
+  endTimeUtc: string;
+  location: string | null;
+  joinUrl: string | null;
+  status: string;
+  attendeeCount: number;
+  organizerName: string;
+}
+
+export const mockCalendarEvents: CalendarEventInfo[] = [
+  { id: 'evt-1', title: 'Weekly Supply Chain Sync', startTimeUtc: '2025-02-17T14:00:00Z', endTimeUtc: '2025-02-17T15:00:00Z', location: 'Conference Room A', joinUrl: null, status: 'Scheduled', attendeeCount: 3, organizerName: 'Quinn Mitchell' },
+  { id: 'evt-2', title: 'Product Photo Review', startTimeUtc: '2025-02-18T16:00:00Z', endTimeUtc: '2025-02-18T17:00:00Z', location: null, joinUrl: 'https://meet.example.com/abc', status: 'Scheduled', attendeeCount: 2, organizerName: 'Maya Patel' },
+  { id: 'evt-3', title: 'Q1 Planning', startTimeUtc: '2025-02-20T13:00:00Z', endTimeUtc: '2025-02-20T14:30:00Z', location: 'Board Room', joinUrl: null, status: 'InProgress', attendeeCount: 5, organizerName: 'Quinn Mitchell' },
+];
+
+// ── Conversation Data ──
+
+export interface ConversationSummaryInfo {
+  id: string;
+  subject: string;
+  meetingId: string | null;
+  status: string;
+  createdByEmployeeId: string;
+  createdAt: string;
+  lastMessageAt: string | null;
+  messageCount: number;
+  participantCount: number;
+}
+
+export interface ConversationMessageInfo {
+  id: string;
+  senderEmployeeId: string;
+  content: string;
+  sentAt: string;
+}
+
+export interface ConversationDetailInfo {
+  id: string;
+  subject: string;
+  meetingId: string | null;
+  status: string;
+  createdByEmployeeId: string;
+  createdAt: string;
+  lastMessageAt: string | null;
+  messages: ConversationMessageInfo[];
+  participants: { employeeId: string; joinedAt: string }[];
+}
+
+export const mockConversations: ConversationSummaryInfo[] = [
+  { id: 'conv-1', subject: 'Cambodia Shipment Delay', meetingId: null, status: 'Active', createdByEmployeeId: 'emp-1', createdAt: '2025-02-08T10:00:00Z', lastMessageAt: '2025-02-10T09:30:00Z', messageCount: 5, participantCount: 2 },
+  { id: 'conv-2', subject: 'New Product Launch Plan', meetingId: 'evt-1', status: 'Active', createdByEmployeeId: 'emp-2', createdAt: '2025-02-06T14:00:00Z', lastMessageAt: '2025-02-09T16:00:00Z', messageCount: 8, participantCount: 3 },
+];
+
+export const mockConversationDetail: ConversationDetailInfo = {
+  id: 'conv-1',
+  subject: 'Cambodia Shipment Delay',
+  meetingId: null,
+  status: 'Active',
+  createdByEmployeeId: 'emp-1',
+  createdAt: '2025-02-08T10:00:00Z',
+  lastMessageAt: '2025-02-10T09:30:00Z',
+  messages: [
+    { id: 'msg-1', senderEmployeeId: 'emp-1', content: 'Heads up, the Cambodia shipment is delayed by 3 days.', sentAt: '2025-02-08T10:00:00Z' },
+    { id: 'msg-2', senderEmployeeId: 'emp-2', content: 'Thanks for the update. I will notify the warehouse team.', sentAt: '2025-02-08T10:15:00Z' },
+  ],
+  participants: [
+    { employeeId: 'emp-1', joinedAt: '2025-02-08T10:00:00Z' },
+    { employeeId: 'emp-2', joinedAt: '2025-02-08T10:00:00Z' },
+  ],
+};
+
+export const navItemsExtended = [
+  { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
+  { label: 'Products', route: '/products', icon: 'inventory_2' },
+  { label: 'Origins', route: '/origins', icon: 'public' },
+  { label: 'Inquiries', route: '/inquiries', icon: 'mail' },
+  { label: 'Testimonials', route: '/testimonials', icon: 'star' },
+  { label: 'Hero Content', route: '/hero-content', icon: 'view_carousel' },
+  { label: 'Trust Bar', route: '/trust-bar', icon: 'verified' },
+  { label: 'Subscribers', route: '/subscribers', icon: 'mail' },
+  { label: 'Employees', route: '/employees', icon: 'people' },
+  { label: 'Schedule', route: '/schedule', icon: 'calendar_today' },
+  { label: 'Conversations', route: '/conversations', icon: 'chat' },
+];

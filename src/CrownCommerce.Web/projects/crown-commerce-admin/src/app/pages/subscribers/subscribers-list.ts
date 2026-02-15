@@ -6,7 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { NewsletterService, type Subscriber, type SubscriberStats } from 'api';
+import { ConfirmDialog } from '../../shared/confirm-dialog';
 
 type BrandFilter = 'all' | 'origin-coming-soon' | 'mane-haus-coming-soon';
 
@@ -20,19 +23,34 @@ type BrandFilter = 'all' | 'origin-coming-soon' | 'mane-haus-coming-soon';
     MatButtonToggleModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './subscribers-list.html',
   styleUrl: './subscribers-list.scss',
 })
 export class SubscribersListPage implements OnInit {
   private readonly newsletterService = inject(NewsletterService);
+  private readonly dialog = inject(MatDialog);
 
   readonly subscribers = signal<Subscriber[]>([]);
   readonly stats = signal<SubscriberStats | null>(null);
   readonly selectedBrand = signal<BrandFilter>('all');
   readonly totalCount = signal(0);
+  readonly searchTerm = signal('');
+  readonly pageIndex = signal(0);
+  readonly pageSize = 20;
+  readonly loading = signal(true);
+  readonly error = signal<string | null>(null);
 
   readonly displayedColumns = ['email', 'status', 'brand', 'date', 'actions'];
+
+  readonly filteredSubscribers = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    if (!term) return this.subscribers();
+    return this.subscribers().filter(s =>
+      s.email?.toLowerCase().includes(term)
+    );
+  });
 
   readonly statCards = computed(() => {
     const s = this.stats();
@@ -52,16 +70,37 @@ export class SubscribersListPage implements OnInit {
 
   onBrandChange(brand: BrandFilter) {
     this.selectedBrand.set(brand);
+    this.pageIndex.set(0);
     this.loadSubscribers();
+  }
+
+  previousPage() {
+    if (this.pageIndex() > 0) {
+      this.pageIndex.update(i => i - 1);
+      this.loadSubscribers();
+    }
+  }
+
+  nextPage() {
+    if ((this.pageIndex() + 1) * this.pageSize < this.totalCount()) {
+      this.pageIndex.update(i => i + 1);
+      this.loadSubscribers();
+    }
   }
 
   loadSubscribers() {
     const brand = this.selectedBrand();
     const tag = brand === 'all' ? undefined : brand;
-    this.newsletterService.getSubscribers({ pageSize: 50, tag }).subscribe({
+    const skip = this.pageIndex() * this.pageSize;
+    this.newsletterService.getSubscribers({ pageSize: this.pageSize, skip, tag }).subscribe({
       next: (result) => {
         this.subscribers.set(result.items);
         this.totalCount.set(result.totalCount);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to load subscribers');
+        this.loading.set(false);
       },
     });
   }
@@ -69,6 +108,7 @@ export class SubscribersListPage implements OnInit {
   loadStats() {
     this.newsletterService.getSubscriberStats().subscribe({
       next: (data) => this.stats.set(data),
+      error: () => this.error.set('Failed to load subscriber stats'),
     });
   }
 
@@ -94,11 +134,22 @@ export class SubscribersListPage implements OnInit {
   }
 
   deleteSubscriber(id: string) {
-    this.newsletterService.deleteSubscriber(id).subscribe({
-      next: () => {
-        this.loadSubscribers();
-        this.loadStats();
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'Delete Subscriber',
+        message: 'Are you sure you want to delete this subscriber? This action cannot be undone.',
       },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.newsletterService.deleteSubscriber(id).subscribe({
+        next: () => {
+          this.loadSubscribers();
+          this.loadStats();
+        },
+        error: () => this.error.set('Failed to delete subscriber'),
+      });
     });
   }
 }

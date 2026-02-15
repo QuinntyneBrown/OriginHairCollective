@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
-  <h1 class="toolbar-title">Products</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
+  <h1 class="toolbar-title">Hero Content</h1>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div class="form-header-left">
@@ -32,43 +35,57 @@
       <!-- Hero Title -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Hero Title</mat-label>
-        <input matInput placeholder="e.g. Premium Hair">
+        <input matInput placeholder="e.g. Premium Hair" [(ngModel)]="heroTitle">
       </mat-form-field>
 
       <!-- Hero Subtitle -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Hero Subtitle</mat-label>
-        <input matInput placeholder="e.g. Ethically sourced, premium quality">
+        <input matInput placeholder="e.g. Ethically sourced, premium quality" [(ngModel)]="heroSubtitle">
       </mat-form-field>
 
       <!-- CTA Row -->
       <div class="two-col">
         <mat-form-field appearance="outline">
           <mat-label>CTA Button Text</mat-label>
-          <input matInput placeholder="e.g. Shop Now">
+          <input matInput placeholder="e.g. Shop Now" [(ngModel)]="ctaButtonText">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>CTA Button Link</mat-label>
-          <input matInput placeholder="e.g. /products">
+          <input matInput placeholder="e.g. /products" [(ngModel)]="ctaButtonLink">
         </mat-form-field>
       </div>
 
       <!-- Hero Background Image -->
       <div class="image-section">
         <label class="field-label">Hero Background Image</label>
-        <div class="image-upload-area">
-          <mat-icon class="upload-icon">cloud_upload</mat-icon>
-          <span class="upload-text">Click to upload or drag and drop</span>
-          <span class="upload-hint">PNG, JPG up to 5MB (1920x1080 recommended)</span>
-        </div>
+        <input #fileInput type="file" accept="image/png,image/jpeg" hidden (change)="onFileSelected($event)">
+        @if (imagePreviewUrl()) {
+          <div class="image-preview-container">
+            <img [src]="imagePreviewUrl()" alt="Hero background preview" class="image-preview">
+            <button mat-icon-button class="image-change-btn" (click)="triggerFileUpload(fileInput)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        } @else {
+          <div class="image-upload-area" (click)="triggerFileUpload(fileInput)">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <span class="upload-text">Click to upload or drag and drop</span>
+            <span class="upload-hint">PNG, JPG up to 5MB (1920x1080 recommended)</span>
+          </div>
+        }
       </div>
     </div>
 
     <div class="form-actions">
-      <button mat-stroked-button>Reset</button>
-      <button mat-flat-button color="primary" class="primary-btn">
-        <mat-icon>save</mat-icon>
-        Save Changes
+      <button mat-stroked-button (click)="onReset()">Reset</button>
+      <button mat-flat-button color="primary" class="primary-btn" [disabled]="saving()" (click)="onSave()">
+        @if (saving()) {
+          <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+          <mat-icon>save</mat-icon>
+          Save Changes
+        }
       </button>
     </div>
   </mat-card>

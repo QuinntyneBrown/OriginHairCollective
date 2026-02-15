@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Products</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div>
@@ -25,71 +28,101 @@
   <div class="filter-row">
     <mat-form-field appearance="outline" class="search-field">
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Search products...">
+      <input matInput placeholder="Search products..." (input)="searchTerm.set($any($event.target).value); pageIndex.set(0)">
     </mat-form-field>
-    <button mat-stroked-button class="filter-btn">
+    <button mat-stroked-button class="filter-btn" [matMenuTriggerFor]="typeMenu">
       <mat-icon>filter_list</mat-icon>
-      Type
+      {{ selectedType() || 'Type' }}
     </button>
-    <button mat-stroked-button class="filter-btn">
+    <mat-menu #typeMenu="matMenu">
+      <button mat-menu-item (click)="setTypeFilter(null)">All Types</button>
+      @for (t of uniqueTypes(); track t) {
+        <button mat-menu-item (click)="setTypeFilter(t)">{{ t }}</button>
+      }
+    </mat-menu>
+    <button mat-stroked-button class="filter-btn" [matMenuTriggerFor]="originMenu">
       <mat-icon>sort</mat-icon>
-      Origin
+      {{ selectedOrigin() || 'Origin' }}
     </button>
-    <button mat-stroked-button class="filter-btn">
+    <mat-menu #originMenu="matMenu">
+      <button mat-menu-item (click)="setOriginFilter(null)">All Origins</button>
+      @for (o of uniqueOrigins(); track o) {
+        <button mat-menu-item (click)="setOriginFilter(o)">{{ o }}</button>
+      }
+    </mat-menu>
+    <button mat-stroked-button class="filter-btn" [matMenuTriggerFor]="textureMenu">
       <mat-icon>straighten</mat-icon>
-      Texture
+      {{ selectedTexture() || 'Texture' }}
     </button>
+    <mat-menu #textureMenu="matMenu">
+      <button mat-menu-item (click)="setTextureFilter(null)">All Textures</button>
+      @for (tex of uniqueTextures(); track tex) {
+        <button mat-menu-item (click)="setTextureFilter(tex)">{{ tex }}</button>
+      }
+    </mat-menu>
   </div>
 
-  <!-- Products Table -->
-  <div class="table-card">
-    <table mat-table [dataSource]="products()" class="table-full-width">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Product Name</th>
-        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.name }}</td>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let row">
-          <span class="chip chip--default">{{ row.type }}</span>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="texture">
-        <th mat-header-cell *matHeaderCellDef>Texture</th>
-        <td mat-cell *matCellDef="let row">{{ row.texture }}</td>
-      </ng-container>
-      <ng-container matColumnDef="length">
-        <th mat-header-cell *matHeaderCellDef>Length</th>
-        <td mat-cell *matCellDef="let row">{{ row.lengthInches }}"</td>
-      </ng-container>
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef>Price</th>
-        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.price | currency }}</td>
-      </ng-container>
-      <ng-container matColumnDef="origin">
-        <th mat-header-cell *matHeaderCellDef>Origin</th>
-        <td mat-cell *matCellDef="let row">{{ row.originCountry }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <div class="actions-cell">
-            <button mat-icon-button class="action-btn"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button class="action-btn action-btn--delete"><mat-icon>delete</mat-icon></button>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">inventory_2</mat-icon>
+      <p class="empty-text">No products found</p>
+      <p class="empty-subtext">Add your first product to get started</p>
+    </div>
+  } @else {
+    <!-- Products Table -->
+    <div class="table-card">
+      <table mat-table [dataSource]="paginatedProducts()" class="table-full-width">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Product Name</th>
+          <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="chip chip--default">{{ row.type }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="texture">
+          <th mat-header-cell *matHeaderCellDef>Texture</th>
+          <td mat-cell *matCellDef="let row">{{ row.texture }}</td>
+        </ng-container>
+        <ng-container matColumnDef="length">
+          <th mat-header-cell *matHeaderCellDef>Length</th>
+          <td mat-cell *matCellDef="let row">{{ row.lengthInches }}"</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.price | currency }}</td>
+        </ng-container>
+        <ng-container matColumnDef="origin">
+          <th mat-header-cell *matHeaderCellDef>Origin</th>
+          <td mat-cell *matCellDef="let row">{{ row.originCountry }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="actions-cell">
+              <a mat-icon-button class="action-btn" [routerLink]="['/products', row.id, 'edit']"><mat-icon>edit</mat-icon></a>
+              <button mat-icon-button class="action-btn action-btn--delete" (click)="deleteProduct(row.id)"><mat-icon>delete</mat-icon></button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
-    <!-- Paginator -->
-    <div class="paginator-row">
-      <span class="paginator-text">Showing {{ products().length }} products</span>
-      <div class="paginator-buttons">
-        <button mat-stroked-button disabled>Previous</button>
-        <a mat-flat-button color="primary" class="primary-btn">Next</a>
+      <!-- Paginator -->
+      <div class="paginator-row">
+        <span class="paginator-text">Showing {{ pageIndex() * pageSize + 1 }}-{{ Math.min((pageIndex() + 1) * pageSize, filteredProducts().length) }} of {{ filteredProducts().length }} products</span>
+        <div class="paginator-buttons">
+          <button mat-stroked-button [disabled]="pageIndex() === 0" (click)="previousPage()">Previous</button>
+          <button mat-flat-button color="primary" class="primary-btn" [disabled]="(pageIndex() + 1) * pageSize >= filteredProducts().length" (click)="nextPage()">Next</button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

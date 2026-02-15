@@ -108,5 +108,35 @@ test.describe('Products List', () => {
       const disabled = await productsPage.pagination.isPreviousDisabled();
       expect(disabled).toBe(true);
     });
+
+    test('should display Next button', async () => {
+      await expect(productsPage.pagination.nextButton).toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Search Filtering', () => {
+    test('should filter products by search term', async () => {
+      await productsPage.searchField.fill('Cambodian');
+      const firstRowText = await productsPage.dataTable.getCellText(0, 0);
+      expect(firstRowText.toLowerCase()).toContain('cambodian');
+    });
+  });
+
+  test.describe('Interactive - Delete', () => {
+    test('should open confirmation dialog when clicking delete', async ({ page }) => {
+      const deleteBtn = productsPage.dataTable.getDeleteButton(0);
+      await deleteBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Edit Navigation', () => {
+    test('should navigate to edit page when clicking edit button', async ({ page }) => {
+      const editBtn = productsPage.dataTable.getEditButton(0);
+      await editBtn.click();
+      await expect(page).toHaveURL(/\/products\/.*\/edit/);
+    });
   });
 });

@@ -5,7 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { SchedulingService, type Employee } from 'api';
+import { EmployeeDetailDialog } from './employee-detail-dialog';
 
 type StatusFilter = 'all' | 'Active' | 'Inactive' | 'OnLeave';
 
@@ -18,15 +21,19 @@ type StatusFilter = 'all' | 'Active' | 'Inactive' | 'OnLeave';
     MatButtonModule,
     MatButtonToggleModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './employees-list.html',
   styleUrl: './employees-list.scss',
 })
 export class EmployeesListPage implements OnInit {
   private readonly schedulingService = inject(SchedulingService);
+  private readonly dialog = inject(MatDialog);
 
   readonly employees = signal<Employee[]>([]);
   readonly selectedStatus = signal<StatusFilter>('all');
+  readonly loading = signal(true);
+  readonly error = signal<string | null>(null);
   readonly displayedColumns = ['name', 'jobTitle', 'department', 'timeZone', 'status', 'actions'];
 
   readonly stats = computed(() => {
@@ -50,13 +57,43 @@ export class EmployeesListPage implements OnInit {
   }
 
   loadEmployees() {
-    this.schedulingService.getEmployees().subscribe({
-      next: (data) => this.employees.set(data),
+    const status = this.selectedStatus();
+    const statusParam = status === 'all' ? undefined : status;
+    this.schedulingService.getEmployees(statusParam).subscribe({
+      next: (data) => {
+        this.employees.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Failed to load employees');
+        this.loading.set(false);
+      },
     });
   }
 
   onStatusChange(status: StatusFilter) {
     this.selectedStatus.set(status);
+    this.loadEmployees();
+  }
+
+  viewEmployee(employee: Employee) {
+    const dialogRef = this.dialog.open(EmployeeDetailDialog, {
+      data: { employee },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.loadEmployees();
+    });
+  }
+
+  editEmployee(employee: Employee) {
+    const dialogRef = this.dialog.open(EmployeeDetailDialog, {
+      data: { employee, editMode: true },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.loadEmployees();
+    });
   }
 
   getStatusClass(status: string): string {

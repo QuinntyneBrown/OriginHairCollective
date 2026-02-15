@@ -5,7 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { CatalogService, InquiryService, ContentService, NewsletterService, type HairProduct, type Inquiry, type HairOrigin, type Testimonial, type SubscriberStats } from 'api';
+import { CatalogService, InquiryService, ContentService, NewsletterService, SchedulingService, type HairProduct, type Inquiry, type HairOrigin, type Testimonial, type SubscriberStats } from 'api';
 
 interface MetricCard {
   label: string;
@@ -33,12 +33,15 @@ export class DashboardPage implements OnInit {
   private readonly inquiryService = inject(InquiryService);
   private readonly contentService = inject(ContentService);
   private readonly newsletterService = inject(NewsletterService);
+  private readonly schedulingService = inject(SchedulingService);
 
+  readonly userName = signal('');
   readonly products = signal<HairProduct[]>([]);
   readonly origins = signal<HairOrigin[]>([]);
   readonly inquiries = signal<Inquiry[]>([]);
   readonly testimonials = signal<Testimonial[]>([]);
   readonly subscriberStats = signal<SubscriberStats | null>(null);
+  readonly error = signal<string | null>(null);
 
   readonly metrics = computed<MetricCard[]>(() => [
     { label: 'Total Products', value: String(this.products().length), icon: 'inventory_2', iconColor: 'var(--success)' },
@@ -61,10 +64,14 @@ export class DashboardPage implements OnInit {
   productColumns = ['name', 'type', 'price', 'origin'];
 
   ngOnInit() {
-    this.catalogService.getProducts().subscribe({ next: (d) => this.products.set(d) });
-    this.catalogService.getOrigins().subscribe({ next: (d) => this.origins.set(d) });
-    this.inquiryService.getInquiries().subscribe({ next: (d) => this.inquiries.set(d) });
-    this.contentService.getTestimonials().subscribe({ next: (d) => this.testimonials.set(d) });
-    this.newsletterService.getSubscriberStats().subscribe({ next: (d) => this.subscriberStats.set(d) });
+    this.schedulingService.getCurrentEmployee().subscribe({
+      next: (emp) => this.userName.set(emp.firstName),
+      error: () => this.userName.set(''),
+    });
+    this.catalogService.getProducts().subscribe({ next: (d) => this.products.set(d), error: () => this.error.set('Failed to load products') });
+    this.catalogService.getOrigins().subscribe({ next: (d) => this.origins.set(d), error: () => this.error.set('Failed to load origins') });
+    this.inquiryService.getInquiries().subscribe({ next: (d) => this.inquiries.set(d), error: () => this.error.set('Failed to load inquiries') });
+    this.contentService.getTestimonials().subscribe({ next: (d) => this.testimonials.set(d), error: () => this.error.set('Failed to load testimonials') });
+    this.newsletterService.getSubscriberStats().subscribe({ next: (d) => this.subscriberStats.set(d), error: () => this.error.set('Failed to load subscriber stats') });
   }
 }

@@ -79,4 +79,50 @@ test.describe('Trust Bar List', () => {
       await expect(deleteBtn).toBeVisible();
     });
   });
+
+  test.describe('Interactive - Add Item', () => {
+    test('should open add item dialog when clicking Add Item', async ({ page }) => {
+      await trustBarPage.addItemButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toHaveText('Add Trust Bar Item');
+    });
+
+    test('should display form fields in add item dialog', async ({ page }) => {
+      await trustBarPage.addItemButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Icon' })).toBeVisible();
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Label' })).toBeVisible();
+      await expect(dialog.locator('mat-form-field').filter({ hasText: 'Description' })).toBeVisible();
+    });
+
+    test('should close dialog when clicking Cancel', async ({ page }) => {
+      await trustBarPage.addItemButton.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await dialog.locator('button').filter({ hasText: 'Cancel' }).click();
+      await expect(dialog).not.toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Edit Item', () => {
+    test('should open edit item dialog when clicking edit', async ({ page }) => {
+      const editBtn = trustBarPage.dataTable.getEditButton(0);
+      await editBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toHaveText('Edit Trust Bar Item');
+    });
+  });
+
+  test.describe('Interactive - Delete', () => {
+    test('should open confirmation dialog when clicking delete', async ({ page }) => {
+      const deleteBtn = trustBarPage.dataTable.getDeleteButton(0);
+      await deleteBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toBeVisible();
+    });
+  });
 });

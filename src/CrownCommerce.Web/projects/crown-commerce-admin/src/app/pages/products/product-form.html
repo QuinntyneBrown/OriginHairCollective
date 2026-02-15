@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Products</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div class="form-header-left">
@@ -16,86 +19,111 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
       <div>
-        <h2 class="page-title">Add New Product</h2>
-        <p class="page-subtitle">Fill in the product details below</p>
+        <h2 class="page-title">{{ isEditMode() ? 'Edit Product' : 'Add New Product' }}</h2>
+        <p class="page-subtitle">{{ isEditMode() ? 'Update the product details below' : 'Fill in the product details below' }}</p>
       </div>
     </div>
   </div>
 
-  <!-- Form Card -->
-  <mat-card class="form-card">
-    <div class="form-card-header">
-      <span class="form-card-title">Product Information</span>
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
     </div>
+  } @else {
+    <!-- Form Card -->
+    <mat-card class="form-card">
+      <div class="form-card-header">
+        <span class="form-card-title">Product Information</span>
+      </div>
 
-    <div class="form-body">
-      <!-- Product Name -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Product Name</mat-label>
-        <input matInput placeholder="e.g. Cambodian Straight Bundle">
-      </mat-form-field>
-
-      <!-- Origin + Texture -->
-      <div class="two-col">
-        <mat-form-field appearance="outline">
-          <mat-label>Origin</mat-label>
-          <mat-select placeholder="Select origin...">
-            @for (origin of origins; track origin) {
-              <mat-option [value]="origin">{{ origin }}</mat-option>
-            }
-          </mat-select>
+      <div class="form-body">
+        <!-- Product Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Product Name</mat-label>
+          <input matInput placeholder="e.g. Cambodian Straight Bundle" [(ngModel)]="name" required>
+          @if (!name.trim()) {
+            <mat-error>Product name is required</mat-error>
+          }
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Texture</mat-label>
-          <mat-select placeholder="Select texture...">
-            @for (texture of textures; track texture) {
-              <mat-option [value]="texture">{{ texture }}</mat-option>
+
+        <!-- Origin + Texture -->
+        <div class="two-col">
+          <mat-form-field appearance="outline">
+            <mat-label>Origin</mat-label>
+            <mat-select placeholder="Select origin..." [(ngModel)]="originId" required>
+              @for (origin of origins(); track origin.id) {
+                <mat-option [value]="origin.id">{{ origin.country }} - {{ origin.region }}</mat-option>
+              }
+            </mat-select>
+            @if (!originId) {
+              <mat-error>Origin is required</mat-error>
             }
-          </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Texture</mat-label>
+            <mat-select placeholder="Select texture..." [(ngModel)]="texture">
+              @for (tex of textures; track tex) {
+                <mat-option [value]="tex">{{ tex }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Type + Length -->
+        <div class="two-col">
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select placeholder="Select type..." [(ngModel)]="type" required>
+              @for (t of types; track t) {
+                <mat-option [value]="t">{{ t }}</mat-option>
+              }
+            </mat-select>
+            @if (!type) {
+              <mat-error>Type is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Length (inches)</mat-label>
+            <input matInput type="number" placeholder="e.g. 18" [(ngModel)]="lengthInches" required min="1">
+            @if (lengthInches == null || lengthInches <= 0) {
+              <mat-error>Valid length is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <!-- Price + Image URL -->
+        <div class="two-col">
+          <mat-form-field appearance="outline">
+            <mat-label>Price (CAD)</mat-label>
+            <input matInput type="number" placeholder="e.g. 185.00" [(ngModel)]="price" required min="0.01" step="0.01">
+            @if (price == null || price <= 0) {
+              <mat-error>Valid price is required</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Image URL</mat-label>
+            <input matInput placeholder="https://..." [(ngModel)]="imageUrl">
+          </mat-form-field>
+        </div>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="4" placeholder="Enter product description..." [(ngModel)]="description"></textarea>
         </mat-form-field>
       </div>
 
-      <!-- Type + Length -->
-      <div class="two-col">
-        <mat-form-field appearance="outline">
-          <mat-label>Type</mat-label>
-          <mat-select placeholder="Select type...">
-            @for (type of types; track type) {
-              <mat-option [value]="type">{{ type }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Length (inches)</mat-label>
-          <input matInput placeholder="e.g. 18">
-        </mat-form-field>
+      <div class="form-actions">
+        <button mat-stroked-button routerLink="/products">Cancel</button>
+        <button mat-flat-button color="primary" class="primary-btn" [disabled]="!isFormValid || saving()" (click)="onSubmit()">
+          @if (saving()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <mat-icon>save</mat-icon>
+            {{ isEditMode() ? 'Update Product' : 'Save Product' }}
+          }
+        </button>
       </div>
-
-      <!-- Price + Image URL -->
-      <div class="two-col">
-        <mat-form-field appearance="outline">
-          <mat-label>Price (CAD)</mat-label>
-          <input matInput placeholder="e.g. 185.00">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Image URL</mat-label>
-          <input matInput placeholder="https://...">
-        </mat-form-field>
-      </div>
-
-      <!-- Description -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Description</mat-label>
-        <textarea matInput rows="4" placeholder="Enter product description..."></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="form-actions">
-      <button mat-stroked-button routerLink="/products">Cancel</button>
-      <button mat-flat-button color="primary" class="primary-btn">
-        <mat-icon>save</mat-icon>
-        Save Product
-      </button>
-    </div>
-  </mat-card>
+    </mat-card>
+  }
 </div>

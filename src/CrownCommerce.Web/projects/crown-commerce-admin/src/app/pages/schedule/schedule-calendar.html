@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Schedule</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div>
@@ -22,6 +25,12 @@
       </a>
     </div>
   </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
 
   <div class="calendar-layout">
     <!-- Calendar -->
@@ -114,6 +123,18 @@
           <span class="chip" [class.chip--success]="selectedEvent()!.status === 'Scheduled'" [class.chip--warning]="selectedEvent()!.status === 'InProgress'">
             {{ selectedEvent()!.status }}
           </span>
+          @if (selectedEvent()!.status === 'Scheduled') {
+            <div class="detail-actions">
+              <button mat-stroked-button (click)="editMeeting(selectedEvent()!.id)">
+                <mat-icon>edit</mat-icon>
+                Edit
+              </button>
+              <button mat-stroked-button color="warn" (click)="cancelMeeting(selectedEvent()!.id)">
+                <mat-icon>cancel</mat-icon>
+                Cancel Meeting
+              </button>
+            </div>
+          }
         </div>
       }
     </div>

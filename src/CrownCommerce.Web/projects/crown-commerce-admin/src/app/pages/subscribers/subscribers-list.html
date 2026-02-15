@@ -1,14 +1,17 @@
 <!-- Toolbar -->
 <div class="toolbar">
   <h1 class="toolbar-title">Subscribers</h1>
-  <div class="toolbar-actions">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
-  </div>
 </div>
 
 <!-- Content Area -->
 <div class="content-area">
+  @if (error()) {
+    <div class="error-banner">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </div>
+  }
+
   <!-- Page Header -->
   <div class="page-header">
     <div>
@@ -47,63 +50,69 @@
     </mat-button-toggle-group>
     <mat-form-field appearance="outline" class="search-field">
       <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Search subscribers...">
+      <input matInput placeholder="Search subscribers..." (input)="searchTerm.set($any($event.target).value)">
     </mat-form-field>
   </div>
 
-  <!-- Subscribers Table -->
-  <div class="table-card">
-    <table mat-table [dataSource]="subscribers()" class="table-full-width">
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
-        <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.email }}</td>
-      </ng-container>
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let row">
-          <span [class]="getStatusClass(row.status)">{{ row.status }}</span>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="brand">
-        <th mat-header-cell *matHeaderCellDef>Brand</th>
-        <td mat-cell *matCellDef="let row">
-          <span [class]="getBrandClass(row.tags)">{{ getBrandLabel(row.tags) }}</span>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Signed Up</th>
-        <td mat-cell *matCellDef="let row" class="cell-muted">{{ row.createdAt | date:'mediumDate' }}</td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <div class="actions-cell">
-            <button mat-icon-button class="action-btn action-btn--delete" (click)="deleteSubscriber(row.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  @if (loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <!-- Subscribers Table -->
+    <div class="table-card">
+      <table mat-table [dataSource]="filteredSubscribers()" class="table-full-width">
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let row" class="cell-bold">{{ row.email }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <span [class]="getStatusClass(row.status)">{{ row.status }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef>Brand</th>
+          <td mat-cell *matCellDef="let row">
+            <span [class]="getBrandClass(row.tags)">{{ getBrandLabel(row.tags) }}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Signed Up</th>
+          <td mat-cell *matCellDef="let row" class="cell-muted">{{ row.createdAt | date:'mediumDate' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="actions-cell">
+              <button mat-icon-button class="action-btn action-btn--delete" (click)="deleteSubscriber(row.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
-    <!-- Empty State -->
-    @if (subscribers().length === 0) {
-      <div class="empty-state">
-        <mat-icon class="empty-icon">mail_outline</mat-icon>
-        <p class="empty-text">No subscribers yet</p>
-        <p class="empty-subtext">Signups from the coming soon pages will appear here</p>
-      </div>
-    }
+      <!-- Empty State -->
+      @if (subscribers().length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">mail_outline</mat-icon>
+          <p class="empty-text">No subscribers yet</p>
+          <p class="empty-subtext">Signups from the coming soon pages will appear here</p>
+        </div>
+      }
 
-    <!-- Paginator -->
-    <div class="paginator-row">
-      <span class="paginator-text">Showing {{ subscribers().length }} of {{ totalCount() }} subscribers</span>
-      <div class="paginator-buttons">
-        <button mat-stroked-button disabled>Previous</button>
-        <button mat-flat-button color="primary" class="primary-btn">Next</button>
+      <!-- Paginator -->
+      <div class="paginator-row">
+        <span class="paginator-text">Showing {{ pageIndex() * pageSize + 1 }}-{{ pageIndex() * pageSize + filteredSubscribers().length }} of {{ totalCount() }} subscribers</span>
+        <div class="paginator-buttons">
+          <button mat-stroked-button [disabled]="pageIndex() === 0" (click)="previousPage()">Previous</button>
+          <button mat-flat-button color="primary" class="primary-btn" [disabled]="(pageIndex() + 1) * pageSize >= totalCount()" (click)="nextPage()">Next</button>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

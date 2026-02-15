@@ -96,5 +96,61 @@ test.describe('Inquiries List', () => {
       expect(text).toContain('Showing');
       expect(text).toContain('23');
     });
+
+    test('should display Next button', async () => {
+      await expect(inquiriesPage.pagination.nextButton).toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Search Filtering', () => {
+    test('should filter inquiries by search term', async () => {
+      await inquiriesPage.searchField.fill('Sarah');
+      const firstRowText = await inquiriesPage.dataTable.getCellText(0, 0);
+      expect(firstRowText).toContain('Sarah');
+    });
+  });
+
+  test.describe('Interactive - View Detail', () => {
+    test('should open inquiry detail dialog when clicking view', async ({ page }) => {
+      const viewBtn = inquiriesPage.getViewButton(0);
+      await viewBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toHaveText('Inquiry Details');
+    });
+
+    test('should display inquiry details in dialog', async ({ page }) => {
+      const viewBtn = inquiriesPage.getViewButton(0);
+      await viewBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog).toContainText('Name');
+      await expect(dialog).toContainText('Email');
+    });
+
+    test('should close dialog when clicking Close', async ({ page }) => {
+      const viewBtn = inquiriesPage.getViewButton(0);
+      await viewBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await dialog.locator('button').filter({ hasText: 'Close' }).click();
+      await expect(dialog).not.toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Delete', () => {
+    test('should open confirmation dialog when clicking delete', async ({ page }) => {
+      const deleteBtn = inquiriesPage.getDeleteButton(0);
+      await deleteBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toBeVisible();
+    });
+  });
+
+  test.describe('Interactive - Export', () => {
+    test('should have Export button clickable', async () => {
+      await expect(inquiriesPage.exportButton).toBeEnabled();
+    });
   });
 });

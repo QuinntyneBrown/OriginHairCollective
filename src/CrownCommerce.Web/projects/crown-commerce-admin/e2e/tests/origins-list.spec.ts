@@ -92,4 +92,29 @@ test.describe('Origins List', () => {
       expect(text).toContain('5');
     });
   });
+
+  test.describe('Interactive - Search Filtering', () => {
+    test('should filter origins by search term', async () => {
+      await originsPage.searchField.fill('Cambodia');
+      const firstRowText = await originsPage.dataTable.getCellText(0, 0);
+      expect(firstRowText.toLowerCase()).toContain('cambodia');
+    });
+  });
+
+  test.describe('Interactive - Add Origin', () => {
+    test('should navigate to add origin form when clicking Add Origin', async ({ page }) => {
+      await originsPage.addOriginButton.click();
+      await expect(page).toHaveURL(/\/origins\/new/);
+    });
+  });
+
+  test.describe('Interactive - Delete', () => {
+    test('should open confirmation dialog when clicking delete', async ({ page }) => {
+      const deleteBtn = originsPage.dataTable.getDeleteButton(0);
+      await deleteBtn.click();
+      const dialog = page.locator('mat-dialog-container');
+      await dialog.waitFor({ state: 'visible' });
+      await expect(dialog.locator('[mat-dialog-title]')).toBeVisible();
+    });
+  });
 });
