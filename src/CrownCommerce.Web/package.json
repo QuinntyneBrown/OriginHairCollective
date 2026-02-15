@@ -22,7 +22,11 @@
     "e2e:coming-soon": "npx playwright test --config=playwright.coming-soon.config.ts",
     "e2e:coming-soon:headed": "npx playwright test --config=playwright.coming-soon.config.ts --headed",
     "e2e:coming-soon:ui": "npx playwright test --config=playwright.coming-soon.config.ts --ui",
-    "e2e:coming-soon:chromium": "npx playwright test --config=playwright.coming-soon.config.ts --project=chromium"
+    "e2e:coming-soon:chromium": "npx playwright test --config=playwright.coming-soon.config.ts --project=chromium",
+    "e2e:teams": "npx playwright test --config=playwright.teams.config.ts",
+    "e2e:teams:headed": "npx playwright test --config=playwright.teams.config.ts --headed",
+    "e2e:teams:ui": "npx playwright test --config=playwright.teams.config.ts --ui",
+    "e2e:teams:chromium": "npx playwright test --config=playwright.teams.config.ts --project=chromium"
   },
   "prettier": {
     "printWidth": 100,
