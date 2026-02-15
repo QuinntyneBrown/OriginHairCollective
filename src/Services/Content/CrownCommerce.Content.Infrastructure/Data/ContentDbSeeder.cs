@@ -68,6 +68,20 @@ public static class ContentDbSeeder
         };
 
         context.Testimonials.AddRange(testimonials);
+
+        var galleryImages = new List<GalleryImage>
+        {
+            new() { Id = Guid.NewGuid(), Title = "Cambodian Straight Install", Description = "Sleek straight install using our Cambodian virgin bundles", ImageUrl = "/images/gallery/cambodian-straight-install.jpg", Category = "Installs", SortOrder = 1, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Indian Curly Transformation", Description = "Beautiful curly look achieved with Indian temple hair", ImageUrl = "/images/gallery/indian-curly-transformation.jpg", Category = "Installs", SortOrder = 2, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Vietnamese Body Wave", Description = "Gorgeous body wave style with Vietnamese raw hair", ImageUrl = "/images/gallery/vietnamese-body-wave.jpg", Category = "Installs", SortOrder = 3, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Burmese Deep Wave Sew-In", Description = "Full sew-in using Burmese deep wave bundles with frontal", ImageUrl = "/images/gallery/burmese-deep-wave.jpg", Category = "Installs", SortOrder = 4, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Origin Community Event", Description = "Our team at the annual hair expo connecting with stylists", ImageUrl = "/images/gallery/community-event.jpg", Category = "Community", SortOrder = 5, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Stylist Spotlight: Crown Studio", Description = "Partner salon Crown Studio showcasing Origin Hair installs", ImageUrl = "/images/gallery/stylist-spotlight.jpg", Category = "Community", SortOrder = 6, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Behind the Scenes: Sourcing Trip", Description = "Our sourcing team visiting partner communities in Southeast Asia", ImageUrl = "/images/gallery/sourcing-trip.jpg", Category = "Behind the Scenes", SortOrder = 7, IsPublished = true, CreatedAt = DateTime.UtcNow },
+            new() { Id = Guid.NewGuid(), Title = "Custom Color: Honey Blonde", Description = "Custom honey blonde color on Cambodian straight bundles", ImageUrl = "/images/gallery/custom-color-blonde.jpg", Category = "Installs", SortOrder = 8, IsPublished = true, CreatedAt = DateTime.UtcNow }
+        };
+
+        context.GalleryImages.AddRange(galleryImages);
         await context.SaveChangesAsync();
     }
 }

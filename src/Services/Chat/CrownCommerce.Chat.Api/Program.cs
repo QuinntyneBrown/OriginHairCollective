@@ -21,8 +21,8 @@ builder.Services.AddOpenApi();
 
 // Database
 builder.Services.AddDbContext<ChatDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ChatDb")
-        ?? "Data Source=chat.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ChatDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Chat;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 // Repositories
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();

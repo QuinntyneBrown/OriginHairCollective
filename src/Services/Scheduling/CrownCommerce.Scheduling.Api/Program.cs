@@ -22,8 +22,8 @@ builder.Services.AddOpenApi();
 
 // Database
 builder.Services.AddDbContext<SchedulingDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SchedulingDb")
-        ?? "Data Source=scheduling.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SchedulingDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Scheduling;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 // Repositories
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();

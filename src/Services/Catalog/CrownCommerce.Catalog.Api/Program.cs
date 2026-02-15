@@ -13,8 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<CatalogDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("CatalogDb")
-        ?? "Data Source=catalog.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CatalogDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Catalog;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<ICatalogRepository, CatalogRepository>();
 builder.Services.AddScoped<IHairOriginRepository, HairOriginRepository>();

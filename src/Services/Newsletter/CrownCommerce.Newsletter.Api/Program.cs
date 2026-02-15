@@ -19,8 +19,8 @@ builder.Services.AddOpenApi();
 
 // Database
 builder.Services.AddDbContext<NewsletterDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("NewsletterDb")
-        ?? "Data Source=newsletter.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NewsletterDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Newsletter;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 // Repositories
 builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();

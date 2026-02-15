@@ -13,8 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<IdentityDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("IdentityDb")
-        ?? "Data Source=identity.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Identity;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();

@@ -13,8 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ContentDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ContentDb")
-        ?? "Data Source=content.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ContentDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Content;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IContentPageRepository, ContentPageRepository>();
 builder.Services.AddScoped<IFaqRepository, FaqRepository>();

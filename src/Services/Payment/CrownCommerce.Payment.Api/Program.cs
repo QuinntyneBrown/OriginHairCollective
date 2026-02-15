@@ -15,8 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<PaymentDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("PaymentDb")
-        ?? "Data Source=payment.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PaymentDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Payment;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IRefundRepository, RefundRepository>();

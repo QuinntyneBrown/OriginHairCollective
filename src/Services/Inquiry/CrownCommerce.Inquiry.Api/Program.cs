@@ -15,8 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<InquiryDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("InquiryDb")
-        ?? "Data Source=inquiry.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("InquiryDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Inquiry;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IInquiryRepository, InquiryRepository>();
 builder.Services.AddScoped<IInquiryService, InquiryService>();

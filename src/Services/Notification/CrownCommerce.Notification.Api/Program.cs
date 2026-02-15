@@ -16,8 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<NotificationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("NotificationDb")
-        ?? "Data Source=notification.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NotificationDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Notification;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<INotificationLogRepository, NotificationLogRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();

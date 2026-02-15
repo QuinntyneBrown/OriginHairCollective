@@ -15,8 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<OrderDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("OrderDb")
-        ?? "Data Source=order.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OrderDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Order;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();

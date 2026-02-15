@@ -14,8 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<CrmDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("CrmDb")
-        ?? "Data Source=crm.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CrmDb")
+        ?? "Server=(localdb)\\MSSQLLocalDB;Database=CrownCommerce_Crm;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IInteractionRepository, InteractionRepository>();
