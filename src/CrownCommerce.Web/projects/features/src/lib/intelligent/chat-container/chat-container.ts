@@ -34,7 +34,7 @@ export class ChatContainerComponent {
         sessionId: this.sessionId,
       }).subscribe({
         next: (conv) => {
-          this.conversationId = conv.conversationId;
+          this.conversationId = conv.id;
           this.handleAiReply(conv.messages);
         },
         error: () => this.handleError(),
@@ -42,7 +42,6 @@ export class ChatContainerComponent {
     } else {
       this.chat.sendMessage(this.conversationId, this.sessionId, {
         content: text,
-        senderType: 'visitor',
       }).subscribe({
         next: (msg) => {
           this.chatWidget.isTyping.set(false);
