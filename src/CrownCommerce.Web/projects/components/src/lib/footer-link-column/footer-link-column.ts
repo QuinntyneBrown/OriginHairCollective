@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 export interface FooterLink {
   label: string;
@@ -7,11 +8,12 @@ export interface FooterLink {
 
 @Component({
   selector: 'lib-footer-link-column',
+  imports: [RouterLink],
   template: `
     <nav class="footer-links">
       <h4 class="footer-links__title">{{ title() }}</h4>
       @for (link of links(); track link.label) {
-        <a class="footer-links__link" [href]="link.href">{{ link.label }}</a>
+        <a class="footer-links__link" [routerLink]="link.href">{{ link.label }}</a>
       }
     </nav>
   `,

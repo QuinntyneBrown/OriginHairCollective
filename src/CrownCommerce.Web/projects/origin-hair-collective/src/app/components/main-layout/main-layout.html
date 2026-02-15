@@ -3,7 +3,7 @@
   <lib-logo />
   <nav class="header__nav">
     @for (link of navLinks; track link.label) {
-      <a [href]="link.href" class="header__link">{{ link.label }}</a>
+      <a [routerLink]="link.href" class="header__link">{{ link.label }}</a>
     }
     <lib-button variant="primary" size="small" (click)="navigateToShop()">SHOP NOW</lib-button>
   </nav>
@@ -32,7 +32,7 @@
       <div class="mobile-nav__divider"></div>
       <div class="mobile-nav__links">
         @for (link of navLinks; track link.label) {
-          <a [href]="link.href" class="mobile-nav__link" (click)="toggleMobileMenu()">{{ link.label }}</a>
+          <a [routerLink]="link.href" class="mobile-nav__link" (click)="toggleMobileMenu()">{{ link.label }}</a>
         }
         <lib-button variant="primary" (click)="navigateToShop()">SHOP NOW</lib-button>
       </div>
