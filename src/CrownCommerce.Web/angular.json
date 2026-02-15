@@ -499,6 +499,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "projects/teams/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "teams:build:production"
