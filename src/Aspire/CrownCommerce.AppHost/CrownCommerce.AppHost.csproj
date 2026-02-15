@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Services\Chat\CrownCommerce.Chat.Api\CrownCommerce.Chat.Api.csproj" />
     <ProjectReference Include="..\..\Services\Newsletter\CrownCommerce.Newsletter.Api\CrownCommerce.Newsletter.Api.csproj" />
     <ProjectReference Include="..\..\Services\Crm\CrownCommerce.Crm.Api\CrownCommerce.Crm.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Scheduling\CrownCommerce.Scheduling.Api\CrownCommerce.Scheduling.Api.csproj" />
     <ProjectReference Include="..\..\Gateway\CrownCommerce.ApiGateway\CrownCommerce.ApiGateway.csproj" />
   </ItemGroup>
 

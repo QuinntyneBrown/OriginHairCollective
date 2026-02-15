@@ -8,7 +8,8 @@ public static class SchedulingMappingExtensions
     public static EmployeeDto ToDto(this Employee employee) =>
         new(employee.Id, employee.UserId, employee.Email, employee.FirstName, employee.LastName,
             employee.Phone, employee.JobTitle, employee.Department, employee.TimeZone,
-            employee.Status.ToString(), employee.CreatedAt);
+            employee.Status.ToString(), employee.Presence.ToString(), employee.LastSeenAt,
+            employee.CreatedAt);
 
     public static MeetingDto ToDto(this Meeting meeting, IReadOnlyDictionary<Guid, Employee>? employeeLookup = null) =>
         new(meeting.Id, meeting.Title, meeting.Description, meeting.StartTimeUtc, meeting.EndTimeUtc,
@@ -53,4 +54,33 @@ public static class SchedulingMappingExtensions
 
     public static ConversationParticipantDto ToDto(this ConversationParticipant participant) =>
         new(participant.EmployeeId, participant.JoinedAt);
+
+    public static ChannelDto ToChannelDto(this ScheduleConversation conversation, int unreadCount = 0)
+    {
+        var lastMsg = conversation.Messages.OrderByDescending(m => m.SentAt).FirstOrDefault();
+        return new ChannelDto(
+            conversation.Id,
+            conversation.Subject,
+            conversation.Icon,
+            conversation.ChannelType.ToString(),
+            unreadCount,
+            lastMsg?.Content,
+            lastMsg?.SentAt ?? conversation.LastMessageAt,
+            conversation.Participants.Count);
+    }
+
+    public static ChannelMessageDto ToChannelMessageDto(this ConversationMessage message, Employee? sender) =>
+        new(message.Id,
+            message.SenderEmployeeId,
+            sender is not null ? $"{sender.FirstName} {sender.LastName}" : "Unknown",
+            sender is not null ? GetInitials(sender.FirstName, sender.LastName) : "??",
+            message.Content,
+            message.SentAt);
+
+    public static string GetInitials(string firstName, string lastName)
+    {
+        var first = firstName.Length > 0 ? firstName[0].ToString().ToUpper() : "";
+        var last = lastName.Length > 0 ? lastName[0].ToString().ToUpper() : "";
+        return $"{first}{last}";
+    }
 }

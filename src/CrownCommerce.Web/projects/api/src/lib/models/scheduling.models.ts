@@ -9,6 +9,8 @@ export interface Employee {
   department: string | null;
   timeZone: string;
   status: string;
+  presence: string;
+  lastSeenAt: string | null;
   createdAt: string;
 }
 
@@ -130,4 +132,54 @@ export interface CreateConversationRequest {
 export interface SendMessageRequest {
   senderEmployeeId: string;
   content: string;
+}
+
+export interface Channel {
+  id: string;
+  name: string;
+  icon: string | null;
+  channelType: string;
+  unreadCount: number;
+  lastMessage: string | null;
+  lastMessageTime: string | null;
+  participantCount: number;
+}
+
+export interface ChannelMessage {
+  id: string;
+  senderEmployeeId: string;
+  senderName: string;
+  senderInitials: string;
+  content: string;
+  sentAt: string;
+}
+
+export interface SendChannelMessageRequest {
+  senderEmployeeId: string;
+  content: string;
+}
+
+export interface CreateChannelRequest {
+  name: string;
+  icon?: string;
+  channelType: string;
+  createdByEmployeeId: string;
+  participantEmployeeIds: string[];
+}
+
+export interface MarkAsReadRequest {
+  employeeId: string;
+}
+
+export interface ActivityFeedItem {
+  id: string;
+  type: string;
+  icon: string;
+  title: string;
+  description: string;
+  occurredAt: string;
+}
+
+export interface UpdatePresenceRequest {
+  presence: string;
 }

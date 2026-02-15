@@ -73,4 +73,65 @@ public sealed class ConversationRepository(SchedulingDbContext context) : IConve
 
         await context.SaveChangesAsync(ct);
     }
+
+    public async Task<IReadOnlyList<ScheduleConversation>> GetChannelsByTypeAsync(ChannelType? channelType = null, CancellationToken ct = default)
+    {
+        var query = context.Conversations
+            .AsNoTracking()
+            .Include(c => c.Participants)
+            .Include(c => c.Messages.OrderByDescending(m => m.SentAt).Take(1))
+            .Where(c => c.Status == ConversationStatus.Active);
+
+        if (channelType.HasValue)
+            query = query.Where(c => c.ChannelType == channelType.Value);
+
+        return await query
+            .OrderByDescending(c => c.LastMessageAt ?? c.CreatedAt)
+            .ToListAsync(ct);
+    }
+
+    public async Task<ChannelReadReceipt?> GetReadReceiptAsync(Guid conversationId, Guid employeeId, CancellationToken ct = default)
+    {
+        return await context.ChannelReadReceipts
+            .FirstOrDefaultAsync(r => r.ConversationId == conversationId && r.EmployeeId == employeeId, ct);
+    }
+
+    public async Task UpsertReadReceiptAsync(ChannelReadReceipt receipt, CancellationToken ct = default)
+    {
+        var existing = await context.ChannelReadReceipts
+            .FirstOrDefaultAsync(r => r.ConversationId == receipt.ConversationId && r.EmployeeId == receipt.EmployeeId, ct);
+
+        if (existing is not null)
+        {
+            existing.LastReadAt = receipt.LastReadAt;
+        }
+        else
+        {
+            context.ChannelReadReceipts.Add(receipt);
+        }
+
+        await context.SaveChangesAsync(ct);
+    }
+
+    public async Task<int> GetUnreadCountAsync(Guid conversationId, Guid employeeId, CancellationToken ct = default)
+    {
+        var receipt = await GetReadReceiptAsync(conversationId, employeeId, ct);
+        if (receipt is null)
+        {
+            return await context.ConversationMessages
+                .CountAsync(m => m.ConversationId == conversationId, ct);
+        }
+
+        return await context.ConversationMessages
+            .CountAsync(m => m.ConversationId == conversationId && m.SentAt > receipt.LastReadAt, ct);
+    }
+
+    public async Task<IReadOnlyList<ConversationMessage>> GetRecentMessagesAsync(int count = 20, CancellationToken ct = default)
+    {
+        return await context.ConversationMessages
+            .AsNoTracking()
+            .OrderByDescending(m => m.SentAt)
+            .Take(count)
+            .ToListAsync(ct);
+    }
 }

@@ -15,6 +15,13 @@ import type {
   CreateConversationRequest,
   SendMessageRequest,
   ConversationMessage,
+  Channel,
+  ChannelMessage,
+  SendChannelMessageRequest,
+  CreateChannelRequest,
+  MarkAsReadRequest,
+  ActivityFeedItem,
+  UpdatePresenceRequest,
 } from '../models/scheduling.models';
 
 @Injectable({ providedIn: 'root' })
@@ -102,5 +109,38 @@ export class SchedulingService {
       `${this.baseUrl}/conversations/${conversationId}/messages`,
       request
     );
+  }
+
+  // Channels
+  getChannels(employeeId: string): Observable<Channel[]> {
+    const params = new HttpParams().set('employeeId', employeeId);
+    return this.http.get<Channel[]>(`${this.baseUrl}/channels`, { params });
+  }
+
+  getChannelMessages(channelId: string): Observable<ChannelMessage[]> {
+    return this.http.get<ChannelMessage[]>(`${this.baseUrl}/channels/${channelId}/messages`);
+  }
+
+  sendChannelMessage(channelId: string, request: SendChannelMessageRequest): Observable<ChannelMessage> {
+    return this.http.post<ChannelMessage>(`${this.baseUrl}/channels/${channelId}/messages`, request);
+  }
+
+  markChannelAsRead(channelId: string, request: MarkAsReadRequest): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/channels/${channelId}/read`, request);
+  }
+
+  createChannel(request: CreateChannelRequest): Observable<Channel> {
+    return this.http.post<Channel>(`${this.baseUrl}/channels`, request);
+  }
+
+  // Activity Feed
+  getActivityFeed(employeeId: string, count = 10): Observable<ActivityFeedItem[]> {
+    const params = new HttpParams().set('employeeId', employeeId).set('count', count);
+    return this.http.get<ActivityFeedItem[]>(`${this.baseUrl}/activity`, { params });
+  }
+
+  // Presence
+  updatePresence(employeeId: string, request: UpdatePresenceRequest): Observable<Employee> {
+    return this.http.put<Employee>(`${this.baseUrl}/employees/${employeeId}/presence`, request);
   }
 }

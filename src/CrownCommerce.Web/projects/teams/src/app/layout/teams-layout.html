@@ -1,0 +1,97 @@
+@if (isDesktop()) {
+  <!-- Desktop: Left sidebar + main content -->
+  <div class="shell shell--desktop">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo-section">
+          <div class="logo-icon">T</div>
+          <div class="logo-text">
+            <span class="logo-name">Teams</span>
+            <span class="logo-sub">Collaboration</span>
+          </div>
+        </div>
+
+        <nav class="nav-section">
+          @for (item of navItems; track item.route) {
+            <a class="nav-item"
+               [routerLink]="item.route"
+               routerLinkActive="nav-item--active">
+              <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+              <span class="nav-label">{{ item.label }}</span>
+            </a>
+          }
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-avatar">QM</div>
+        <div class="user-info">
+          <span class="user-name">Quinn M.</span>
+          <span class="user-role">Team Lead</span>
+        </div>
+        <button mat-icon-button class="settings-btn">
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <router-outlet />
+    </div>
+  </div>
+}
+
+@if (isTablet()) {
+  <!-- Tablet: Top nav bar + main content -->
+  <div class="shell shell--tablet">
+    <header class="topnav">
+      <div class="topnav-left">
+        <div class="logo-icon logo-icon--sm">T</div>
+        <span class="topnav-brand">Teams</span>
+      </div>
+
+      <nav class="topnav-links">
+        @for (item of navItems; track item.route) {
+          <a class="topnav-pill"
+             [routerLink]="item.route"
+             routerLinkActive="topnav-pill--active">
+            <mat-icon class="topnav-icon">{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="topnav-right">
+        <div class="user-avatar user-avatar--sm">QM</div>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <router-outlet />
+    </div>
+  </div>
+}
+
+@if (isMobile()) {
+  <!-- Mobile: Main content + bottom tabs -->
+  <div class="shell shell--mobile">
+    <div class="main-content">
+      <router-outlet />
+    </div>
+
+    <nav class="bottom-tabs">
+      @for (item of navItems; track item.route) {
+        <a class="bottom-tab"
+           [routerLink]="item.route"
+           routerLinkActive="bottom-tab--active">
+          <mat-icon class="bottom-tab-icon">{{ item.icon }}</mat-icon>
+          <span class="bottom-tab-label">{{ item.label }}</span>
+        </a>
+      }
+      <a class="bottom-tab" routerLink="/home">
+        <mat-icon class="bottom-tab-icon">more_horiz</mat-icon>
+        <span class="bottom-tab-label">More</span>
+      </a>
+    </nav>
+  </div>
+}

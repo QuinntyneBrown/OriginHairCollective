@@ -27,16 +27,19 @@ var notificationApi = builder.AddProject<Projects.CrownCommerce_Notification_Api
 
 var identityApi = builder.AddProject<Projects.CrownCommerce_Identity_Api>("identity-api");
 
-// TODO: Chat API crashes under Aspire orchestration â€” investigate SignalR/MassTransit startup interaction
-// var chatApi = builder.AddProject<Projects.CrownCommerce_Chat_Api>("chat-api")
-//     .WithReference(messaging)
-//     .WaitFor(messaging);
+var chatApi = builder.AddProject<Projects.CrownCommerce_Chat_Api>("chat-api")
+    .WithReference(messaging)
+    .WaitFor(messaging);
 
 var newsletterApi = builder.AddProject<Projects.CrownCommerce_Newsletter_Api>("newsletter-api")
     .WithReference(messaging)
     .WaitFor(messaging);
 
 var crmApi = builder.AddProject<Projects.CrownCommerce_Crm_Api>("crm-api")
+    .WithReference(messaging)
+    .WaitFor(messaging);
+
+var schedulingApi = builder.AddProject<Projects.CrownCommerce_Scheduling_Api>("scheduling-api")
     .WithReference(messaging)
     .WaitFor(messaging);
 
@@ -48,8 +51,10 @@ var apiGateway = builder.AddProject<Projects.CrownCommerce_ApiGateway>("api-gate
     .WithReference(contentApi)
     .WithReference(notificationApi)
     .WithReference(identityApi)
+    .WithReference(chatApi)
     .WithReference(newsletterApi)
-    .WithReference(crmApi);
+    .WithReference(crmApi)
+    .WithReference(schedulingApi);
 
 builder.AddNpmApp("angular", "../../CrownCommerce.Web", "start")
     .WithReference(apiGateway)

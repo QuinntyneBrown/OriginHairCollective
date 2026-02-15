@@ -11,6 +11,8 @@ public sealed record EmployeeDto(
     string? Department,
     string TimeZone,
     string Status,
+    string Presence,
+    DateTime? LastSeenAt,
     DateTime CreatedAt);
 
 public sealed record CreateEmployeeDto(

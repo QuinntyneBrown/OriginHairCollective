@@ -35,4 +35,11 @@ public sealed class EmployeesController(ISchedulingService schedulingService) : 
         var employee = await schedulingService.UpdateEmployeeAsync(id, dto, ct);
         return Ok(employee);
     }
+
+    [HttpPut("{id:guid}/presence")]
+    public async Task<IActionResult> UpdatePresence(Guid id, [FromBody] UpdatePresenceDto dto, CancellationToken ct)
+    {
+        var employee = await schedulingService.UpdatePresenceAsync(id, dto, ct);
+        return Ok(employee);
+    }
 }
