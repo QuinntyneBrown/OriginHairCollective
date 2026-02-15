@@ -3,10 +3,10 @@
 $teams-theme: mat.define-theme((
   color: (
     theme-type: light,
-    primary: mat.$violet-palette,
+    primary: mat.$yellow-palette,
   ),
   typography: (
-    brand-family: 'Bricolage Grotesque',
+    brand-family: 'Fraunces',
     plain-family: 'DM Sans',
   ),
   density: (
@@ -20,51 +20,58 @@ html {
 
 :root {
   // Primary palette
-  --primary: #6366F1;
-  --primary-dark: #4F46E5;
-  --primary-light: #EEF2FF;
-  --coral: #FF6B6B;
-  --green: #22C55E;
-  --green-light: #DCFCE7;
-  --yellow: #FCD34D;
-  --yellow-light: #FEF9C3;
+  --primary: #C9A052;
+  --primary-dark: #8B6914;
+  --primary-light: #F5ECD7;
+  --secondary: #B8816B;
+  --secondary-light: #F5E0D7;
+  --coral: #B8816B;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --yellow: #E65100;
+  --yellow-light: #FFF3E0;
 
   // Text
-  --text-primary: #1A1A1A;
-  --text-secondary: #6B7280;
-  --text-tertiary: #9CA3AF;
-  --text-quaternary: #D1D5DB;
+  --text-primary: #212121;
+  --text-secondary: #616161;
+  --text-tertiary: #9E9E9E;
+  --text-quaternary: #BDBDBD;
 
   // Surfaces
   --surface: #FFFFFF;
-  --surface-card: #F6F7F8;
-  --surface-hover: #F3F4F6;
-  --border: #F3F4F6;
-  --border-strong: #E5E7EB;
+  --surface-card: #F5F5F5;
+  --surface-hover: #F5F5F5;
+  --border: #E0E0E0;
+  --border-strong: #BDBDBD;
 
   // Semantic
   --on-primary: #FFFFFF;
-  --error: #EF4444;
-  --info: #3B82F6;
-  --info-light: #DBEAFE;
+  --on-secondary: #FFFFFF;
+  --error: #B00020;
+  --success: #2E7D32;
+  --success-light: #E8F5E9;
+  --warning: #E65100;
+  --warning-light: #FFF3E0;
+  --info: #1565C0;
+  --info-light: #E3F2FD;
 
   // Radii
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 100px;
 
   // Fonts
-  --font-heading: 'Bricolage Grotesque', sans-serif;
+  --font-heading: 'Fraunces', serif;
   --font-body: 'DM Sans', sans-serif;
 
   // Sidebar
-  --sidebar-bg: #1A1A2E;
-  --sidebar-text: #FFFFFF;
-  --sidebar-text-muted: #9CA3AF;
-  --sidebar-active-bg: rgba(99, 102, 241, 0.15);
-  --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+  --sidebar-bg: #161412;
+  --sidebar-text: #FAF7F0;
+  --sidebar-text-muted: #9E9E9E;
+  --sidebar-active-bg: rgba(201, 160, 82, 0.125);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.063);
 }
 
 *,

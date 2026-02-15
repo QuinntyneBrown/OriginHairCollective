@@ -1,0 +1,9 @@
+{
+  "/api/scheduling": {
+    "target": "http://localhost:5280",
+    "secure": false,
+    "pathRewrite": {
+      "^/api/scheduling": ""
+    }
+  }
+}

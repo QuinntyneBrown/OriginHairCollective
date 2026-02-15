@@ -98,55 +98,56 @@ export const CHAT_MESSAGES: ChatMessage[] = [
 export const MEETINGS: Meeting[] = [
   {
     id: 1, title: 'Daily Standup', startTime: '9:30 AM', endTime: '9:45 AM',
-    date: '2026-02-14', color: '#6366F1',
+    date: '2026-02-14', color: '#C9A052',
     participants: [{ name: 'Sarah Chen', initials: 'SC' }, { name: 'Marcus Johnson', initials: 'MJ' }, { name: 'David Kim', initials: 'DK' }],
     isVirtual: true,
   },
   {
     id: 2, title: 'Design Review', startTime: '11:00 AM', endTime: '12:00 PM',
-    date: '2026-02-14', color: '#FF6B6B',
+    date: '2026-02-14', color: '#B8816B',
     participants: [{ name: 'Sarah Chen', initials: 'SC' }, { name: 'Elena Rodriguez', initials: 'ER' }],
     location: 'Room 3B', isVirtual: false,
   },
   {
     id: 3, title: 'Sprint Planning', startTime: '2:00 PM', endTime: '3:30 PM',
-    date: '2026-02-14', color: '#22C55E',
+    date: '2026-02-14', color: '#2E7D32',
     participants: [{ name: 'David Kim', initials: 'DK' }, { name: 'Tom Anderson', initials: 'TA' }, { name: 'Aisha Patel', initials: 'AP' }, { name: 'Marcus Johnson', initials: 'MJ' }],
     isVirtual: true,
   },
   {
     id: 4, title: '1:1 with Tom', startTime: '4:00 PM', endTime: '4:30 PM',
-    date: '2026-02-14', color: '#FCD34D',
+    date: '2026-02-14', color: '#E65100',
     participants: [{ name: 'Tom Anderson', initials: 'TA' }],
     isVirtual: true,
   },
   {
     id: 5, title: 'Product Sync', startTime: '10:00 AM', endTime: '10:30 AM',
-    date: '2026-02-15', color: '#6366F1',
+    date: '2026-02-15', color: '#C9A052',
     participants: [{ name: 'David Kim', initials: 'DK' }, { name: 'Lisa Chang', initials: 'LC' }],
     isVirtual: true,
   },
   {
     id: 6, title: 'Code Review Session', startTime: '1:00 PM', endTime: '2:00 PM',
-    date: '2026-02-16', color: '#FF6B6B',
+    date: '2026-02-16', color: '#B8816B',
     participants: [{ name: 'Marcus Johnson', initials: 'MJ' }, { name: 'James Wilson', initials: 'JW' }, { name: 'Noah Baker', initials: 'NB' }],
     isVirtual: false, location: 'Engineering Lab',
   },
 ];
 
 export const ACTIVITY_ITEMS: ActivityItem[] = [
-  { id: 1, type: 'message', icon: 'chat', title: 'New message in #design', description: 'Sarah shared new mockups for the dashboard redesign', time: '5 min ago', color: '#6366F1' },
-  { id: 2, type: 'meeting', icon: 'videocam', title: 'Design Review starting soon', description: 'In 30 minutes - Room 3B', time: '30 min', color: '#FF6B6B' },
-  { id: 3, type: 'task', icon: 'check_circle', title: 'Task completed', description: 'Marcus completed "Update component library"', time: '1h ago', color: '#22C55E' },
-  { id: 4, type: 'file', icon: 'description', title: 'New file shared', description: 'Q2 Roadmap.pdf was shared in #product', time: '2h ago', color: '#FCD34D' },
-  { id: 5, type: 'message', icon: 'chat', title: 'Mention in #engineering', description: 'Tom mentioned you in a thread about API integration', time: '3h ago', color: '#6366F1' },
-  { id: 6, type: 'task', icon: 'check_circle', title: 'New task assigned', description: 'Review PR #142 - Component library updates', time: '4h ago', color: '#22C55E' },
+  { id: 1, type: 'message', icon: 'chat', title: 'New message in #design', description: 'Sarah shared new mockups for the dashboard redesign', time: '5 min ago', color: '#C9A052' },
+  { id: 2, type: 'meeting', icon: 'videocam', title: 'Design Review starting soon', description: 'In 30 minutes - Room 3B', time: '30 min', color: '#B8816B' },
+  { id: 3, type: 'task', icon: 'check_circle', title: 'Task completed', description: 'Marcus completed "Update component library"', time: '1h ago', color: '#2E7D32' },
+  { id: 4, type: 'file', icon: 'description', title: 'New file shared', description: 'Q2 Roadmap.pdf was shared in #product', time: '2h ago', color: '#E65100' },
+  { id: 5, type: 'message', icon: 'chat', title: 'Mention in #engineering', description: 'Tom mentioned you in a thread about API integration', time: '3h ago', color: '#C9A052' },
+  { id: 6, type: 'task', icon: 'check_circle', title: 'New task assigned', description: 'Review PR #142 - Component library updates', time: '4h ago', color: '#2E7D32' },
 ];
 
 export const TIME_ZONES: TimeZoneCard[] = [
   { city: 'San Francisco', timezone: 'PST', offset: 'UTC-8', flag: '🇺🇸' },
   { city: 'New York', timezone: 'EST', offset: 'UTC-5', flag: '🇺🇸' },
   { city: 'London', timezone: 'GMT', offset: 'UTC+0', flag: '🇬🇧' },
+  { city: 'Nairobi', timezone: 'EAT', offset: 'UTC+3', flag: '🇰🇪' },
   { city: 'Tokyo', timezone: 'JST', offset: 'UTC+9', flag: '🇯🇵' },
   { city: 'Sydney', timezone: 'AEDT', offset: 'UTC+11', flag: '🇦🇺' },
 ];

@@ -14,6 +14,8 @@ public sealed class Employee
     public string? Department { get; set; }
     public required string TimeZone { get; set; }
     public EmployeeStatus Status { get; set; }
+    public PresenceStatus Presence { get; set; } = PresenceStatus.Offline;
+    public DateTime? LastSeenAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public ICollection<MeetingAttendee> MeetingAttendees { get; set; } = [];

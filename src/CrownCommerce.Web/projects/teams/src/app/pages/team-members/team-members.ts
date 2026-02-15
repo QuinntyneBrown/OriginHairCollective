@@ -1,11 +1,14 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TEAM_MEMBERS, type TeamMember } from '../../data/mock-data';
+import { SchedulingService } from 'api';
+import { map } from 'rxjs';
+import type { TeamMember } from '../../data/mock-data';
 
 type StatusFilter = 'all' | 'online' | 'away';
 
@@ -23,7 +26,27 @@ type StatusFilter = 'all' | 'online' | 'away';
   styleUrl: './team-members.scss',
 })
 export class TeamMembersPage {
-  readonly members = signal<TeamMember[]>(TEAM_MEMBERS);
+  private readonly schedulingService = inject(SchedulingService);
+
+  private readonly apiMembers = toSignal(
+    this.schedulingService.getEmployees().pipe(
+      map((employees) =>
+        employees.map((e) => ({
+          id: e.id as unknown as number,
+          name: `${e.firstName} ${e.lastName}`,
+          initials: `${e.firstName[0]}${e.lastName[0]}`.toUpperCase(),
+          role: e.jobTitle,
+          department: e.department ?? '',
+          avatar: '',
+          status: (e.presence?.toLowerCase() ?? 'offline') as 'online' | 'away' | 'offline',
+          email: e.email,
+        }))
+      )
+    ),
+    { initialValue: [] as TeamMember[] }
+  );
+
+  readonly members = computed(() => this.apiMembers());
   readonly searchQuery = signal('');
   readonly statusFilter = signal<StatusFilter>('all');
 

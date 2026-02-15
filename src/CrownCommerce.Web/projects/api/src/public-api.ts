@@ -62,6 +62,13 @@ export type {
   ConversationParticipant,
   CreateConversationRequest as CreateScheduleConversationRequest,
   SendMessageRequest as ScheduleSendMessageRequest,
+  Channel,
+  ChannelMessage,
+  SendChannelMessageRequest,
+  CreateChannelRequest,
+  MarkAsReadRequest,
+  ActivityFeedItem,
+  UpdatePresenceRequest,
 } from './lib/models/scheduling.models';
 
 // Services

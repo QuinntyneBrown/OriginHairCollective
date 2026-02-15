@@ -238,6 +238,22 @@ public sealed class SchedulingService(
         return GenerateICal(meeting, organizer, attendees);
     }
 
+    public async Task<EmployeeDto> UpdatePresenceAsync(Guid employeeId, UpdatePresenceDto dto, CancellationToken ct = default)
+    {
+        var employee = await employeeRepo.GetByIdAsync(employeeId, ct)
+            ?? throw new InvalidOperationException($"Employee {employeeId} not found");
+
+        if (Enum.TryParse<PresenceStatus>(dto.Presence, true, out var presence))
+        {
+            employee.Presence = presence;
+            employee.LastSeenAt = DateTime.UtcNow;
+            employee.UpdatedAt = DateTime.UtcNow;
+            await employeeRepo.UpdateAsync(employee, ct);
+        }
+
+        return employee.ToDto();
+    }
+
     // ─── Conversations ──────────────────────────────────────────────────
 
     public async Task<IReadOnlyList<ConversationSummaryDto>> GetConversationsAsync(Guid? employeeId = null, CancellationToken ct = default)
@@ -309,6 +325,144 @@ public sealed class SchedulingService(
 
         await conversationRepo.AddMessageAsync(message, ct);
         return message.ToDto();
+    }
+
+    // ─── Channels ─────────────────────────────────────────────────────
+
+    public async Task<IReadOnlyList<ChannelDto>> GetChannelsAsync(Guid employeeId, CancellationToken ct = default)
+    {
+        var channels = await conversationRepo.GetChannelsByTypeAsync(null, ct);
+
+        // Filter to channels the employee is a participant of
+        channels = channels
+            .Where(c => c.Participants.Any(p => p.EmployeeId == employeeId))
+            .ToList();
+
+        var result = new List<ChannelDto>();
+        foreach (var channel in channels)
+        {
+            var unread = await conversationRepo.GetUnreadCountAsync(channel.Id, employeeId, ct);
+            result.Add(channel.ToChannelDto(unread));
+        }
+
+        return result;
+    }
+
+    public async Task<IReadOnlyList<ChannelMessageDto>> GetChannelMessagesAsync(Guid channelId, CancellationToken ct = default)
+    {
+        var conversation = await conversationRepo.GetByIdAsync(channelId, ct);
+        if (conversation is null) return [];
+
+        var senderIds = conversation.Messages.Select(m => m.SenderEmployeeId).Distinct();
+        var employees = await employeeRepo.GetByIdsAsync(senderIds, ct);
+        var lookup = employees.ToDictionary(e => e.Id);
+
+        return conversation.Messages
+            .OrderBy(m => m.SentAt)
+            .Select(m => m.ToChannelMessageDto(lookup.GetValueOrDefault(m.SenderEmployeeId)))
+            .ToList();
+    }
+
+    public async Task<ChannelMessageDto> SendChannelMessageAsync(Guid channelId, SendChannelMessageDto dto, CancellationToken ct = default)
+    {
+        var message = new ConversationMessage
+        {
+            Id = Guid.NewGuid(),
+            ConversationId = channelId,
+            SenderEmployeeId = dto.SenderEmployeeId,
+            Content = dto.Content,
+            SentAt = DateTime.UtcNow,
+        };
+
+        await conversationRepo.AddMessageAsync(message, ct);
+
+        var sender = await employeeRepo.GetByIdAsync(dto.SenderEmployeeId, ct);
+        return message.ToChannelMessageDto(sender);
+    }
+
+    public async Task MarkChannelAsReadAsync(Guid channelId, MarkAsReadDto dto, CancellationToken ct = default)
+    {
+        var receipt = new ChannelReadReceipt
+        {
+            Id = Guid.NewGuid(),
+            ConversationId = channelId,
+            EmployeeId = dto.EmployeeId,
+            LastReadAt = DateTime.UtcNow,
+        };
+
+        await conversationRepo.UpsertReadReceiptAsync(receipt, ct);
+    }
+
+    public async Task<ChannelDto> CreateChannelAsync(CreateChannelDto dto, CancellationToken ct = default)
+    {
+        if (!Enum.TryParse<ChannelType>(dto.ChannelType, true, out var channelType))
+            channelType = ChannelType.Public;
+
+        var conversation = new ScheduleConversation
+        {
+            Id = Guid.NewGuid(),
+            Subject = dto.Name,
+            Icon = dto.Icon,
+            ChannelType = channelType,
+            Status = ConversationStatus.Active,
+            CreatedByEmployeeId = dto.CreatedByEmployeeId,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        var allParticipants = dto.ParticipantEmployeeIds.Append(dto.CreatedByEmployeeId).Distinct();
+        foreach (var participantId in allParticipants)
+        {
+            conversation.Participants.Add(new ConversationParticipant
+            {
+                Id = Guid.NewGuid(),
+                ConversationId = conversation.Id,
+                EmployeeId = participantId,
+                JoinedAt = DateTime.UtcNow,
+            });
+        }
+
+        await conversationRepo.AddAsync(conversation, ct);
+        return conversation.ToChannelDto();
+    }
+
+    // ─── Activity Feed ───────────────────────────────────────────────
+
+    public async Task<IReadOnlyList<ActivityFeedItemDto>> GetActivityFeedAsync(Guid employeeId, int count = 10, CancellationToken ct = default)
+    {
+        var items = new List<ActivityFeedItemDto>();
+
+        // Recent messages across all channels
+        var recentMessages = await conversationRepo.GetRecentMessagesAsync(count, ct);
+        foreach (var msg in recentMessages)
+        {
+            var sender = await employeeRepo.GetByIdAsync(msg.SenderEmployeeId, ct);
+            var senderName = sender is not null ? $"{sender.FirstName} {sender.LastName}" : "Unknown";
+            items.Add(new ActivityFeedItemDto(
+                msg.Id,
+                "message",
+                "chat",
+                $"New message from {senderName}",
+                msg.Content.Length > 80 ? msg.Content[..80] + "..." : msg.Content,
+                msg.SentAt));
+        }
+
+        // Upcoming meetings
+        var meetings = await meetingRepo.GetUpcomingAsync(count, ct);
+        foreach (var meeting in meetings)
+        {
+            items.Add(new ActivityFeedItemDto(
+                meeting.Id,
+                "meeting",
+                "videocam",
+                meeting.Title,
+                $"{meeting.StartTimeUtc:g} - {meeting.Attendees.Count} attendees",
+                meeting.StartTimeUtc));
+        }
+
+        return items
+            .OrderByDescending(i => i.OccurredAt)
+            .Take(count)
+            .ToList();
     }
 
     // ─── Helpers ────────────────────────────────────────────────────────

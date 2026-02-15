@@ -11,6 +11,7 @@ public sealed class SchedulingDbContext(DbContextOptions<SchedulingDbContext> op
     public DbSet<ScheduleConversation> Conversations => Set<ScheduleConversation>();
     public DbSet<ConversationMessage> ConversationMessages => Set<ConversationMessage>();
     public DbSet<ConversationParticipant> ConversationParticipants => Set<ConversationParticipant>();
+    public DbSet<ChannelReadReceipt> ChannelReadReceipts => Set<ChannelReadReceipt>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +26,7 @@ public sealed class SchedulingDbContext(DbContextOptions<SchedulingDbContext> op
             e.Property(x => x.JobTitle).HasMaxLength(200).IsRequired();
             e.Property(x => x.Department).HasMaxLength(200);
             e.Property(x => x.TimeZone).HasMaxLength(100).IsRequired();
+            e.Property(x => x.Presence).HasConversion<string>().HasMaxLength(20);
             e.HasIndex(x => x.UserId).IsUnique();
         });
 
@@ -50,6 +52,8 @@ public sealed class SchedulingDbContext(DbContextOptions<SchedulingDbContext> op
         {
             e.HasKey(x => x.Id);
             e.Property(x => x.Subject).HasMaxLength(500).IsRequired();
+            e.Property(x => x.ChannelType).HasConversion<string>().HasMaxLength(20);
+            e.Property(x => x.Icon).HasMaxLength(100);
             e.HasIndex(x => x.MeetingId);
             e.HasIndex(x => x.CreatedByEmployeeId);
         });
@@ -67,6 +71,14 @@ public sealed class SchedulingDbContext(DbContextOptions<SchedulingDbContext> op
             e.HasKey(x => x.Id);
             e.HasIndex(x => new { x.ConversationId, x.EmployeeId }).IsUnique();
             e.HasOne(x => x.Conversation).WithMany(c => c.Participants).HasForeignKey(x => x.ConversationId).OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<ChannelReadReceipt>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.HasIndex(x => new { x.ConversationId, x.EmployeeId }).IsUnique();
+            e.HasOne(x => x.Conversation).WithMany(c => c.ReadReceipts).HasForeignKey(x => x.ConversationId).OnDelete(DeleteBehavior.Cascade);
             e.HasOne(x => x.Employee).WithMany().HasForeignKey(x => x.EmployeeId).OnDelete(DeleteBehavior.Cascade);
         });
     }
