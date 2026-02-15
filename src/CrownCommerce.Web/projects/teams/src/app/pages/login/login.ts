@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +11,6 @@ import { AuthService } from 'api';
   selector: 'app-login',
   imports: [
     FormsModule,
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -29,6 +27,11 @@ export class LoginPage {
   readonly password = signal('');
   readonly errorMessage = signal('');
   readonly isLoading = signal(false);
+  readonly rememberMe = signal(true);
+
+  toggleRememberMe(): void {
+    this.rememberMe.update((v) => !v);
+  }
 
   onSubmit(): void {
     this.errorMessage.set('');
