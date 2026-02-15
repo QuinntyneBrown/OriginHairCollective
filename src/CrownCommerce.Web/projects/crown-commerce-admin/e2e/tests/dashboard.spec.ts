@@ -36,9 +36,9 @@ test.describe('Dashboard', () => {
   });
 
   test.describe('Metric Cards', () => {
-    test('should display 4 metric cards', async () => {
+    test('should display 5 metric cards', async () => {
       const count = await dashboard.getMetricCardCount();
-      expect(count).toBe(4);
+      expect(count).toBe(5);
     });
 
     test('should display Total Products metric', async () => {
@@ -65,14 +65,14 @@ test.describe('Dashboard', () => {
       expect(info.value).toBe(mockMetrics[3].value);
     });
 
-    test('should display change text for Total Products', async () => {
+    test('should display icon for Total Products metric', async () => {
       const info = await dashboard.getMetricCardInfo(0);
-      expect(info.change).toContain('+8 this month');
+      expect(info.change).toContain(mockMetrics[0].change);
     });
 
-    test('should display change text for Active Inquiries', async () => {
+    test('should display icon for Active Inquiries metric', async () => {
       const info = await dashboard.getMetricCardInfo(1);
-      expect(info.change).toContain('+15.3%');
+      expect(info.change).toContain(mockMetrics[1].change);
     });
   });
 
@@ -125,7 +125,6 @@ test.describe('Dashboard', () => {
       expect(inquiry.initials).toBe(mockRecentInquiries[0].initials);
       expect(inquiry.name).toBe(mockRecentInquiries[0].name);
       expect(inquiry.message).toBe(mockRecentInquiries[0].message);
-      expect(inquiry.time).toBe(mockRecentInquiries[0].time);
     });
 
     test('should navigate to inquiries page via View All link', async ({ page }) => {

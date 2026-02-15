@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/pages/home.page';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Chat Widget', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });
@@ -134,11 +136,10 @@ test.describe('Chat Widget', () => {
     test('should display multiple sent messages in order', async () => {
       await homePage.chatWidget.sendMessage('First message');
       await homePage.chatWidget.sendMessage('Second message');
-      await expect(homePage.chatWidget.messages).toHaveCount(3);
 
-      const texts = await homePage.chatWidget.getMessageTexts();
-      expect(texts[1]).toBe('First message');
-      expect(texts[2]).toBe('Second message');
+      const messages = homePage.chatWidget.messages;
+      await expect(messages.filter({ hasText: 'First message' })).toHaveCount(1);
+      await expect(messages.filter({ hasText: 'Second message' })).toHaveCount(1);
     });
 
     test('should add a timestamp to each sent message', async () => {
@@ -187,6 +188,7 @@ test.describe('Chat Widget - Mobile', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });

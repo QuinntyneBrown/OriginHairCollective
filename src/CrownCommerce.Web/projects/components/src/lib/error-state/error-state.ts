@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { ButtonComponent } from 'components';
+import { ButtonComponent } from '../button/button';
 
 @Component({
-  selector: 'app-error-state',
+  selector: 'lib-error-state',
   imports: [ButtonComponent],
   template: `
     <div class="error-state">

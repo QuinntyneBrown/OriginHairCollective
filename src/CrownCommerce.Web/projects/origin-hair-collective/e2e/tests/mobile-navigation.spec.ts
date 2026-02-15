@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/pages/home.page';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Mobile Navigation', () => {
   let homePage: HomePage;
@@ -7,6 +8,7 @@ test.describe('Mobile Navigation', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });

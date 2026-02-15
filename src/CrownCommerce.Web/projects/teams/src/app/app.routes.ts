@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { TeamsLayout } from './layout/teams-layout';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from 'api';
 
 export const routes: Routes = [
   {

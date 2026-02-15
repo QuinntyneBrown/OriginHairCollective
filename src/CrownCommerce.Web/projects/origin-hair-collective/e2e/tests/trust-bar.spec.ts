@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/pages/home.page';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Trust Bar', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });

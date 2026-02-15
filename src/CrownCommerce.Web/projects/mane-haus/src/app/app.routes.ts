@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './components/main-layout/main-layout';
-import { authGuard } from './guards/auth.guard';
+import { authGuard } from 'api';
 import { CONTENT_PAGE_SLUG } from 'features';
 
 export const routes: Routes = [

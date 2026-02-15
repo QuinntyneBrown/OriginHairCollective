@@ -2,9 +2,9 @@
   <lib-section-header label="ORDER" heading="Order Details" />
 
   @if (loading()) {
-    <app-loading-spinner />
+    <lib-loading-spinner />
   } @else if (error()) {
-    <app-error-state message="Failed to load order." (retry)="loadOrder()" />
+    <lib-error-state message="Failed to load order." (retry)="loadOrder()" />
   } @else if (order(); as o) {
     <div class="order-detail__status">
       <span class="order-detail__badge">{{ o.status }}</span>

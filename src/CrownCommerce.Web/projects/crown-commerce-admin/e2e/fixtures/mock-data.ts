@@ -1,4 +1,4 @@
-// ── Interfaces ──
+// ── Interfaces (matching actual API models) ──
 
 export interface MetricCardInfo {
   label: string;
@@ -21,35 +21,43 @@ export interface RecentInquiryInfo {
 }
 
 export interface ProductInfo {
+  id: string;
   name: string;
-  type: string;
+  originId: string;
+  originCountry: string;
   texture: string;
-  length: string;
-  price: string;
-  origin: string;
+  type: string;
+  lengthInches: number;
+  price: number;
+  description: string;
+  imageUrl: string | null;
 }
 
 export interface OriginInfo {
+  id: string;
   country: string;
   region: string;
   description: string;
-  products: number;
 }
 
 export interface InquiryInfo {
+  id: string;
   name: string;
   email: string;
-  phone: string;
+  phone: string | null;
   message: string;
-  date: string;
+  productId: string | null;
+  createdAt: string;
 }
 
 export interface TestimonialInfo {
-  customer: string;
-  rating: string;
-  review: string;
-  status: 'Published' | 'Pending';
-  date: string;
+  id: string;
+  customerName: string;
+  customerLocation: string | null;
+  content: string;
+  rating: number;
+  imageUrl: string | null;
+  createdAt: string;
 }
 
 export interface TrustBarItemInfo {
@@ -76,54 +84,59 @@ export interface UserInfo {
 
 // ── Mock Data ──
 
+// Dashboard metrics are computed from data lengths, these are what we expect based on mock data counts
 export const mockMetrics: MetricCardInfo[] = [
-  { label: 'Total Products', value: '47', change: '+8 this month' },
-  { label: 'Active Inquiries', value: '23', change: '+15.3%' },
-  { label: 'Hair Origins', value: '5', change: '5 countries' },
-  { label: 'Testimonials', value: '12', change: '+3 new' },
+  { label: 'Total Products', value: '5', change: 'inventory_2' },
+  { label: 'Active Inquiries', value: '4', change: 'mail' },
+  { label: 'Hair Origins', value: '5', change: 'public' },
+  { label: 'Testimonials', value: '3', change: 'star' },
 ];
 
+// Recent products shown on dashboard (first 4 from mockProducts)
+// The dashboard uses `row.price | currency` and `row.originCountry`
 export const mockRecentProducts: RecentProductInfo[] = [
-  { name: 'Cambodian Straight Bundle 18"', type: 'Bundle', price: '$185', origin: 'Cambodia' },
-  { name: 'Indian Curly Bundle 24"', type: 'Bundle', price: '$175', origin: 'India' },
-  { name: 'Vietnamese Wavy Wig 20"', type: 'Wig', price: '$450', origin: 'Vietnam' },
-  { name: 'Indonesian Body Wave 22"', type: 'Bundle', price: '$210', origin: 'Indonesia' },
+  { name: 'Cambodian Straight Bundle', type: 'Bundle', price: '$185.00', origin: 'Cambodia' },
+  { name: 'Indian Curly Bundle', type: 'Bundle', price: '$175.00', origin: 'India' },
+  { name: 'Vietnamese Wavy Wig', type: 'Wig', price: '$450.00', origin: 'Vietnam' },
+  { name: 'Indonesian Body Wave', type: 'Bundle', price: '$210.00', origin: 'Indonesia' },
 ];
 
+// Recent inquiries shown on dashboard
+// The dashboard uses `date:'shortDate'` pipe for the time
 export const mockRecentInquiries: RecentInquiryInfo[] = [
-  { initials: 'SR', name: 'Sarah Robinson', message: 'Interested in Cambodian bundles', time: '2h ago' },
-  { initials: 'MT', name: 'Maya Thompson', message: 'Question about wig customization', time: '5h ago' },
-  { initials: 'JC', name: 'Jessica Chen', message: 'Bulk order pricing for salon', time: '1d ago' },
-  { initials: 'AW', name: 'Aisha Williams', message: 'Shipping timeline for frontals', time: '2d ago' },
+  { initials: 'SR', name: 'Sarah Robinson', message: 'Interested in Cambodian bundles', time: '2/8/25' },
+  { initials: 'MT', name: 'Maya Thompson', message: 'Question about wig customization', time: '2/7/25' },
+  { initials: 'JC', name: 'Jessica Chen', message: 'Bulk order pricing for salon', time: '2/6/25' },
+  { initials: 'AW', name: 'Aisha Williams', message: 'Shipping timeline for frontals', time: '2/5/25' },
 ];
 
 export const mockProducts: ProductInfo[] = [
-  { name: 'Cambodian Straight Bundle', type: 'Bundle', texture: 'Straight', length: '18"', price: '$185.00', origin: 'Cambodia' },
-  { name: 'Indian Curly Bundle', type: 'Bundle', texture: 'Curly', length: '24"', price: '$175.00', origin: 'India' },
-  { name: 'Vietnamese Wavy Wig', type: 'Wig', texture: 'Wavy', length: '20"', price: '$450.00', origin: 'Vietnam' },
-  { name: 'Indonesian Body Wave', type: 'Bundle', texture: 'Wavy', length: '22"', price: '$210.00', origin: 'Indonesia' },
-  { name: 'Myanmar Kinky Closure', type: 'Closure', texture: 'Kinky', length: '16"', price: '$130.00', origin: 'Myanmar' },
+  { id: 'prod-1', name: 'Cambodian Straight Bundle', originId: 'origin-1', originCountry: 'Cambodia', texture: 'Straight', type: 'Bundle', lengthInches: 18, price: 185.00, description: 'Premium straight bundle from Cambodia', imageUrl: null },
+  { id: 'prod-2', name: 'Indian Curly Bundle', originId: 'origin-2', originCountry: 'India', texture: 'Curly', type: 'Bundle', lengthInches: 24, price: 175.00, description: 'Naturally curly temple hair', imageUrl: null },
+  { id: 'prod-3', name: 'Vietnamese Wavy Wig', originId: 'origin-3', originCountry: 'Vietnam', texture: 'Wavy', type: 'Wig', lengthInches: 20, price: 450.00, description: 'Premium wavy wig', imageUrl: null },
+  { id: 'prod-4', name: 'Indonesian Body Wave', originId: 'origin-4', originCountry: 'Indonesia', texture: 'Wavy', type: 'Bundle', lengthInches: 22, price: 210.00, description: 'Silky body wave bundle', imageUrl: null },
+  { id: 'prod-5', name: 'Myanmar Kinky Closure', originId: 'origin-5', originCountry: 'Myanmar', texture: 'Kinky', type: 'Closure', lengthInches: 16, price: 130.00, description: 'Natural kinky closure', imageUrl: null },
 ];
 
 export const mockOrigins: OriginInfo[] = [
-  { country: 'Cambodia', region: 'Phnom Penh', description: 'Naturally thick, durable hair', products: 12 },
-  { country: 'India', region: 'Chennai, Tamil Nadu', description: 'Versatile, temple-sourced hair', products: 8 },
-  { country: 'Vietnam', region: 'Ho Chi Minh City', description: 'Strong, naturally straight hair', products: 10 },
-  { country: 'Indonesia', region: 'Jakarta', description: 'Silky texture, slight wave', products: 9 },
-  { country: 'Myanmar', region: 'Yangon', description: 'Soft, lightweight hair', products: 8 },
+  { id: 'origin-1', country: 'Cambodia', region: 'Phnom Penh', description: 'Naturally thick, durable hair' },
+  { id: 'origin-2', country: 'India', region: 'Chennai, Tamil Nadu', description: 'Versatile, temple-sourced hair' },
+  { id: 'origin-3', country: 'Vietnam', region: 'Ho Chi Minh City', description: 'Strong, naturally straight hair' },
+  { id: 'origin-4', country: 'Indonesia', region: 'Jakarta', description: 'Silky texture, slight wave' },
+  { id: 'origin-5', country: 'Myanmar', region: 'Yangon', description: 'Soft, lightweight hair' },
 ];
 
 export const mockInquiries: InquiryInfo[] = [
-  { name: 'Sarah Robinson', email: 'sarah.r@email.com', phone: '(416) 555-0123', message: 'Interested in Cambodian bundles', date: 'Feb 8' },
-  { name: 'Maya Thompson', email: 'maya.t@email.com', phone: '(905) 555-0456', message: 'Question about wig customization', date: 'Feb 7' },
-  { name: 'Jessica Chen', email: 'jessica.c@salon.com', phone: '(647) 555-0789', message: 'Bulk order pricing for salon', date: 'Feb 6' },
-  { name: 'Aisha Williams', email: 'aisha.w@email.com', phone: '(416) 555-0321', message: 'Shipping timeline for frontals', date: 'Feb 5' },
+  { id: 'inq-1', name: 'Sarah Robinson', email: 'sarah.r@email.com', phone: '(416) 555-0123', message: 'Interested in Cambodian bundles', productId: null, createdAt: '2025-02-08T10:00:00Z' },
+  { id: 'inq-2', name: 'Maya Thompson', email: 'maya.t@email.com', phone: '(905) 555-0456', message: 'Question about wig customization', productId: null, createdAt: '2025-02-07T14:00:00Z' },
+  { id: 'inq-3', name: 'Jessica Chen', email: 'jessica.c@salon.com', phone: '(647) 555-0789', message: 'Bulk order pricing for salon', productId: null, createdAt: '2025-02-06T09:00:00Z' },
+  { id: 'inq-4', name: 'Aisha Williams', email: 'aisha.w@email.com', phone: '(416) 555-0321', message: 'Shipping timeline for frontals', productId: null, createdAt: '2025-02-05T16:00:00Z' },
 ];
 
 export const mockTestimonials: TestimonialInfo[] = [
-  { customer: 'Keisha Brown', rating: '5.0', review: "Best quality hair I've ever purchased!", status: 'Published', date: 'Feb 5' },
-  { customer: 'Tamara Davis', rating: '4.5', review: 'Love the natural look and feel!', status: 'Published', date: 'Feb 3' },
-  { customer: 'Nicole James', rating: '5.0', review: 'Amazing customer service and fast shipping', status: 'Pending', date: 'Jan 28' },
+  { id: 'test-1', customerName: 'Keisha Brown', customerLocation: 'Toronto', content: "Best quality hair I've ever purchased!", rating: 5, imageUrl: null, createdAt: '2025-02-05T10:00:00Z' },
+  { id: 'test-2', customerName: 'Tamara Davis', customerLocation: 'Atlanta', content: 'Love the natural look and feel!', rating: 4.5, imageUrl: null, createdAt: '2025-02-03T14:00:00Z' },
+  { id: 'test-3', customerName: 'Nicole James', customerLocation: null, content: 'Amazing customer service and fast shipping', rating: 5, imageUrl: null, createdAt: '2025-01-28T09:00:00Z' },
 ];
 
 export const mockTrustBarItems: TrustBarItemInfo[] = [
@@ -147,17 +160,24 @@ export const mockUser: UserInfo = {
   role: 'Administrator',
 };
 
+// Actual nav items from the AdminLayout component (12 items)
 export const navItems = [
   { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
   { label: 'Products', route: '/products', icon: 'inventory_2' },
   { label: 'Origins', route: '/origins', icon: 'public' },
   { label: 'Inquiries', route: '/inquiries', icon: 'mail' },
   { label: 'Testimonials', route: '/testimonials', icon: 'star' },
+  { label: 'Subscribers', route: '/subscribers', icon: 'group' },
+  { label: 'Employees', route: '/employees', icon: 'people' },
+  { label: 'Schedule', route: '/schedule', icon: 'calendar_month' },
+  { label: 'Book Meeting', route: '/meetings/new', icon: 'event' },
+  { label: 'Conversations', route: '/conversations', icon: 'forum' },
   { label: 'Hero Content', route: '/hero-content', icon: 'view_carousel' },
   { label: 'Trust Bar', route: '/trust-bar', icon: 'verified' },
 ];
 
-export const productFormOrigins = ['Cambodia', 'India', 'Vietnam', 'Indonesia', 'Myanmar'];
+// Product form expects "Country - Region" format options from origins API
+export const productFormOrigins = ['Cambodia - Phnom Penh', 'India - Chennai, Tamil Nadu', 'Vietnam - Ho Chi Minh City', 'Indonesia - Jakarta', 'Myanmar - Yangon'];
 export const productFormTextures = ['Straight', 'Curly', 'Wavy', 'Kinky', 'Body Wave'];
 export const productFormTypes = ['Bundle', 'Wig', 'Closure', 'Frontal'];
 
@@ -305,16 +325,5 @@ export const mockConversationDetail: ConversationDetailInfo = {
   ],
 };
 
-export const navItemsExtended = [
-  { label: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
-  { label: 'Products', route: '/products', icon: 'inventory_2' },
-  { label: 'Origins', route: '/origins', icon: 'public' },
-  { label: 'Inquiries', route: '/inquiries', icon: 'mail' },
-  { label: 'Testimonials', route: '/testimonials', icon: 'star' },
-  { label: 'Hero Content', route: '/hero-content', icon: 'view_carousel' },
-  { label: 'Trust Bar', route: '/trust-bar', icon: 'verified' },
-  { label: 'Subscribers', route: '/subscribers', icon: 'mail' },
-  { label: 'Employees', route: '/employees', icon: 'people' },
-  { label: 'Schedule', route: '/schedule', icon: 'calendar_today' },
-  { label: 'Conversations', route: '/conversations', icon: 'chat' },
-];
+// navItemsExtended is kept as alias for backward compatibility
+export const navItemsExtended = navItems;

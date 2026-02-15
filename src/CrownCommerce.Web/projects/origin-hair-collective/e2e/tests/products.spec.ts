@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/pages/home.page';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Products Section', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });
@@ -29,11 +31,13 @@ test.describe('Products Section', () => {
   });
 
   test('should display exactly 3 product cards', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const count = await homePage.products.getProductCardCount();
     expect(count).toBe(3);
   });
 
   test('should display Virgin Hair Bundles card with correct info', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const card = await homePage.products.getProductCardInfo(0);
     expect(card.tag?.trim()).toBe('BESTSELLER');
     expect(card.title?.trim()).toBe('Virgin Hair Bundles');
@@ -42,6 +46,7 @@ test.describe('Products Section', () => {
   });
 
   test('should display Lace Closures card with correct info', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const card = await homePage.products.getProductCardInfo(1);
     expect(card.tag?.trim()).toBe('ESSENTIAL');
     expect(card.title?.trim()).toBe('Lace Closures');
@@ -50,6 +55,7 @@ test.describe('Products Section', () => {
   });
 
   test('should display Lace Frontals card with correct info', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const card = await homePage.products.getProductCardInfo(2);
     expect(card.tag?.trim()).toBe('PREMIUM');
     expect(card.title?.trim()).toBe('Lace Frontals');
@@ -58,6 +64,7 @@ test.describe('Products Section', () => {
   });
 
   test('should display images for all product cards', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     for (let i = 0; i < 3; i++) {
       const hasImage = await homePage.products.hasProductImage(i);
       expect(hasImage).toBe(true);
@@ -65,6 +72,7 @@ test.describe('Products Section', () => {
   });
 
   test('should have alt text matching product title on images', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const expectedAlts = ['Virgin Hair Bundles', 'Lace Closures', 'Lace Frontals'];
     for (let i = 0; i < 3; i++) {
       const alt = await homePage.products.getProductImageAlt(i);

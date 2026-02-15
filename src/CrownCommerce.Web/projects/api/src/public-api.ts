@@ -5,6 +5,8 @@
 // Configuration & provider
 export { provideApi, API_CONFIG, type ApiConfig } from './lib/api.config';
 export { authInterceptor } from './lib/auth.interceptor';
+export { errorInterceptor } from './lib/error.interceptor';
+export { authGuard } from './lib/guards/auth.guard';
 
 // Models — Common
 export type { PagedResult } from './lib/models/common.models';

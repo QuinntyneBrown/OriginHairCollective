@@ -17,31 +17,49 @@ import {
 
 /**
  * Sets up API route mocks for all admin endpoints.
- * These are dormant while the app uses hardcoded data,
- * but will automatically intercept once HttpClient is wired up.
+ *
+ * IMPORTANT: In Playwright, routes registered LATER have HIGHER priority.
+ * So we register the catch-all/generic routes FIRST (lowest priority)
+ * and the most specific routes LAST (highest priority).
  */
 export async function setupApiMocks(page: Page): Promise<void> {
-  // Products (single product must come before list pattern)
-  await page.route('**/api/catalog/products/*', (route) => {
-    const method = route.request().method();
-    if (method === 'GET') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'prod-1', ...mockProducts[0] }),
-      });
-    } else if (method === 'PUT') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'prod-1', ...mockProducts[0] }),
-      });
-    } else if (method === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fallback();
-    }
+  // ── Lowest priority: catch-all and generic routes (registered first) ──
+
+  // Catch-all for any other API calls
+  await page.route('**/api/**', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({}),
+    });
   });
+
+  // WebSocket mock for notifications
+  await page.routeWebSocket('**/ws/notifications', (ws) => {
+    ws.onMessage(() => {
+      // No-op: will be wired up when real WebSocket is added
+    });
+  });
+
+  // Notifications
+  await page.route('**/api/notifications/**', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([]),
+    });
+  });
+
+  // Auth / Identity
+  await page.route('**/api/identity/**', (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ username: 'quinn', role: 'admin' }),
+    });
+  });
+
+  // ── Medium priority: list endpoints (registered in middle) ──
 
   // Products list
   await page.route('**/api/catalog/products**', (route) => {
@@ -50,7 +68,7 @@ export async function setupApiMocks(page: Page): Promise<void> {
       route.fulfill({
         status: 201,
         contentType: 'application/json',
-        body: JSON.stringify({ id: 'new-product-id', ...mockProducts[0] }),
+        body: JSON.stringify({ ...mockProducts[0], id: 'new-product-id' }),
       });
     } else {
       route.fulfill({
@@ -58,28 +76,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
         contentType: 'application/json',
         body: JSON.stringify(mockProducts),
       });
-    }
-  });
-
-  // Origins (single origin must come before list pattern)
-  await page.route('**/api/catalog/origins/*', (route) => {
-    const method = route.request().method();
-    if (method === 'GET') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'origin-1', country: 'Cambodia', region: 'Phnom Penh', description: 'Naturally thick, durable hair' }),
-      });
-    } else if (method === 'PUT') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'origin-1', country: 'Cambodia', region: 'Phnom Penh', description: 'Updated description' }),
-      });
-    } else if (method === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fallback();
     }
   });
 
@@ -101,15 +97,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
     }
   });
 
-  // Inquiries (single must come before list)
-  await page.route('**/api/inquiries/inquiries/*', (route) => {
-    if (route.request().method() === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fallback();
-    }
-  });
-
   // Inquiries list
   await page.route('**/api/inquiries**', (route) => {
     route.fulfill({
@@ -117,24 +104,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
       contentType: 'application/json',
       body: JSON.stringify(mockInquiries),
     });
-  });
-
-  // Subscriber stats (must come before admin/subscribers pattern)
-  await page.route('**/api/newsletters/admin/subscribers/stats', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(mockSubscriberStats),
-    });
-  });
-
-  // Subscriber single (delete)
-  await page.route(/\/api\/newsletters\/admin\/subscribers\/[^/]+$/, (route) => {
-    if (route.request().method() === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fallback();
-    }
   });
 
   // Subscribers list
@@ -155,33 +124,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
     });
   });
 
-  // Scheduling: employees/me (must come before employees/*)
-  await page.route('**/api/scheduling/employees/me', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(mockCurrentEmployee),
-    });
-  });
-
-  // Scheduling: single employee
-  await page.route(/\/api\/scheduling\/employees\/(?!me)[^/]+$/, (route) => {
-    const method = route.request().method();
-    if (method === 'PUT') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockEmployees[0]),
-      });
-    } else {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockEmployees[0]),
-      });
-    }
-  });
-
   // Scheduling: employees list
   await page.route('**/api/scheduling/employees**', (route) => {
     route.fulfill({
@@ -189,48 +131,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
       contentType: 'application/json',
       body: JSON.stringify(mockEmployees),
     });
-  });
-
-  // Scheduling: meeting actions (cancel, ical)
-  await page.route(/\/api\/scheduling\/meetings\/[^/]+\/(cancel|ical)/, (route) => {
-    if (route.request().url().includes('/ical')) {
-      route.fulfill({
-        status: 200,
-        contentType: 'text/calendar',
-        body: 'BEGIN:VCALENDAR\nEND:VCALENDAR',
-      });
-    } else {
-      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({}) });
-    }
-  });
-
-  // Scheduling: calendar events
-  await page.route('**/api/scheduling/meetings/calendar**', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(mockCalendarEvents),
-    });
-  });
-
-  // Scheduling: single meeting
-  await page.route(/\/api\/scheduling\/meetings\/[^/]+$/, (route) => {
-    const method = route.request().method();
-    if (method === 'PUT') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'mtg-1', title: 'Updated Meeting' }),
-      });
-    } else if (method === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'mtg-1', title: 'Weekly Sync', attendees: [] }),
-      });
-    }
   });
 
   // Scheduling: meetings list / create
@@ -251,33 +151,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
     }
   });
 
-  // Scheduling: conversation messages
-  await page.route('**/api/scheduling/conversations/*/messages', (route) => {
-    const method = route.request().method();
-    if (method === 'POST') {
-      route.fulfill({
-        status: 201,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'new-msg', senderEmployeeId: 'emp-1', content: 'New message', sentAt: new Date().toISOString() }),
-      });
-    } else {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockConversationDetail.messages),
-      });
-    }
-  });
-
-  // Scheduling: single conversation
-  await page.route(/\/api\/scheduling\/conversations\/[^/]+$/, (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(mockConversationDetail),
-    });
-  });
-
   // Scheduling: conversations list / create
   await page.route('**/api/scheduling/conversations**', (route) => {
     const method = route.request().method();
@@ -293,22 +166,6 @@ export async function setupApiMocks(page: Page): Promise<void> {
         contentType: 'application/json',
         body: JSON.stringify(mockConversations),
       });
-    }
-  });
-
-  // Testimonials (single must come before list)
-  await page.route(/\/api\/content\/testimonials\/[^/]+$/, (route) => {
-    const method = route.request().method();
-    if (method === 'PUT') {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({ id: 'test-1' }),
-      });
-    } else if (method === 'DELETE') {
-      route.fulfill({ status: 204, body: '' });
-    } else {
-      route.fallback();
     }
   });
 
@@ -357,38 +214,189 @@ export async function setupApiMocks(page: Page): Promise<void> {
     });
   });
 
-  // Auth / Identity
-  await page.route('**/api/identity/**', (route) => {
+  // ── Highest priority: specific/single-resource routes (registered last) ──
+
+  // Products (single product)
+  await page.route('**/api/catalog/products/*', (route) => {
+    const method = route.request().method();
+    if (method === 'GET') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockProducts[0]),
+      });
+    } else if (method === 'PUT') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockProducts[0]),
+      });
+    } else if (method === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fallback();
+    }
+  });
+
+  // Origins (single origin)
+  await page.route('**/api/catalog/origins/*', (route) => {
+    const method = route.request().method();
+    if (method === 'GET') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockOrigins[0]),
+      });
+    } else if (method === 'PUT') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ...mockOrigins[0], description: 'Updated description' }),
+      });
+    } else if (method === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fallback();
+    }
+  });
+
+  // Inquiries (single - delete)
+  await page.route('**/api/inquiries/inquiries/*', (route) => {
+    if (route.request().method() === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fallback();
+    }
+  });
+
+  // Subscriber stats (specific endpoint, higher priority than subscribers list)
+  await page.route('**/api/newsletters/admin/subscribers/stats', (route) => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ username: 'quinn', role: 'admin' }),
+      body: JSON.stringify(mockSubscriberStats),
     });
   });
 
-  // Notifications
-  await page.route('**/api/notifications/**', (route) => {
+  // Subscriber single (delete)
+  await page.route(/\/api\/newsletters\/admin\/subscribers\/[^/]+$/, (route) => {
+    if (route.request().method() === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fallback();
+    }
+  });
+
+  // Scheduling: employees/me (must have higher priority than employees/*)
+  await page.route('**/api/scheduling/employees/me', (route) => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify([]),
+      body: JSON.stringify(mockCurrentEmployee),
     });
   });
 
-  // WebSocket mock for notifications
-  await page.routeWebSocket('**/ws/notifications', (ws) => {
-    ws.onMessage(() => {
-      // No-op: will be wired up when real WebSocket is added
-    });
+  // Scheduling: single employee
+  await page.route(/\/api\/scheduling\/employees\/(?!me)[^/]+$/, (route) => {
+    const method = route.request().method();
+    if (method === 'PUT') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockEmployees[0]),
+      });
+    } else {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockEmployees[0]),
+      });
+    }
   });
 
-  // Catch-all for any other API calls
-  await page.route('**/api/**', (route) => {
+  // Scheduling: meeting actions (cancel, ical)
+  await page.route(/\/api\/scheduling\/meetings\/[^/]+\/(cancel|ical)/, (route) => {
+    if (route.request().url().includes('/ical')) {
+      route.fulfill({
+        status: 200,
+        contentType: 'text/calendar',
+        body: 'BEGIN:VCALENDAR\nEND:VCALENDAR',
+      });
+    } else {
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({}) });
+    }
+  });
+
+  // Scheduling: calendar events
+  await page.route('**/api/scheduling/meetings/calendar**', (route) => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({}),
+      body: JSON.stringify(mockCalendarEvents),
     });
+  });
+
+  // Scheduling: single meeting
+  await page.route(/\/api\/scheduling\/meetings\/[^/]+$/, (route) => {
+    const method = route.request().method();
+    if (method === 'PUT') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 'mtg-1', title: 'Updated Meeting' }),
+      });
+    } else if (method === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 'mtg-1', title: 'Weekly Sync', attendees: [] }),
+      });
+    }
+  });
+
+  // Scheduling: conversation messages
+  await page.route('**/api/scheduling/conversations/*/messages', (route) => {
+    const method = route.request().method();
+    if (method === 'POST') {
+      route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 'new-msg', senderEmployeeId: 'emp-1', content: 'New message', sentAt: new Date().toISOString() }),
+      });
+    } else {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockConversationDetail.messages),
+      });
+    }
+  });
+
+  // Scheduling: single conversation
+  await page.route(/\/api\/scheduling\/conversations\/[^/]+$/, (route) => {
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(mockConversationDetail),
+    });
+  });
+
+  // Testimonials (single)
+  await page.route(/\/api\/content\/testimonials\/[^/]+$/, (route) => {
+    const method = route.request().method();
+    if (method === 'PUT') {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ id: 'test-1' }),
+      });
+    } else if (method === 'DELETE') {
+      route.fulfill({ status: 204, body: '' });
+    } else {
+      route.fallback();
+    }
   });
 }
 
@@ -399,7 +407,7 @@ export async function setupProductCreateMock(page: Page): Promise<void> {
       route.fulfill({
         status: 201,
         contentType: 'application/json',
-        body: JSON.stringify({ id: 'new-product-id', ...mockProducts[0] }),
+        body: JSON.stringify({ ...mockProducts[0], id: 'new-product-id' }),
       });
     } else {
       route.fallback();

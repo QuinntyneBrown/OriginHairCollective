@@ -19,3 +19,5 @@ export { ChatTypingIndicatorComponent } from './lib/chat-typing-indicator/chat-t
 export { ChatWidgetComponent } from './lib/chat-widget/chat-widget';
 export { EmailSignupComponent } from './lib/email-signup/email-signup';
 export { CountdownTimerComponent, type CountdownValues } from './lib/countdown-timer/countdown-timer';
+export { LoadingSpinnerComponent } from './lib/loading-spinner/loading-spinner';
+export { ErrorStateComponent } from './lib/error-state/error-state';

@@ -33,7 +33,10 @@ export class EmployeesListPage {
   }
 
   getStatusToggle(label: string): Locator {
-    return this.statusToggleGroup.locator('mat-button-toggle').filter({ hasText: label });
+    // Use the value attribute for exact match since hasText 'Active' also matches 'Inactive'
+    const valueMap: Record<string, string> = { 'All': 'all', 'Active': 'Active', 'On Leave': 'OnLeave', 'Inactive': 'Inactive' };
+    const value = valueMap[label] ?? label;
+    return this.statusToggleGroup.locator(`mat-button-toggle[value="${value}"]`);
   }
 
   getViewButton(rowIndex: number): Locator {

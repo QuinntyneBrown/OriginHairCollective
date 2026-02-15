@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { NewsletterService } from 'api';
-import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
+import { LoadingSpinnerComponent } from 'components';
 
 @Component({
   selector: 'app-newsletter-unsubscribe',
@@ -10,7 +10,7 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
   template: `
     <section class="newsletter-page">
       @if (loading()) {
-        <app-loading-spinner />
+        <lib-loading-spinner />
       } @else if (success()) {
         <h1>Unsubscribed</h1>
         <p>You have been successfully unsubscribed from the Mane Haus newsletter.</p>

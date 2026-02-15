@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../page-objects/pages/home.page';
+import { setupApiMocks } from '../fixtures/api-mocks';
 
 test.describe('Responsive Layout - Mobile (375px)', () => {
   let homePage: HomePage;
@@ -7,6 +8,7 @@ test.describe('Responsive Layout - Mobile (375px)', () => {
   test.use({ viewport: { width: 375, height: 812 } });
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });
@@ -30,6 +32,7 @@ test.describe('Responsive Layout - Mobile (375px)', () => {
   });
 
   test('product cards should be visible', async () => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const count = await homePage.products.getProductCardCount();
     expect(count).toBe(3);
     for (let i = 0; i < 3; i++) {
@@ -50,6 +53,7 @@ test.describe('Responsive Layout - Mobile (375px)', () => {
   });
 
   test('community photos should be visible', async () => {
+    await homePage.community.photos.first().waitFor({ state: 'visible' });
     const count = await homePage.community.getPhotoCount();
     expect(count).toBe(6);
   });
@@ -68,6 +72,7 @@ test.describe('Responsive Layout - Mobile (375px)', () => {
   });
 
   test('products grid should use single column layout on mobile', async ({ page }) => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const gridColumns = await page.locator('.products__grid').evaluate(
       (el) => getComputedStyle(el).gridTemplateColumns
     );
@@ -85,6 +90,7 @@ test.describe('Responsive Layout - Mobile (375px)', () => {
   });
 
   test('community photos grid should use 3-column layout on mobile', async ({ page }) => {
+    await homePage.community.photos.first().waitFor({ state: 'visible' });
     const gridColumns = await page.locator('.community__photos').evaluate(
       (el) => getComputedStyle(el).gridTemplateColumns
     );
@@ -99,6 +105,7 @@ test.describe('Responsive Layout - Desktop (1280px)', () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });
@@ -109,6 +116,7 @@ test.describe('Responsive Layout - Desktop (1280px)', () => {
   });
 
   test('products grid should use 3-column layout on desktop', async ({ page }) => {
+    await homePage.products.productCards.first().waitFor({ state: 'visible' });
     const gridColumns = await page.locator('.products__grid').evaluate(
       (el) => getComputedStyle(el).gridTemplateColumns
     );
@@ -125,6 +133,7 @@ test.describe('Responsive Layout - Desktop (1280px)', () => {
   });
 
   test('community photos grid should use 6-column layout on desktop', async ({ page }) => {
+    await homePage.community.photos.first().waitFor({ state: 'visible' });
     const gridColumns = await page.locator('.community__photos').evaluate(
       (el) => getComputedStyle(el).gridTemplateColumns
     );
@@ -153,6 +162,7 @@ test.describe('Responsive Layout - Tablet (768px)', () => {
   test.use({ viewport: { width: 768, height: 1024 } });
 
   test.beforeEach(async ({ page }) => {
+    await setupApiMocks(page);
     homePage = new HomePage(page);
     await homePage.goto();
   });

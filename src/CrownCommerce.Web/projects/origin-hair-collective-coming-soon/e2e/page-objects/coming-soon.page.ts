@@ -3,46 +3,50 @@ import { Locator, Page } from '@playwright/test';
 export class ComingSoonPage {
   // Header
   readonly logo: Locator;
-  readonly logoSubtitle: Locator;
 
   // Hero
   readonly headline: Locator;
-  readonly tagline: Locator;
+  readonly subline: Locator;
   readonly badge: Locator;
 
-  // Email signup
+  // Email signup (newsletter section)
   readonly emailForm: Locator;
   readonly emailInput: Locator;
   readonly submitButton: Locator;
+  readonly newsletterSuccess: Locator;
 
   // Footer
   readonly socialLinks: Locator;
   readonly instagramLink: Locator;
   readonly emailLink: Locator;
-  readonly handle: Locator;
-  readonly copyright: Locator;
+  readonly footerCopy: Locator;
+
+  // Community
+  readonly communityHandle: Locator;
 
   constructor(private page: Page) {
-    // Header
-    this.logo = page.locator('lib-logo');
-    this.logoSubtitle = page.locator('.logo-subtitle');
+    // Header – scope logo to the <header> so it resolves to a single element
+    this.logo = page.locator('header lib-logo');
 
-    // Hero
+    // Hero section
     this.headline = page.locator('.hero__headline');
-    this.tagline = page.locator('.hero__tagline');
-    this.badge = page.locator('lib-badge');
+    this.subline = page.locator('.hero__subline');
+    this.badge = page.locator('.hero lib-badge');
 
-    // Email signup
+    // Newsletter email signup
     this.emailForm = page.locator('lib-email-signup form');
     this.emailInput = page.locator('lib-email-signup input[type="email"]');
     this.submitButton = page.locator('lib-email-signup button[type="submit"]');
+    this.newsletterSuccess = page.locator('.newsletter__success');
 
-    // Footer
-    this.socialLinks = page.locator('lib-social-icons .social-icons__link');
-    this.instagramLink = page.locator('lib-social-icons a[aria-label="instagram"]');
-    this.emailLink = page.locator('lib-social-icons a[aria-label="email"]');
-    this.handle = page.locator('.footer__handle');
-    this.copyright = page.locator('.footer__copyright');
+    // Footer – scope social icons to <footer> to avoid ambiguity
+    this.socialLinks = page.locator('footer lib-social-icons .social-icons__link');
+    this.instagramLink = page.locator('footer lib-social-icons a[aria-label="instagram"]');
+    this.emailLink = page.locator('footer lib-social-icons a[aria-label="email"]');
+    this.footerCopy = page.locator('.footer__copy');
+
+    // Community section handle
+    this.communityHandle = page.locator('.community__handle');
   }
 
   async goto(): Promise<void> {

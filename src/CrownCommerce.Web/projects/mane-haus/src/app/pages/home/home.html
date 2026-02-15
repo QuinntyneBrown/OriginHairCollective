@@ -40,9 +40,9 @@
   <lib-section-header label="THE COLLECTION" heading="Premium Hair, Curated For You" />
   <div class="products__grid">
     @if (productsLoading()) {
-      <app-loading-spinner />
+      <lib-loading-spinner />
     } @else if (productsError()) {
-      <app-error-state message="Unable to load products." (retry)="loadProducts()" />
+      <lib-error-state message="Unable to load products." (retry)="loadProducts()" />
     } @else {
       @for (product of products(); track product.id) {
         <a [routerLink]="['/product', product.id]" class="products__link">
@@ -85,9 +85,9 @@
 <section class="testimonials">
   <span class="section-label">WHAT THEY SAY</span>
   @if (testimonialsLoading()) {
-    <app-loading-spinner />
+    <lib-loading-spinner />
   } @else if (testimonialsError()) {
-    <app-error-state message="Unable to load testimonials." (retry)="loadTestimonials()" />
+    <lib-error-state message="Unable to load testimonials." (retry)="loadTestimonials()" />
   } @else {
     @for (t of testimonials(); track t.id) {
       <lib-testimonial-card
@@ -106,9 +106,9 @@
   </div>
   <div class="community__photos">
     @if (galleryLoading()) {
-      <app-loading-spinner />
+      <lib-loading-spinner />
     } @else if (galleryError()) {
-      <app-error-state message="Unable to load gallery." (retry)="loadGallery()" />
+      <lib-error-state message="Unable to load gallery." (retry)="loadGallery()" />
     } @else {
       @for (photo of galleryImages(); track photo.id) {
         <div class="community__photo" [style.background-image]="'url(' + photo.imageUrl + ')'"></div>
@@ -121,7 +121,7 @@
 <section class="newsletter-section">
   <h3 class="newsletter-section__heading">Stay in the Loop</h3>
   <p class="newsletter-section__sub">Get exclusive deals, styling tips, and first access to new drops.</p>
-  <app-newsletter-signup />
+  <feat-newsletter-signup />
 </section>
 
 <!-- Final CTA -->

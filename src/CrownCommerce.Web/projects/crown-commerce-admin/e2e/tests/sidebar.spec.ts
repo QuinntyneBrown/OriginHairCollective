@@ -34,9 +34,9 @@ test.describe('Sidebar', () => {
   });
 
   test.describe('Navigation Items', () => {
-    test('should display 7 navigation items', async () => {
+    test('should display 12 navigation items', async () => {
       const count = await layout.sidebar.getNavItemCount();
-      expect(count).toBe(7);
+      expect(count).toBe(12);
     });
 
     test('should display correct navigation labels', async () => {

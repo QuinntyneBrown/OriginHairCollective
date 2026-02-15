@@ -2,9 +2,9 @@
   <lib-section-header label="ORDERS" heading="Order History" />
 
   @if (loading()) {
-    <app-loading-spinner />
+    <lib-loading-spinner />
   } @else if (error()) {
-    <app-error-state message="Failed to load orders." (retry)="loadOrders()" />
+    <lib-error-state message="Failed to load orders." (retry)="loadOrders()" />
   } @else if (orders().length === 0) {
     <p class="order-history__empty">You haven't placed any orders yet.</p>
   } @else {

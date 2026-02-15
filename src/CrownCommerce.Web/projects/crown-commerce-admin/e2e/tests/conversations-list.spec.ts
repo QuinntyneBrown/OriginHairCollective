@@ -29,6 +29,8 @@ test.describe('Conversations List', () => {
 
   test.describe('Conversation List', () => {
     test('should display conversation items', async () => {
+      // Wait for conversation items to load (API data must arrive first)
+      await conversationsPage.conversationItems.first().waitFor({ state: 'visible' });
       const count = await conversationsPage.conversationItems.count();
       expect(count).toBe(mockConversations.length);
     });

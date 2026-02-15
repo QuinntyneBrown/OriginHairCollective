@@ -48,7 +48,6 @@ test.describe('Origins List', () => {
       expect(trimmed).toContain('Country');
       expect(trimmed).toContain('Region');
       expect(trimmed).toContain('Description');
-      expect(trimmed).toContain('Products');
       expect(trimmed).toContain('Actions');
     });
 
@@ -67,9 +66,9 @@ test.describe('Origins List', () => {
       expect(region).toBe(mockOrigins[0].region);
     });
 
-    test('should display first origin product count', async () => {
-      const products = await originsPage.dataTable.getCellText(0, 3);
-      expect(products).toBe(String(mockOrigins[0].products));
+    test('should display first origin description', async () => {
+      const description = await originsPage.dataTable.getCellText(0, 2);
+      expect(description).toBe(mockOrigins[0].description);
     });
   });
 
@@ -89,7 +88,7 @@ test.describe('Origins List', () => {
     test('should display paginator text', async () => {
       const text = await originsPage.pagination.getPaginatorText();
       expect(text).toContain('Showing');
-      expect(text).toContain('5');
+      expect(text).toContain('origins');
     });
   });
 

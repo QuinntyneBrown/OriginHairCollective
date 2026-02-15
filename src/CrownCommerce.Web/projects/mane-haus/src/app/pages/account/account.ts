@@ -3,11 +3,9 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
-import { ButtonComponent, SectionHeaderComponent } from 'components';
+import { ButtonComponent, SectionHeaderComponent, LoadingSpinnerComponent, ErrorStateComponent } from 'components';
 import { AuthService } from 'api';
 import type { UserProfile } from 'api';
-import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
-import { ErrorStateComponent } from '../../components/error-state/error-state';
 
 @Component({
   selector: 'app-account',

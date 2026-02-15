@@ -10,12 +10,12 @@ import {
   BenefitCardComponent,
   TestimonialCardComponent,
   DividerComponent,
+  LoadingSpinnerComponent,
+  ErrorStateComponent,
 } from 'components';
 import { CatalogService, ContentService } from 'api';
 import type { HairProduct, Testimonial, GalleryImage } from 'api';
-import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner';
-import { ErrorStateComponent } from '../../components/error-state/error-state';
-import { NewsletterSignupComponent } from '../../components/newsletter-signup/newsletter-signup';
+import { NewsletterSignupComponent } from 'features';
 
 @Component({
   selector: 'app-home',

@@ -1,24 +1,24 @@
 import { Page } from '@playwright/test';
 
 /**
- * Sets up API route mocks for the coming soon page.
+ * Sets up API route mocks for the origin-hair-collective app.
  *
- * Currently mocks the email subscription endpoint.
  * The catch-all is registered first (least-specific),
  * and more specific routes are registered after (Playwright LIFO).
  */
 export async function setupApiMocks(page: Page): Promise<void> {
-  // Catch-all for any API calls
+  // Catch-all for any API calls – return an empty array by default
+  // so that @for loops in templates do not throw Symbol.iterator errors.
   await page.route('**/api/**', (route) => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({}),
+      body: JSON.stringify([]),
     });
   });
 
-  // Email subscription
-  await page.route('**/api/subscriptions/email', (route) => {
+  // Newsletter subscription (matches the actual NewsletterService endpoint)
+  await page.route('**/api/newsletters/subscribe', (route) => {
     if (route.request().method() === 'POST') {
       const body = route.request().postDataJSON();
       route.fulfill({
@@ -33,10 +33,10 @@ export async function setupApiMocks(page: Page): Promise<void> {
 }
 
 /**
- * Sets up a failing email subscription mock (e.g. duplicate email).
+ * Sets up a failing newsletter subscription mock (e.g. duplicate email).
  */
 export async function setupEmailAlreadySubscribedMock(page: Page): Promise<void> {
-  await page.route('**/api/subscriptions/email', (route) => {
+  await page.route('**/api/newsletters/subscribe', (route) => {
     if (route.request().method() === 'POST') {
       route.fulfill({
         status: 409,

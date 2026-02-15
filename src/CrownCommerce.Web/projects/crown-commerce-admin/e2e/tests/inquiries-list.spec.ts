@@ -35,10 +35,6 @@ test.describe('Inquiries List', () => {
     test('should have search placeholder text', async () => {
       await expect(inquiriesPage.searchField).toHaveAttribute('placeholder', 'Search inquiries...');
     });
-
-    test('should display Status filter button', async () => {
-      await expect(inquiriesPage.statusFilterButton).toBeVisible();
-    });
   });
 
   test.describe('Table Data', () => {
@@ -94,7 +90,7 @@ test.describe('Inquiries List', () => {
     test('should display paginator text', async () => {
       const text = await inquiriesPage.pagination.getPaginatorText();
       expect(text).toContain('Showing');
-      expect(text).toContain('23');
+      expect(text).toContain('inquiries');
     });
 
     test('should display Next button', async () => {

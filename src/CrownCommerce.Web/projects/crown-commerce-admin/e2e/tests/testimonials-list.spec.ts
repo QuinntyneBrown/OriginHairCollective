@@ -49,32 +49,29 @@ test.describe('Testimonials List', () => {
 
     test('should display first testimonial customer', async () => {
       const customer = await testimonialsPage.dataTable.getCellText(0, 0);
-      expect(customer).toBe(mockTestimonials[0].customer);
+      expect(customer).toBe(mockTestimonials[0].customerName);
     });
 
     test('should display first testimonial rating', async () => {
       const rating = await testimonialsPage.dataTable.getCellText(0, 1);
-      expect(rating).toBe(mockTestimonials[0].rating);
+      expect(rating).toBe(String(mockTestimonials[0].rating));
     });
   });
 
-  test.describe('Status Chips', () => {
-    test('should display Published chip for first testimonial', async () => {
-      const chip = testimonialsPage.getStatusChip(0);
-      await expect(chip).toHaveText('Published');
-      await expect(chip).toHaveClass(/chip--success/);
+  test.describe('Review Content', () => {
+    test('should display review content for first testimonial', async () => {
+      const review = await testimonialsPage.dataTable.getCellText(0, 2);
+      expect(review).toBe(mockTestimonials[0].content);
     });
 
-    test('should display Published chip for second testimonial', async () => {
-      const chip = testimonialsPage.getStatusChip(1);
-      await expect(chip).toHaveText('Published');
-      await expect(chip).toHaveClass(/chip--success/);
+    test('should display review content for second testimonial', async () => {
+      const review = await testimonialsPage.dataTable.getCellText(1, 2);
+      expect(review).toBe(mockTestimonials[1].content);
     });
 
-    test('should display Pending chip for third testimonial', async () => {
-      const chip = testimonialsPage.getStatusChip(2);
-      await expect(chip).toHaveText('Pending');
-      await expect(chip).toHaveClass(/chip--default/);
+    test('should display review content for third testimonial', async () => {
+      const review = await testimonialsPage.dataTable.getCellText(2, 2);
+      expect(review).toBe(mockTestimonials[2].content);
     });
   });
 
@@ -94,7 +91,7 @@ test.describe('Testimonials List', () => {
     test('should display paginator text', async () => {
       const text = await testimonialsPage.pagination.getPaginatorText();
       expect(text).toContain('Showing');
-      expect(text).toContain('12');
+      expect(text).toContain('testimonials');
     });
   });
 

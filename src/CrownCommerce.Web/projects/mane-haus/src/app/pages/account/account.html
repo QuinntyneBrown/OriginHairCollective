@@ -2,9 +2,9 @@
   <lib-section-header label="MY ACCOUNT" heading="Your Profile" />
 
   @if (loading()) {
-    <app-loading-spinner />
+    <lib-loading-spinner />
   } @else if (error()) {
-    <app-error-state message="Failed to load profile." (retry)="loadProfile()" />
+    <lib-error-state message="Failed to load profile." (retry)="loadProfile()" />
   } @else if (profile(); as p) {
     @if (!editing()) {
       <div class="account__info">

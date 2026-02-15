@@ -15,25 +15,21 @@ test.describe('Coming Soon Page', () => {
     test('should display the logo', async () => {
       await expect(comingSoon.logo).toBeVisible();
     });
-
-    test('should display "HAIR COLLECTIVE" subtitle', async () => {
-      await expect(comingSoon.logoSubtitle).toHaveText('HAIR COLLECTIVE');
-    });
   });
 
   test.describe('Hero Section', () => {
-    test('should display "COMING SOON" headline', async () => {
-      await expect(comingSoon.headline).toHaveText('COMING SOON');
+    test('should display the headline', async () => {
+      await expect(comingSoon.headline).toHaveText('Your Hair, Your Origin Story');
     });
 
-    test('should display the tagline', async () => {
-      await expect(comingSoon.tagline).toContainText(
-        'Premium virgin hair crafted for the modern woman'
+    test('should display the subline', async () => {
+      await expect(comingSoon.subline).toContainText(
+        'Premium virgin hair crafted for the woman who demands excellence'
       );
     });
 
-    test('should display "SPRING 2026" badge', async () => {
-      await expect(comingSoon.badge).toContainText('SPRING 2026');
+    test('should display "NOW ACCEPTING PRE-ORDERS" badge', async () => {
+      await expect(comingSoon.badge).toContainText('NOW ACCEPTING PRE-ORDERS');
     });
   });
 
@@ -49,13 +45,14 @@ test.describe('Coming Soon Page', () => {
       );
     });
 
-    test('should display "GET NOTIFIED" button', async () => {
-      await expect(comingSoon.submitButton).toContainText('GET NOTIFIED');
+    test('should display "SUBSCRIBE" button', async () => {
+      await expect(comingSoon.submitButton).toContainText('SUBSCRIBE');
     });
 
-    test('should clear input after valid email submission', async () => {
+    test('should show success message after valid email submission', async () => {
       await comingSoon.submitEmail('test@example.com');
-      expect(await comingSoon.getEmailInputValue()).toBe('');
+      await expect(comingSoon.newsletterSuccess).toBeVisible();
+      await expect(comingSoon.newsletterSuccess).toHaveText('Thank you for subscribing!');
     });
 
     test('should not submit with an invalid email', async ({ page }) => {
@@ -67,53 +64,55 @@ test.describe('Coming Soon Page', () => {
 
       // Input should retain its value (form validation prevents submit)
       expect(await comingSoon.getEmailInputValue()).toBe('not-an-email');
-      expect(consoleLogs.filter((l) => l.includes('Email submitted'))).toHaveLength(0);
     });
 
-    test('should not submit with an empty email', async ({ page }) => {
-      const consoleLogs: string[] = [];
-      page.on('console', (msg) => consoleLogs.push(msg.text()));
-
+    test('should not submit with an empty email', async () => {
       await comingSoon.submitButton.click();
 
-      expect(consoleLogs.filter((l) => l.includes('Email submitted'))).toHaveLength(0);
+      // Form should still be visible (nothing was submitted)
+      await expect(comingSoon.emailForm).toBeVisible();
+      await expect(comingSoon.newsletterSuccess).not.toBeVisible();
     });
 
-    test('should log email to console on valid submission', async ({ page }) => {
-      const consoleLogs: string[] = [];
-      page.on('console', (msg) => consoleLogs.push(msg.text()));
+    test('should process valid email via newsletter service', async ({ page }) => {
+      // Listen for the network request to verify the API was called
+      const subscribeRequest = page.waitForRequest(
+        (req) => req.url().includes('/api/newsletters/subscribe') && req.method() === 'POST'
+      );
 
       await comingSoon.submitEmail('hello@originhair.com');
 
-      expect(consoleLogs).toContain('Email submitted: hello@originhair.com');
+      const request = await subscribeRequest;
+      const body = request.postDataJSON();
+      expect(body.email).toBe('hello@originhair.com');
     });
   });
 
   test.describe('Footer', () => {
     test('should display social icons', async () => {
-      await expect(comingSoon.socialLinks).toHaveCount(2);
+      await expect(comingSoon.socialLinks).toHaveCount(3);
     });
 
     test('should have Instagram link with correct href', async () => {
       await expect(comingSoon.instagramLink).toHaveAttribute(
         'href',
-        'https://instagram.com/originhaircollective'
+        'https://instagram.com/originhairco'
       );
     });
 
     test('should have email link with correct href', async () => {
       await expect(comingSoon.emailLink).toHaveAttribute(
         'href',
-        'mailto:hello@originhaircollective.com'
+        'mailto:hello@originhairco.ca'
       );
     });
 
     test('should display the social handle', async () => {
-      await expect(comingSoon.handle).toHaveText('@OriginHairCollective');
+      await expect(comingSoon.communityHandle).toHaveText('@OriginHairCollective');
     });
 
     test('should display copyright notice', async () => {
-      await expect(comingSoon.copyright).toContainText('2026 Origin Hair Collective');
+      await expect(comingSoon.footerCopy).toContainText('2026 Origin Hair Collective');
     });
   });
 });

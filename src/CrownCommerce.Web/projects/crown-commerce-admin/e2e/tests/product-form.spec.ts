@@ -96,7 +96,7 @@ test.describe('Product Form', () => {
 
     test('should be able to select an origin option', async () => {
       await formPage.openSelect(formPage.originSelect);
-      await formPage.selectOption('Cambodia');
+      await formPage.selectOption('Cambodia - Phnom Penh');
       await expect(formPage.originSelect).toContainText('Cambodia');
     });
 
