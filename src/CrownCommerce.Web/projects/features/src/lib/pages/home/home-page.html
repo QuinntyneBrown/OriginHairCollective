@@ -1,0 +1,124 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero__content">
+    <lib-badge text="NOW ACCEPTING PRE-ORDERS" />
+    <h1 class="hero__headline">{{ config.heroTitle }}</h1>
+    <p class="hero__subline">{{ config.heroSubtitle }}</p>
+    <div class="hero__cta-row">
+      <lib-button variant="primary" [showArrow]="true" (click)="navigateToShop()">SHOP THE COLLECTION</lib-button>
+      <lib-button variant="secondary">OUR STORY</lib-button>
+    </div>
+  </div>
+  <div class="hero__image"></div>
+</section>
+
+<!-- Trust Bar -->
+<section class="trust-bar">
+  @for (item of trustItems; track item.text) {
+    <lib-trust-bar-item [text]="item.text" [iconSvg]="item.icon" />
+  }
+</section>
+
+<!-- Brand Story -->
+<section class="brand-story" id="story">
+  <lib-section-header label="OUR STORY" heading="Where Luxury Meets Community" />
+  <lib-divider variant="accent" />
+  <p class="brand-story__body">{{ config.heroSubtitle }}</p>
+</section>
+
+<!-- Products Section -->
+<section class="products" id="collection">
+  <lib-section-header label="THE COLLECTION" heading="Premium Hair, Curated For You" />
+  <div class="products__grid">
+    @if (productsLoading()) {
+      <p class="products__loading">Loading products...</p>
+    } @else if (productsError()) {
+      <p class="products__error">{{ productsError() }}</p>
+    } @else {
+      @for (product of products(); track product.id) {
+        <lib-product-card
+          [imageUrl]="product.imageUrl ?? ''"
+          [tag]="getProductTag(product)"
+          [title]="product.name"
+          [description]="product.description"
+          [price]="formatPrice(product)"
+          (click)="navigateToProduct(product)"
+        />
+      }
+    }
+  </div>
+</section>
+
+<!-- Why Origin Section -->
+@if (config.showBenefitsSection) {
+  <section class="benefits" id="care">
+    <lib-section-header label="WHY CHOOSE US" heading="The Difference" />
+    <div class="benefits__grid">
+      <lib-benefit-card
+        [iconSvg]="sparklesIcon"
+        title="Ethically Sourced"
+        description="100% virgin human hair from trusted suppliers. No synthetics, no shortcuts. Every bundle meets our luxury standard."
+      />
+      <lib-benefit-card
+        [iconSvg]="heartIcon"
+        title="Built For Longevity"
+        description="Our hair lasts 12+ months with proper care. Minimal shedding, no tangling, and colour-safe. Invest once, slay all year."
+      />
+      <lib-benefit-card
+        [iconSvg]="usersIcon"
+        title="Community First"
+        description="More than a brand — we're a collective. Join a community of women who celebrate each other and uplift one another."
+      />
+    </div>
+  </section>
+}
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+  <span class="section-label">WHAT THEY SAY</span>
+  <feat-testimonials />
+</section>
+
+<!-- Community Section -->
+@if (config.showGallerySection) {
+  <section class="community">
+    <div class="community__header">
+      <lib-section-header label="JOIN THE COLLECTIVE" heading="Follow the Journey" />
+    </div>
+    <div class="community__photos">
+      @for (photo of communityPhotos(); track photo.id) {
+        <div class="community__photo" [style.background-image]="'url(' + photo.imageUrl + ')'"></div>
+      }
+    </div>
+  </section>
+}
+
+<!-- Newsletter Section -->
+<section class="newsletter">
+  <h2 class="newsletter__heading">Stay In The Loop</h2>
+  <p class="newsletter__sub">Get early access to new collections, exclusive deals, and hair care tips.</p>
+  @if (newsletterSuccess()) {
+    <p class="newsletter__success">Thank you for subscribing!</p>
+  } @else {
+    <lib-email-signup
+      placeholder="Enter your email address"
+      buttonText="SUBSCRIBE"
+      (submitted)="onNewsletterSubmit($event)"
+    />
+    @if (newsletterError()) {
+      <p class="newsletter__error">{{ newsletterError() }}</p>
+    }
+  }
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+  <h2 class="final-cta__heading">Ready to Elevate Your Look?</h2>
+  <p class="final-cta__sub">
+    Experience the difference that quality makes.
+  </p>
+  <lib-button variant="primary" size="large" [showArrow]="true" (click)="navigateToShop()">SHOP THE COLLECTION</lib-button>
+  <p class="final-cta__trust">
+    Free shipping on orders over $150 &middot; 30-day quality guarantee &middot; Canadian Black-owned business
+  </p>
+</section>

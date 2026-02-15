@@ -1,0 +1,297 @@
+// --- Hero Section ---
+.hero {
+  display: flex;
+  height: 680px;
+  background: var(--color-bg-primary);
+  overflow: hidden;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 0 80px;
+    width: 50%;
+    flex-shrink: 0;
+  }
+
+  &__headline {
+    font-family: var(--font-heading);
+    font-size: 60px;
+    font-weight: 500;
+    letter-spacing: -1.5px;
+    line-height: 1.08;
+    color: var(--color-text-primary);
+  }
+
+  &__subline {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 480px;
+  }
+
+  &__cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__image {
+    flex: 1;
+    background-image: url('/hero-image.png');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+// --- Trust Bar ---
+.trust-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 20px 80px;
+  background: var(--color-bg-secondary);
+}
+
+// --- Brand Story ---
+.brand-story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 80px 280px;
+
+  &__body {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    text-align: center;
+  }
+}
+
+// --- Products Section ---
+.products {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 80px;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  &__loading,
+  &__error {
+    grid-column: 1 / -1;
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  &__error {
+    color: var(--color-rose);
+  }
+}
+
+// --- Benefits Section ---
+.benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 80px;
+  background: var(--color-bg-secondary);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+// --- Shared Label ---
+.section-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--color-gold);
+  text-transform: uppercase;
+}
+
+// --- Testimonials Section ---
+.testimonials {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 80px 200px;
+}
+
+// --- Community Section ---
+.community {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 80px 0;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 80px;
+  }
+
+  &__photos {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    height: 240px;
+  }
+
+  &__photo {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// --- Newsletter Section ---
+.newsletter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 80px 200px;
+  background: var(--color-bg-secondary);
+
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  &__sub {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 480px;
+  }
+
+  &__success {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-gold);
+    text-align: center;
+  }
+
+  &__error {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-rose);
+    text-align: center;
+  }
+}
+
+// --- Final CTA ---
+.final-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 100px 200px;
+  background: linear-gradient(180deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+
+  &__heading {
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  &__sub {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 640px;
+  }
+
+  &__trust {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+}
+
+// --- Mobile Responsive ---
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    height: 560px;
+    position: relative;
+
+    &__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    &__content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 40px 24px 48px;
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    &__headline { font-size: 38px; letter-spacing: -0.8px; line-height: 1.1; }
+    &__subline { font-size: 15px; line-height: 1.5; }
+    &__cta-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+
+  .trust-bar { justify-content: space-between; gap: 16px; padding: 16px 24px; flex-wrap: wrap; }
+  .brand-story { gap: 24px; padding: 56px 24px; &__body { font-size: 15px; } }
+  .products { gap: 32px; padding: 56px 24px; &__grid { grid-template-columns: 1fr; gap: 16px; } }
+  .benefits { gap: 32px; padding: 56px 24px; &__grid { grid-template-columns: 1fr; gap: 20px; } }
+  .section-label { font-size: 11px; }
+  .testimonials { padding: 56px 24px; }
+  .community { gap: 24px; padding: 56px 0;
+    &__header { padding: 0 24px; }
+    &__photos { grid-template-columns: repeat(3, 1fr); grid-template-rows: 130px 130px; gap: 3px; height: auto; }
+  }
+  .newsletter { padding: 56px 24px; &__heading { font-size: 24px; } &__sub { font-size: 14px; } }
+  .final-cta { gap: 24px; padding: 64px 24px;
+    &__heading { font-size: 28px; letter-spacing: -0.5px; line-height: 1.2; }
+    &__sub { font-size: 15px; }
+    &__trust { font-size: 12px; }
+  }
+}

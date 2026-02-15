@@ -1,8 +1,7 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
   ButtonComponent,
-  ChatWidgetComponent,
   CloseButtonComponent,
   FooterLinkColumnComponent,
   SocialIconsComponent,
@@ -10,7 +9,7 @@ import {
   DividerComponent,
 } from 'components';
 import type { FooterLink, SocialLink } from 'components';
-import { ChatService } from 'api';
+import { ChatContainerComponent } from 'features';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -25,23 +24,17 @@ import { CartService } from '../../services/cart.service';
     SocialIconsComponent,
     LogoComponent,
     DividerComponent,
-    ChatWidgetComponent,
+    ChatContainerComponent,
   ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
 export class MainLayout {
   private readonly router = inject(Router);
-  private readonly chatService = inject(ChatService);
   readonly cartService = inject(CartService);
-
-  @ViewChild(ChatWidgetComponent) chatWidget?: ChatWidgetComponent;
 
   mobileMenuOpen = false;
   currentYear = new Date().getFullYear();
-
-  private conversationId: string | null = localStorage.getItem('chat_conversation_id');
-  private sessionId: string = localStorage.getItem('chat_session_id') ?? crypto.randomUUID?.() ?? Date.now().toString();
 
   readonly navLinks = [
     { label: 'Collection', href: '/collection' },
@@ -90,44 +83,5 @@ export class MainLayout {
 
   onFooterLinkClick(href: string): void {
     this.router.navigate([href]);
-  }
-
-  onChatMessage(message: string): void {
-    if (!this.chatWidget) return;
-
-    this.chatWidget.isTyping.set(true);
-
-    if (!this.conversationId) {
-      localStorage.setItem('chat_session_id', this.sessionId);
-      this.chatService.createConversation({
-        sessionId: this.sessionId,
-        initialMessage: message,
-      }).subscribe({
-        next: (conversation) => {
-          this.conversationId = conversation.id;
-          localStorage.setItem('chat_conversation_id', conversation.id);
-          this.chatWidget!.isTyping.set(false);
-          const aiMessages = conversation.messages.filter(m => m.senderType === 'ai' || m.senderType === 'assistant');
-          if (aiMessages.length > 0) {
-            this.chatWidget!.addAiMessage(aiMessages[aiMessages.length - 1].content);
-          }
-        },
-        error: () => {
-          this.chatWidget!.isTyping.set(false);
-          this.chatWidget!.addAiMessage('Sorry, I\'m having trouble connecting. Please try again later.');
-        },
-      });
-    } else {
-      this.chatService.sendMessage(this.conversationId, this.sessionId, { content: message }).subscribe({
-        next: (response) => {
-          this.chatWidget!.isTyping.set(false);
-          this.chatWidget!.addAiMessage(response.content);
-        },
-        error: () => {
-          this.chatWidget!.isTyping.set(false);
-          this.chatWidget!.addAiMessage('Sorry, I\'m having trouble connecting. Please try again later.');
-        },
-      });
-    }
   }
 }

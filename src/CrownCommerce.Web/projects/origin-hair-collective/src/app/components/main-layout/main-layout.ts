@@ -1,8 +1,7 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   ButtonComponent,
-  ChatWidgetComponent,
   CloseButtonComponent,
   FooterLinkColumnComponent,
   SocialIconsComponent,
@@ -10,7 +9,7 @@ import {
   DividerComponent,
 } from 'components';
 import type { FooterLink, SocialLink } from 'components';
-import { ChatService } from 'api';
+import { ChatContainerComponent } from 'features';
 
 @Component({
   selector: 'app-main-layout',
@@ -23,20 +22,15 @@ import { ChatService } from 'api';
     SocialIconsComponent,
     LogoComponent,
     DividerComponent,
-    ChatWidgetComponent,
+    ChatContainerComponent,
   ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
 export class MainLayout {
   private readonly router = inject(Router);
-  private readonly chatService = inject(ChatService);
-
-  @ViewChild(ChatWidgetComponent) chatWidget?: ChatWidgetComponent;
 
   mobileMenuOpen = false;
-  private conversationId: string | null = null;
-  private chatSessionId: string;
 
   readonly navLinks = [
     { label: 'Collection', href: '/shop' },
@@ -72,12 +66,6 @@ export class MainLayout {
     { label: 'FAQ', href: '/faq' },
   ];
 
-  constructor() {
-    this.chatSessionId = sessionStorage.getItem('chatSessionId') ?? this.generateSessionId();
-    sessionStorage.setItem('chatSessionId', this.chatSessionId);
-    this.conversationId = sessionStorage.getItem('chatConversationId');
-  }
-
   toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
@@ -87,49 +75,5 @@ export class MainLayout {
     if (this.mobileMenuOpen) {
       this.mobileMenuOpen = false;
     }
-  }
-
-  onChatMessage(text: string): void {
-    if (!this.conversationId) {
-      this.chatWidget?.isTyping.set(true);
-      this.chatService.createConversation({ sessionId: this.chatSessionId, initialMessage: text, visitorName: 'Visitor' }).subscribe({
-        next: (conversation) => {
-          this.conversationId = conversation.id;
-          sessionStorage.setItem('chatConversationId', conversation.id);
-          this.chatWidget?.isTyping.set(false);
-          const aiMessages = conversation.messages?.filter(m => m.senderType === 'ai' || m.senderType === 'assistant');
-          if (aiMessages?.length) {
-            this.chatWidget?.addAiMessage(aiMessages[aiMessages.length - 1].content);
-          }
-        },
-        error: () => {
-          this.chatWidget?.isTyping.set(false);
-          this.chatWidget?.addAiMessage('Sorry, I am unable to connect right now. Please try again later.');
-        },
-      });
-    } else {
-      this.sendChatMessage(text);
-    }
-  }
-
-  private sendChatMessage(text: string): void {
-    if (!this.conversationId) return;
-    this.chatWidget?.isTyping.set(true);
-    this.chatService.sendMessage(this.conversationId, this.chatSessionId, { content: text }).subscribe({
-      next: (response) => {
-        this.chatWidget?.isTyping.set(false);
-        if (response.content) {
-          this.chatWidget?.addAiMessage(response.content);
-        }
-      },
-      error: () => {
-        this.chatWidget?.isTyping.set(false);
-        this.chatWidget?.addAiMessage('Sorry, something went wrong. Please try again.');
-      },
-    });
-  }
-
-  private generateSessionId(): string {
-    return crypto.randomUUID();
   }
 }

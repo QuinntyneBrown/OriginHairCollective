@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './components/main-layout/main-layout';
 import { authGuard } from './guards/auth.guard';
+import { CONTENT_PAGE_SLUG } from 'features';
 
 export const routes: Routes = [
   {
@@ -14,51 +15,55 @@ export const routes: Routes = [
       // Collection & Products
       {
         path: 'collection',
-        loadComponent: () => import('./pages/collection/collection').then(m => m.CollectionPage),
+        loadComponent: () => import('features').then(m => m.ShopPage),
       },
       {
         path: 'collection/:category',
-        loadComponent: () => import('./pages/collection/collection').then(m => m.CollectionPage),
+        loadComponent: () => import('features').then(m => m.ShopPage),
       },
       {
         path: 'product/:id',
-        loadComponent: () => import('./pages/product-detail/product-detail').then(m => m.ProductDetailPage),
+        loadComponent: () => import('features').then(m => m.ProductDetailPage),
       },
       // Content Pages
       {
         path: 'our-story',
-        loadComponent: () => import('./pages/content-page/content-page').then(m => m.ContentPageComponent),
+        loadComponent: () => import('features').then(m => m.ContentPage),
+        providers: [{ provide: CONTENT_PAGE_SLUG, useValue: 'our-story' }],
       },
       {
         path: 'hair-care',
-        loadComponent: () => import('./pages/content-page/content-page').then(m => m.ContentPageComponent),
+        loadComponent: () => import('features').then(m => m.ContentPage),
+        providers: [{ provide: CONTENT_PAGE_SLUG, useValue: 'hair-care-guide' }],
       },
       {
         path: 'shipping',
-        loadComponent: () => import('./pages/content-page/content-page').then(m => m.ContentPageComponent),
+        loadComponent: () => import('features').then(m => m.ContentPage),
+        providers: [{ provide: CONTENT_PAGE_SLUG, useValue: 'shipping-information' }],
       },
       {
         path: 'returns',
-        loadComponent: () => import('./pages/content-page/content-page').then(m => m.ContentPageComponent),
+        loadComponent: () => import('features').then(m => m.ContentPage),
+        providers: [{ provide: CONTENT_PAGE_SLUG, useValue: 'returns-policy' }],
       },
       {
         path: 'ambassador',
-        loadComponent: () => import('./pages/content-page/content-page').then(m => m.ContentPageComponent),
+        loadComponent: () => import('features').then(m => m.AmbassadorPage),
       },
       // Info Pages
       {
         path: 'contact',
-        loadComponent: () => import('./pages/contact/contact').then(m => m.ContactPage),
+        loadComponent: () => import('features').then(m => m.ContactPage),
       },
       {
         path: 'faq',
-        loadComponent: () => import('./pages/faq/faq').then(m => m.FaqPage),
+        loadComponent: () => import('features').then(m => m.FaqPage),
       },
       {
         path: 'wholesale',
-        loadComponent: () => import('./pages/wholesale/wholesale').then(m => m.WholesalePage),
+        loadComponent: () => import('features').then(m => m.WholesalePage),
       },
-      // Auth Pages
+      // Auth Pages (app-specific)
       {
         path: 'login',
         loadComponent: () => import('./pages/login/login').then(m => m.LoginPage),
@@ -80,12 +85,11 @@ export const routes: Routes = [
       // E-Commerce
       {
         path: 'cart',
-        loadComponent: () => import('./pages/cart/cart').then(m => m.CartPage),
+        loadComponent: () => import('features').then(m => m.CartPage),
       },
       {
         path: 'checkout',
-        loadComponent: () => import('./pages/checkout/checkout').then(m => m.CheckoutPage),
-        canActivate: [authGuard],
+        loadComponent: () => import('features').then(m => m.CheckoutPage),
       },
       {
         path: 'order/:id',
@@ -100,6 +104,11 @@ export const routes: Routes = [
       {
         path: 'newsletter/unsubscribe',
         loadComponent: () => import('./pages/newsletter-unsubscribe/newsletter-unsubscribe').then(m => m.NewsletterUnsubscribePage),
+      },
+      // Catch-all
+      {
+        path: '**',
+        loadComponent: () => import('features').then(m => m.NotFoundPage),
       },
     ],
   },
